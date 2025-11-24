@@ -44,10 +44,9 @@ class Player extends Model
             // Get rewards for the new level
             $levelConfig = PlayerLevel::where('level', $this->level)->first();
             if ($levelConfig && $levelConfig->rewards) {
-                $levelRewards = json_decode($levelConfig->rewards, true);
                 $rewards[] = [
                     'level' => $this->level,
-                    'rewards' => $levelRewards
+                    'rewards' => $levelConfig->rewards
                 ];
             }
         }
