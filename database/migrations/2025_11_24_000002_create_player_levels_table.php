@@ -34,6 +34,7 @@ return new class extends Migration
             ['level' => 10, 'experience_required' => 3200, 'rewards' => json_encode(['coins' => 600])],
         ];
 
+        // Using DB::table requires manual JSON encoding since Eloquent casts aren't applied
         foreach ($levels as $level) {
             DB::table('player_levels')->insert($level);
         }

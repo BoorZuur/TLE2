@@ -36,19 +36,23 @@ class Player extends Model
         $rewards = [];
 
         // Check if player can level up
-        while ($this->canLevelUp()) {
-            $this->levelUp();
+        $nextLevelConfig = $this->getNextLevelConfig();
+        while ($nextLevelConfig && $this->experience_points >= $nextLevelConfig->experience_required) {
+            $this->experience_points -= $nextLevelConfig->experience_required;
+            $this->level++;
             $leveledUp = true;
             $levelsGained++;
             
             // Get rewards for the new level
-            $levelConfig = PlayerLevel::where('level', $this->level)->first();
-            if ($levelConfig && $levelConfig->rewards) {
+            if ($nextLevelConfig->rewards) {
                 $rewards[] = [
                     'level' => $this->level,
-                    'rewards' => $levelConfig->rewards
+                    'rewards' => $nextLevelConfig->rewards
                 ];
             }
+            
+            // Get next level config for the loop
+            $nextLevelConfig = $this->getNextLevelConfig();
         }
 
         $this->save();
@@ -64,11 +68,19 @@ class Player extends Model
     }
 
     /**
+     * Get the next level configuration.
+     */
+    protected function getNextLevelConfig(): ?PlayerLevel
+    {
+        return PlayerLevel::where('level', $this->level + 1)->first();
+    }
+
+    /**
      * Check if player has enough XP to level up.
      */
     protected function canLevelUp(): bool
     {
-        $nextLevel = PlayerLevel::where('level', $this->level + 1)->first();
+        $nextLevel = $this->getNextLevelConfig();
         
         if (!$nextLevel) {
             return false; // Max level reached
@@ -82,7 +94,7 @@ class Player extends Model
      */
     protected function levelUp(): void
     {
-        $nextLevel = PlayerLevel::where('level', $this->level + 1)->first();
+        $nextLevel = $this->getNextLevelConfig();
         
         if ($nextLevel) {
             $this->experience_points -= $nextLevel->experience_required;
@@ -95,7 +107,7 @@ class Player extends Model
      */
     public function getExperienceToNextLevel(): ?int
     {
-        $nextLevel = PlayerLevel::where('level', $this->level + 1)->first();
+        $nextLevel = $this->getNextLevelConfig();
         
         if (!$nextLevel) {
             return null; // Max level reached
@@ -109,7 +121,7 @@ class Player extends Model
      */
     public function getLevelProgress(): ?float
     {
-        $nextLevel = PlayerLevel::where('level', $this->level + 1)->first();
+        $nextLevel = $this->getNextLevelConfig();
         
         if (!$nextLevel) {
             return 100.0; // Max level reached
