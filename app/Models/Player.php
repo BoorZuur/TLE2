@@ -116,7 +116,7 @@ class Player extends Model
         }
 
         $required = $nextLevel->experience_required;
-        if ($required == 0) {
+        if ($required === 0) {
             return 100.0;
         }
 
