@@ -35,9 +35,22 @@ class Player extends Model
         $levelsGained = 0;
         $rewards = [];
 
+        // Fetch all possible next levels at once to avoid N+1 queries
+        // Assuming max 10 levels gain in one go (can be adjusted based on game design)
+        $maxLevelJump = 10;
+        $possibleLevels = PlayerLevel::whereBetween('level', [$this->level + 1, $this->level + $maxLevelJump])
+            ->orderBy('level', 'asc')
+            ->get()
+            ->keyBy('level');
+
         // Check if player can level up
-        $nextLevelConfig = $this->getNextLevelConfig();
-        while ($nextLevelConfig && $this->experience_points >= $nextLevelConfig->experience_required) {
+        while (isset($possibleLevels[$this->level + 1])) {
+            $nextLevelConfig = $possibleLevels[$this->level + 1];
+            
+            if ($this->experience_points < $nextLevelConfig->experience_required) {
+                break;
+            }
+            
             $this->experience_points -= $nextLevelConfig->experience_required;
             $this->level++;
             $leveledUp = true;
@@ -50,9 +63,6 @@ class Player extends Model
                     'rewards' => $nextLevelConfig->rewards
                 ];
             }
-            
-            // Get next level config for the loop
-            $nextLevelConfig = $this->getNextLevelConfig();
         }
 
         $this->save();
@@ -119,7 +129,7 @@ class Player extends Model
     /**
      * Get progress percentage to next level.
      */
-    public function getLevelProgress(): ?float
+    public function getLevelProgress(): float
     {
         $nextLevel = $this->getNextLevelConfig();
         
