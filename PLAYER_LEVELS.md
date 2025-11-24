@@ -230,8 +230,8 @@ Returns an array with:
 #### `getExperienceToNextLevel(): ?int`
 Returns XP needed to reach the next level, or null if at max level.
 
-#### `getLevelProgress(): ?float`
-Returns progress percentage (0-100) towards next level, or 100 if at max level.
+#### `getLevelProgress(): float`
+Returns progress percentage (0-100) towards next level, or 100.0 if at max level.
 
 #### `levelConfig()`
 Eloquent relationship to get the PlayerLevel configuration for the player's current level.
