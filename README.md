@@ -4,7 +4,7 @@ A Laravel-based gaming application featuring player progression, animal care, an
 
 ## Features
 
-### Player Levels System ⭐
+### Speler Levels (Player Levels) System ⭐
 - Experience points (XP) progression system
 - Automatic level-up with configurable thresholds
 - Level rewards (coins, items, etc.)
