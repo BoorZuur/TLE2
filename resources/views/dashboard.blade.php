@@ -14,4 +14,8 @@
             </div>
         </div>
     </div>
+
+    <x-logout-button>
+        Sign Out
+    </x-logout-button>
 </x-app-layout>
