@@ -1,41 +1,93 @@
-<nav class="bg-blue-900 border-b border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
-        <div class="flex items-center space-x-8">
-            <a href="{{ url('/') }}" class="text-xl text-white font-semibold">
-                NMklikker
-            </a>
-            {{--            <x-menu-link href="{{ route('') }}" :active="Route::is('')">--}}
-            <x-menu-link>
-                Dieren
-            </x-menu-link>
+<nav class="bg-[#89B934] border-b border-gray-200">
+    <div class="max-w-8xl gap-4 mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-16">
+        <button id="menu-button" class="text-black focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+        </button>
 
-            {{--            <x-menu-link href="{{ route('') }}" :active="Route::is('')">--}}
-            <x-menu-link>
-                Gebieden
-            </x-menu-link>
+        @isset($header)
+            <header class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 bowlby-one-sc-regular ">
+                <h2 class="text-black">{{ $header }}</h2>
+            </header>
+        @endisset
+    </div>
 
-            {{--            <x-menu-link href="{{ route('') }}" :active="Route::is('')">--}}
-            <x-menu-link>
-                Verzameling
-            </x-menu-link>
+    <div id="mobile-menu" class="fixed inset-0 z-40 hidden">
+        <div id="menu-overlay" class="fixed inset-0 bg-black bg-opacity-50"></div>
 
-            {{--            <x-menu-link href="{{ route('') }}" :active="Route::is('')">--}}
-            <x-menu-link>
-                Winkel
-            </x-menu-link>
+        <div id="menu-panel"
+             class="fixed top-0 left-0 w-72 h-full bg-white shadow-lg transform -translate-x-full transition-transform duration-300">
+            <div class="bg-[#89B934] p-4 flex justify-between items-center border-b">
+                <h2 class="text-lg bowlby-one-sc-regular">Menu</h2>
+                <button id="menu-close" class="text-black text-2xl">&times;</button>
+            </div>
 
-        </div>
-        <div class="flex items-center space-x-4">
-            @auth
-                <a href="{{ route('profile.edit') }}" class="text-white">{{ Auth::user()->name }}</a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button class="text-red-500 hover:underline">Logout</button>
-                </form>
-            @else
-                <a href="{{ route('login') }}" class="text-white hover:text-gray-300">Login</a>
-                <a href="{{ route('register') }}" class="text-white hover:text-gray-300">Register</a>
-            @endauth
+            <nav class="p-3 flex flex-col gap-2 items-center ">
+                <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934]">
+                    <img src="{{ asset('images/home-icon.webp') }}" alt="House icon" class="ml-3 w-8 h-8 object-cover">
+                    <x-menu-link>Dieren</x-menu-link>
+                </div>
+
+                <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#319E88]">
+                    <img src="{{ asset('images/tree-icon.png') }}" alt="Tree icon"
+                         class="ml-3 w-8 h-8 object-cover">
+                    <x-menu-link>Gebieden</x-menu-link>
+                </div>
+                <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934]">
+
+                    <img src="{{ asset('images/list-icon.png') }}" alt="Collection icon"
+                         class="ml-3 w-8 h-8 object-cover">
+                    <x-menu-link>
+                        Verzameling
+                    </x-menu-link>
+                </div>
+
+                <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#319E88]">
+                    <img src="{{ asset('images/shop-icon.png') }}" alt="Shop icon" class="ml-3 w-8 h-8 object-cover">
+                    <x-menu-link>Winkel</x-menu-link>
+                </div>
+
+                <div class="border-t mt-4 pt-4 flex flex-col space-y-2">
+                    @auth
+                        <a href="{{ route('profile.edit') }}" class="text-black">{{ Auth::user()->name }}</a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button class="text-red-500 hover:underline">Logout</button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="text-black hover:text-gray-700">Login</a>
+                        <a href="{{ route('register') }}" class="text-black hover:text-gray-700">Register</a>
+                    @endauth
+                </div>
+            </nav>
         </div>
     </div>
 </nav>
+
+<script>
+    const menuButton = document.getElementById('menu-button');
+    const menuClose = document.getElementById('menu-close');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuPanel = document.getElementById('menu-panel');
+    const menuOverlay = document.getElementById('menu-overlay');
+
+    function openMenu() {
+        mobileMenu.classList.remove('hidden');
+        setTimeout(() => {
+            menuPanel.classList.remove('-translate-x-full');
+        }, 10);
+    }
+
+    function closeMenu() {
+        menuPanel.classList.add('-translate-x-full');
+        setTimeout(() => {
+            mobileMenu.classList.add('hidden');
+        }, 300);
+    }
+
+    menuButton.addEventListener('click', openMenu);
+    menuClose.addEventListener('click', closeMenu);
+    menuOverlay.addEventListener('click', closeMenu);
+</script>

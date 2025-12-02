@@ -10,12 +10,6 @@
 <body class="text-black antialiased">
 
 @include('layouts.menu')
-@isset($header)
-    <header class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold text-gray-800">{{ $header }}</h1>
-    </header>
-@endisset
-
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     {{ $slot }}
 </main>
