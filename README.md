@@ -11,10 +11,11 @@
 
 1. Clone the repository to your local machine.
 2. Copy `.env.example` to `.env`.
-3. Run `php artisan key:generate` to generate the application key.
-4. Run `php artisan migrate` to create the database tables (type yes if you are asked to create a `.sqlite` file).
-5. Install the project dependencies using [Composer](https://getcomposer.org) with `composer install`.
-6. Finally run the application with `composer run dev`.
+3. Install the project dependencies using [Composer](https://getcomposer.org) with `composer install`.
+4. Install npm dependencies using `npm install`.
+5. Run `php artisan key:generate` to generate the application key.
+6. Run `php artisan migrate` to create the database tables (type yes if you are asked to create a `.sqlite` file).
+7. Finally run the application with `composer run dev`.
 
 ## License
 
