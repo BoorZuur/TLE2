@@ -13,6 +13,7 @@ return [
             'beheerder' => 'Natuurmonumenten',
             'image' => 'images/edelhert.avif',
             'locked' => false,
+            'info' => 'Edelherten leven voornamelijk in bosrijke gebieden en zijn ’s overdag actief.'
         ],
         [
             'vernacularName' => 'Vos',
@@ -21,7 +22,8 @@ return [
             'observedDate' => '2023-05-02',
             'beheerder' => 'Natuurmonumenten',
             'image' => 'images/vos.avif',
-            'locked' => false
+            'locked' => false,
+            'info' => 'Vossen leven voornamelijk in bosrijke gebieden en zijn ’s nachts actief.'
         ],
         [
             'vernacularName' => 'Otter',
@@ -30,7 +32,8 @@ return [
             'observedDate' => '2023-02-10',
             'beheerder' => 'Natuurmonumenten',
             'image' => 'images/otter.jpg',
-            'locked' => false
+            'locked' => false,
+            'info' => 'Otters leven voornamelijk in natte gebieden en zijn ’s overdag actief.'
         ],
         [
             'vernacularName' => 'Haas',
@@ -39,7 +42,8 @@ return [
             'observedDate' => '2023-03-21',
             'beheerder' => 'Natuurmonumenten',
             'image' => 'images/haas.webp',
-            'locked' => true
+            'locked' => true,
+            'info' => 'Hazen leven voornamelijk in braakliggende gebieden en zijn ’s nachts actief.'
         ],
         [
             'vernacularName' => 'Boomkikker',
@@ -48,7 +52,8 @@ return [
             'observedDate' => '2023-06-05',
             'beheerder' => 'Natuurmonumenten',
             'image' => 'images/boomkikker.avif',
-            'locked' => true
+            'locked' => true,
+            'info' => 'Edelherten leven voornamelijk in bosrijke gebieden en zijn ’s nachts actief.'
         ],
 
         // Lauwersmeer
@@ -59,7 +64,8 @@ return [
             'observedDate' => '2023-04-10',
             'beheerder' => 'Natuurmonumenten',
             'image' => 'images/reiger.png',
-            'locked' => true
+            'locked' => true,
+            'info' => 'Edelherten leven voornamelijk in bosrijke gebieden en zijn ’s nachts actief.'
         ],
         [
             'vernacularName' => 'Wilde eend',
@@ -68,7 +74,8 @@ return [
             'observedDate' => '2023-05-18',
             'beheerder' => 'Natuurmonumenten',
             'image' => 'images/eend.jpg',
-            'locked' => true
+            'locked' => true,
+            'info' => 'Edelherten leven voornamelijk in bosrijke gebieden en zijn ’s nachts actief.'
         ],
         [
             'vernacularName' => 'Grutto',
@@ -77,7 +84,8 @@ return [
             'observedDate' => '2023-03-30',
             'beheerder' => 'Natuurmonumenten',
             'image' => 'images/grutto.jpg',
-            'locked' => true
+            'locked' => true,
+            'info' => 'Edelherten leven voornamelijk in bosrijke gebieden en zijn ’s nachts actief.'
         ],
         [
             'vernacularName' => 'Meerkoet',
@@ -86,7 +94,8 @@ return [
             'observedDate' => '2023-06-12',
             'beheerder' => 'Natuurmonumenten',
             'image' => 'images/edelhert.avif',
-            'locked' => true
+            'locked' => true,
+            'info' => 'Edelherten leven voornamelijk in bosrijke gebieden en zijn ’s nachts actief.'
         ],
         [
             'vernacularName' => 'Fuut',
@@ -95,7 +104,8 @@ return [
             'observedDate' => '2023-04-22',
             'beheerder' => 'Natuurmonumenten',
             'image' => 'images/edelhert.avif',
-            'locked' => true
+            'locked' => true,
+            'info' => 'Edelherten leven voornamelijk in bosrijke gebieden en zijn ’s nachts actief.'
         ],
 
         // Weerribben-Wieden
@@ -106,7 +116,8 @@ return [
             'observedDate' => '2023-03-05',
             'beheerder' => 'Natuurmonumenten',
             'image' => 'images/edelhert.avif',
-            'locked' => true
+            'locked' => true,
+            'info' => 'Edelherten leven voornamelijk in bosrijke gebieden en zijn ’s nachts actief.'
         ],
         [
             'vernacularName' => 'Kikker',
@@ -115,7 +126,8 @@ return [
             'observedDate' => '2023-04-18',
             'beheerder' => 'Natuurmonumenten',
             'image' => 'images/edelhert.avif',
-            'locked' => true
+            'locked' => true,
+            'info' => 'Edelherten leven voornamelijk in bosrijke gebieden en zijn ’s nachts actief.'
         ],
         [
             'vernacularName' => 'IJsvogel',
@@ -124,7 +136,8 @@ return [
             'observedDate' => '2023-05-02',
             'beheerder' => 'Natuurmonumenten',
             'image' => 'images/edelhert.avif',
-            'locked' => true
+            'locked' => true,
+            'info' => 'Edelherten leven voornamelijk in bosrijke gebieden en zijn ’s nachts actief.'
         ],
         [
             'vernacularName' => 'Grote zilverreiger',
@@ -133,7 +146,8 @@ return [
             'observedDate' => '2023-06-01',
             'beheerder' => 'Natuurmonumenten',
             'image' => 'images/edelhert.avif',
-            'locked' => true
+            'locked' => true,
+            'info' => 'Edelherten leven voornamelijk in bosrijke gebieden en zijn ’s nachts actief.'
         ],
         [
             'vernacularName' => 'Watersnip',
@@ -142,7 +156,8 @@ return [
             'observedDate' => '2023-05-15',
             'beheerder' => 'Natuurmonumenten',
             'image' => 'images/edelhert.avif',
-            'locked' => true
+            'locked' => true,
+            'info' => 'Edelherten leven voornamelijk in bosrijke gebieden en zijn ’s nachts actief.'
         ],
     ],
 ];

@@ -29,9 +29,35 @@ document.addEventListener('DOMContentLoaded', () => {
                     <p class="text-sm font-medium">Owner: ${owner}</p>
                 `;
 
-                // Locked overlay opacity
+                // locked cards are greyed out
                 if (a.locked) {
                     card.querySelector('img').classList.add('brightness-50');
+                }
+
+                // info button
+                if (!a.locked) {
+                    const infoBtn = document.createElement('button');
+                    infoBtn.innerHTML = 'ℹ️';
+                    infoBtn.className = 'absolute top-2 right-2 bg-white rounded-full p-1 shadow hover:bg-gray-200 transition';
+
+                    const tooltip = document.createElement('div');
+                    tooltip.className = 'absolute top-10 right-2 bg-gray-800 text-white text-xs p-2 rounded shadow hidden z-10 w-44 text-left';
+                    tooltip.textContent = a.info ?? 'Geen extra informatie beschikbaar';
+
+                    infoBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        tooltip.classList.toggle('hidden');
+                    });
+
+                    // Klik buiten de card → tooltip sluiten
+                    document.addEventListener('click', function closeTooltip(e) {
+                        if (!card.contains(e.target)) {
+                            tooltip.classList.add('hidden');
+                        }
+                    });
+
+                    card.appendChild(infoBtn);
+                    card.appendChild(tooltip);
                 }
 
                 // Unlock on click
@@ -39,8 +65,32 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (a.locked) {
                         a.locked = false;
                         card.querySelector('img').classList.remove('brightness-50');
+
                         const overlay = card.querySelector('div.absolute');
                         if (overlay) overlay.remove();
+
+                        // Info-knop nu toevoegen nadat het dier unlocked is
+                        const infoBtn = document.createElement('button');
+                        infoBtn.innerHTML = 'ℹ️';
+                        infoBtn.className = 'absolute top-2 right-2 bg-white rounded-full p-1 shadow hover:bg-gray-200 transition';
+
+                        const tooltip = document.createElement('div');
+                        tooltip.className = 'absolute top-10 right-2 bg-gray-800 text-white text-xs p-2 rounded shadow hidden z-10 w-44 text-left';
+                        tooltip.textContent = a.info ?? 'Geen extra informatie beschikbaar';
+
+                        infoBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            tooltip.classList.toggle('hidden');
+                        });
+
+                        document.addEventListener('click', function closeTooltip(e) {
+                            if (!card.contains(e.target)) {
+                                tooltip.classList.add('hidden');
+                            }
+                        });
+
+                        card.appendChild(infoBtn);
+                        card.appendChild(tooltip);
                     }
                 });
 
