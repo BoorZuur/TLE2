@@ -15,9 +15,9 @@ return new class extends Migration
 
         Schema::create('species', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('name');
+            $table->string('name');
             $table->bigInteger('habitat_tag');
-            $table->foreign('habitat_tag')->references('name')->on('habitats');
+            $table->foreign('habitat_tag')->references('id')->on('habitats');
         });
 
         Schema::enableForeignKeyConstraints();

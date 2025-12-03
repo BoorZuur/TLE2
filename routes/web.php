@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 // home screen
 Route::middleware('auth')->get('/', function () {
     return view('home');
-})->name('clicker');
+})->name('home');
 
 //coins
 Route::middleware('auth')->get('/coins', [CoinController::class, 'getCoins'])->name('coins.get');
@@ -28,4 +28,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
