@@ -52,4 +52,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(Animal::class);
     }
+    protected static function booted(): void
+    {
+        static::created(function ($user) {
+            Animal::create([
+            'user_id' => $user->id,
+            'name' => 'Fluffy',
+            'happiness' => 100,
+            'hunger' => 50,
+            'cleanliness' => 75,
+            'species_tag' => 1,
+            'adopted_at' => now(),
+            'updated_at' => now(),
+        ]);
+        });
+    }
 }
