@@ -48,6 +48,10 @@ class User extends Authenticatable
         ];
     }
 
+    public function animals()
+    {
+        return $this->hasMany(Animal::class);
+    }
     protected static function booted(): void
     {
         static::created(function ($user) {

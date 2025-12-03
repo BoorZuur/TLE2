@@ -5,6 +5,7 @@ use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\CoinController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AnimalController;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
 
