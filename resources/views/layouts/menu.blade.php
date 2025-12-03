@@ -27,7 +27,7 @@
             <nav class="p-3 flex flex-col gap-2 items-center ">
                 <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934]">
                     <img src="{{ asset('images/home-icon.webp') }}" alt="House icon" class="ml-3 w-8 h-8 object-cover">
-                    <x-menu-link>Dieren</x-menu-link>
+                    <x-menu-link href="{{ route('home') }}">Dieren</x-menu-link>
                 </div>
 
                 <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#319E88]">
