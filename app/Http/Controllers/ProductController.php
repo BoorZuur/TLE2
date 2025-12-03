@@ -13,7 +13,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view('shop.index', compact('products'));
+        return view('product.index', compact('products'));
     }
 
     /**
@@ -21,7 +21,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        // alleen admin
     }
 
     /**
@@ -29,7 +29,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // alleen admin
     }
 
     /**
@@ -37,7 +37,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return view('product.show', compact('product'));
     }
 
     /**
