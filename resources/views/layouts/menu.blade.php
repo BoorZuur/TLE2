@@ -33,7 +33,7 @@
                 <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#319E88]">
                     <img src="{{ asset('images/tree-icon.png') }}" alt="Tree icon"
                          class="ml-3 w-8 h-8 object-cover">
-                    <x-menu-link>Gebieden</x-menu-link>
+                    <x-menu-link href="{{ route('areas') }}">Gebieden</x-menu-link>
                 </div>
                 <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934]">
 
