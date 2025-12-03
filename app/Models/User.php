@@ -18,9 +18,11 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
+        'coins',
+        'is_admin',
     ];
 
     /**
@@ -44,5 +46,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected static function booted(): void
+    {
+        static::created(function ($user) {
+            Animal::create([
+            'user_id' => $user->id,
+            'name' => 'Fluffy',
+            'happiness' => 100,
+            'hunger' => 50,
+            'cleanliness' => 75,
+            'species_tag' => 1,
+            'adopted_at' => now(),
+            'updated_at' => now(),
+        ]);
+        });
     }
 }

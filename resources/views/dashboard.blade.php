@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="text-2xl text-black leading-tight">
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
@@ -14,4 +14,8 @@
             </div>
         </div>
     </div>
+
+    <x-logout-button>
+        Sign Out
+    </x-logout-button>
 </x-app-layout>
