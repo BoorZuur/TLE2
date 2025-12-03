@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 
 // home screen
-Route::get('/', function () {
+Route::middleware('auth')->get('/', function () {
     return view('home');
 })->name('clicker');
 
