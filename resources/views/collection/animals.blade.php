@@ -11,7 +11,18 @@
 </head>
 <body>
 <h1>Dieren binnen geselecteerde gebieden</h1>
-<table border="1">
+<form method="GET" action="{{ route('collectie') }}">
+    <label for="region">Selecteer een gebied:</label>
+    <select name="region" id="region">
+        <option value="">Alle gebieden</option>
+        @foreach(config('animals.defaultLocalities') as $locality)
+            <option value="{{ $locality }}" {{ request('region') == $locality ? 'selected' : '' }}>
+                {{ $locality }}
+            </option>
+        @endforeach
+    </select>
+</form>
+<table>
     <thead>
     <tr>
         <th>Naam</th>
@@ -19,9 +30,7 @@
         <th>Gebied</th>
     </tr>
     </thead>
-    <tbody>
-    <!-- JS vult hier automatisch de rijen -->
-    </tbody>
+    <tbody></tbody>
 </table>
 </body>
 </html>
