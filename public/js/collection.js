@@ -1,37 +1,59 @@
-const regionSelect = document.querySelector('#region');
 document.addEventListener('DOMContentLoaded', () => {
-    const tbody = document.querySelector('tbody'); // ← belangrijk!
-    const regionSelect = document.querySelector('#region');
-
-    regionSelect.addEventListener('change', () => {
-        const selectedRegion = regionSelect.value || null;
-        loadAnimals(selectedRegion);
-    });
+    const grid = document.getElementById('animals-grid');
+    const regionSelect = document.getElementById('region');
 
     async function loadAnimals(region = null) {
-        tbody.innerHTML = '';
+        grid.innerHTML = '';
         let url = '/api/animals';
         if (region) url += `?region=${encodeURIComponent(region)}`;
 
         try {
-            const response = await fetch(url);
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            const animals = await response.json();
+            const res = await fetch(url);
+            const animals = await res.json();
 
-            animals.forEach(animal => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${animal.vernacularName ?? 'Onbekend'}</td>
-                    <td>${animal.scientificName ?? 'Onbekend'}</td>
-                    <td>${animal.location ?? 'Onbekend'}</td>
+            animals.forEach(a => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded shadow p-4 text-center relative transition-all duration-300';
+
+                const owner = a.owner ?? a.beheerder ?? 'Onbekend';
+                const imgSrc = a.image ?? '/images/placeholder.jpg';
+
+                card.innerHTML = `
+                    <div class="relative">
+                        <img src="${imgSrc}" alt="${a.vernacularName}" class="w-full h-40 object-cover rounded mb-2 brightness-50">
+                        ${a.locked ? '<div class="absolute inset-0 flex items-center justify-center bg-black rounded"><span class="text-white text-3xl">🔒</span></div>' : ''}
+                    </div>
+                    <h3 class="font-bold text-lg">${a.vernacularName}</h3>
+                    <p class="italic text-sm mb-1">Wetenschappelijke Naam: ${a.scientificName}</p>
+                    <p class="text-sm mb-1">Leefgebied: ${a.location}</p>
+                    <p class="text-sm font-medium">Owner: ${owner}</p>
                 `;
-                tbody.appendChild(tr);
+
+                // Locked overlay opacity
+                if (a.locked) {
+                    card.querySelector('img').classList.add('brightness-50');
+                }
+
+                // Unlock on click
+                card.addEventListener('click', () => {
+                    if (a.locked) {
+                        a.locked = false;
+                        card.querySelector('img').classList.remove('brightness-50');
+                        const overlay = card.querySelector('div.absolute');
+                        if (overlay) overlay.remove();
+                    }
+                });
+
+                grid.appendChild(card);
             });
 
-        } catch (error) {
-            console.error('Error while loading animals:', error);
+        } catch (err) {
+            console.error(err);
+            grid.innerHTML = '<p class="text-red-600">Er is iets misgegaan bij het laden van de dieren.</p>';
         }
     }
 
     loadAnimals();
+
+    regionSelect.addEventListener('change', () => loadAnimals(regionSelect.value || null));
 });
