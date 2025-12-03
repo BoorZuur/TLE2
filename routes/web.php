@@ -11,6 +11,11 @@ Route::middleware('auth')->get('/', function () {
     return view('home');
 })->name('home');
 
+Route::middleware('auth')->get('/areas', function () {
+    return view('areas');
+})->name('areas');
+
+
 //coins
 Route::middleware('auth')->get('/coins', [CoinController::class, 'getCoins'])->name('coins.get');
 Route::middleware('auth')->post('/coins/add', [CoinController::class, 'addCoins'])->name('coins.add');
