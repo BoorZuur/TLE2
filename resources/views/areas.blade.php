@@ -66,51 +66,51 @@
             animals: ['Lion', 'Elephant', 'Zebra', 'Giraffe', 'Hyena'],
             collected: ['Elephant', 'Giraffe', 'Zebra'],
             images: {
-                0: "https://picsum.photos/id/1025/300/300",
-                20: "https://picsum.photos/id/1020/300/300",
-                40: "https://picsum.photos/id/1015/300/300",
-                60: "https://picsum.photos/id/1011/300/300",
-                80: "https://picsum.photos/id/1011/300/300",
-                100: "https://picsum.photos/id/1010/300/300"
+                0: "/images/Gebieden/0/bos0.png",
+                20: "/images/Gebieden/1/bos1.png",
+                40: "/images/Gebieden/2/bos2.png",
+                60: "/images/Gebieden/3/bos3.png",
+                80: "/images/Gebieden/4/bos4.png",
+                100: "/images/Gebieden/5/bos5.png",
             }
         },
         {
             name: 'Kunstgebied',
             animals: ['Fox', 'Deer', 'Rabbit', 'Owl', 'Squirrel'],
-            collected: ['Fox', 'Owl'],
+            collected: [],
             images: {
-                0: "https://picsum.photos/id/1025/300/300",
-                20: "https://picsum.photos/id/1020/300/300",
-                40: "https://picsum.photos/id/1015/300/300",
-                60: "https://picsum.photos/id/1011/300/300",
-                80: "https://picsum.photos/id/1011/300/300",
-                100: "https://picsum.photos/id/1010/300/300"
+                0: "/images/Gebieden/0/bos0.png",
+                20: "/images/Gebieden/1/bos1.png",
+                40: "/images/Gebieden/2/bos2.png",
+                60: "/images/Gebieden/3/bos3.png",
+                80: "/images/Gebieden/4/bos4.png",
+                100: "/images/Gebieden/5/bos5.png",
             }
         },
         {
             name: 'Heide',
             animals: ['Fox', 'Deer', 'Rabbit', 'Owl', 'Squirrel'],
-            collected: ['Fox', 'Owl'],
+            collected: ['Fox', 'Owl', 'Rabbit', 'Deer'],
             images: {
-                0: "https://picsum.photos/id/1025/300/300",
-                20: "https://picsum.photos/id/1020/300/300",
-                40: "https://picsum.photos/id/1015/300/300",
-                60: "https://picsum.photos/id/1011/300/300",
-                80: "https://picsum.photos/id/1011/300/300",
-                100: "https://picsum.photos/id/1010/300/300"
+                0: "/images/Gebieden/0/bos0.png",
+                20: "/images/Gebieden/1/bos1.png",
+                40: "/images/Gebieden/2/bos2.png",
+                60: "/images/Gebieden/3/bos3.png",
+                80: "/images/Gebieden/4/bos4.png",
+                100: "/images/Gebieden/5/bos5.png",
             }
         },
         {
             name: 'Zandverstuiving',
             animals: ['Fox', 'Deer', 'Rabbit', 'Owl', 'Squirrel'],
-            collected: ['Fox', 'Owl'],
+            collected: ['Fox'],
             images: {
-                0: "https://picsum.photos/id/1025/300/300",
-                20: "https://picsum.photos/id/1020/300/300",
-                40: "https://picsum.photos/id/1015/300/300",
-                60: "https://picsum.photos/id/1011/300/300",
-                80: "https://picsum.photos/id/1011/300/300",
-                100: "https://picsum.photos/id/1010/300/300"
+                0: "/images/Gebieden/0/bos0.png",
+                20: "/images/Gebieden/1/bos1.png",
+                40: "/images/Gebieden/2/bos2.png",
+                60: "/images/Gebieden/3/bos3.png",
+                80: "/images/Gebieden/4/bos4.png",
+                100: "/images/Gebieden/5/bos5.png",
             }
         },
     ];
