@@ -6,29 +6,39 @@
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
-    <title>NM Clicker</title>
+    <title>NM Klikker</title>
     @vite(['resources/css/app.css', 'resources/js/app.js']) <!-- Tailwind & JS -->
 
     <script>
         window.addEventListener('DOMContentLoaded', async () => {
             let coins = 0;
-            const scoreDisplay = document.getElementById('score');
+            let hunger = 100;
+            const coinsDisplay = document.getElementById('coins');
+            const hungerDisplay = document.getElementById('hunger');
             const clickerAnimal = document.getElementById('clicker');
+            const feedButton = document.getElementById('feedButton')
 
-            if (!scoreDisplay || !clickerAnimal) return;
+            if (!coinsDisplay || !clickerAnimal || !hungerDisplay) return;
 
             // Fetch saved coins from server
             const res = await fetch("{{ route('coins.get') }}");
             const data = await res.json();
             coins = data.coins;
-            scoreDisplay.textContent = coins;
+            coinsDisplay.textContent = coins;
+            hungerDisplay.textContent = hunger;
 
             const walker = clickerAnimal.parentElement;
             if (walker) walker.classList.add('walk');
 
+            //hunger goes down by one
+            setInterval(() => {
+                hunger = Math.max(0, hunger - 1);
+                hungerDisplay.textContent = hunger;
+            }, 1000);
+
             clickerAnimal.addEventListener('click', async () => {
                 coins++;
-                scoreDisplay.textContent = coins;
+                coinsDisplay.textContent = coins;
 
                 // Pause walking while pet animation runs
                 if (walker) walker.style.animationPlayState = 'paused';
@@ -47,6 +57,11 @@
                     },
                     body: JSON.stringify({amount: 1})
                 });
+            });
+
+            feedButton.addEventListener('click', async () => {
+                hunger = Math.min(100, hunger + 20);
+                hungerDisplay.textContent = hunger;
             });
 
             // When pet animation finishes, resume walking
@@ -141,16 +156,22 @@
 <body class="min-h-screen flex flex-col items-center justify-center bg-fixed"
       style="background-image: url('https://static.vecteezy.com/system/resources/thumbnails/003/467/246/small_2x/nature-landscape-background-cute-simple-cartoon-style-free-vector.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
 
+
 <!-- Coins + vos foto -->
-<div class="text-center">
-    <h2 class="text-xl font-semibold text-gray-800 mb-3">Coins: <span id="score">0</span></h2>
-    <div class="walker walk">
-        <img src="/images/cheerful-fox.png"
-             id="clicker"
-             alt="clickable animal">
+<div class="flex flex-row items-center justify-center gap-6 mb-4 w-full">
+    <div>
+        <h2 class="text-xl font-semibold text-gray-800 m-0">Hunger: <span id="hunger">0</span></h2>
+        <h2 class="text-xl font-semibold text-gray-800 m-0">Coins: <span id="coins">0</span></h2>
+    </div>
+    <div>
+        <img class="w-10 h-10 cursor-pointer flex-shrink-0" src="/images/food.png" id="feedButton" alt="icon of food">
     </div>
 </div>
-
+<div class="walker walk">
+    <img src="/images/cheerful-fox.png"
+         id="clicker"
+         alt="clickable animal">
+</div>
 </body>
 </html>
 
