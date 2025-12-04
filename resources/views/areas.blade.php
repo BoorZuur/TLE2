@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collected Animals</title>
+    <title>Verzamelde gebieden</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -14,7 +14,7 @@
     <div class="min-h-screen flex flex-col items-center pt-2">
 
         <!-- Area Title -->
-        <h2 id="area-title" class="text-3xl font-bold text-gray-800 mb-6">Forest</h2>
+        <h2 id="area-title" class="text-3xl font-bold text-gray-800 mb-6">Bos</h2>
 
         <!-- Progress Bar -->
         <div class="w-11/12 md:w-3/4 lg:w-2/3 py-6">
@@ -138,7 +138,7 @@
         const percent = (area.collected.length / area.animals.length) * 100;
 
         progressBar.style.width = `${percent}%`;
-        progressText.textContent = `${area.collected.length} / ${area.animals.length} collected`;
+        progressText.textContent = `${area.collected.length} / ${area.animals.length} Verzameld`;
 
         // Pick image based on progress
         areaImage.src = getProgressImage(area, percent);
