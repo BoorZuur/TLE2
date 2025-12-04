@@ -160,8 +160,8 @@
 <!-- Coins + vos foto -->
 <div class="flex flex-row items-center justify-center gap-6 mb-4 w-full">
     <div>
-        <h2 class="text-xl font-semibold text-gray-800 m-0">Hunger: <span id="hunger">0</span></h2>
-        <h2 class="text-xl font-semibold text-gray-800 m-0">Coins: <span id="coins">0</span></h2>
+        <h2 class="text-xl font-semibold text-gray-800 m-0">Honger: <span id="hunger">0</span></h2>
+        <h2 class="text-xl font-semibold text-gray-800 m-0">Muntjes: <span id="coins">0</span></h2>
     </div>
     <div>
         <img class="w-10 h-10 cursor-pointer flex-shrink-0" src="/images/food.png" id="feedButton" alt="icon of food">

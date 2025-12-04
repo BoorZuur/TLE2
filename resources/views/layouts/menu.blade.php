@@ -39,7 +39,7 @@
 
                     <img src="{{ asset('images/list-icon.png') }}" alt="Collection icon"
                          class="ml-3 w-8 h-8 object-cover">
-                    <x-menu-link>
+                    <x-menu-link href="{{ route('collectie') }}">
                         Verzameling
                     </x-menu-link>
                 </div>
@@ -54,7 +54,7 @@
                         <a href="{{ route('profile.edit') }}" class="text-black">{{ Auth::user()->username }}</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button class="text-red-500 hover:underline">Logout</button>
+                            <button class="text-red-500 hover:underline">Uitloggen</button>
                         </form>
                     @else
                         <a href="{{ route('login') }}" class="text-black hover:text-gray-700">Login</a>

@@ -21,7 +21,7 @@
             <div class="w-full bg-red-400 rounded-lg h-6 overflow-hidden">
                 <div id="progress-bar" class="bg-green-500 h-6 w-0 transition-all"></div>
             </div>
-            <div id="progress-text" class="text-center mt-2 text-gray-800 font-medium">0 / 0 collected</div>
+            <div id="progress-text" class="text-center mt-2 text-gray-800 font-medium">0 / 0 Verzameld</div>
         </div>
 
         <!-- image-->
@@ -34,11 +34,11 @@
         <div class="flex gap-4 py-4">
             <button id="prev-area"
                     class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
-                ← Previous
+                ← Vorige
             </button>
             <button id="next-area"
                     class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
-                Next →
+                Volgende →
             </button>
         </div>
 
