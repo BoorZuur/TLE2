@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h3 class="font-bold text-lg">${a.vernacularName}</h3>
                     <p class="italic text-sm mb-1">Wetenschappelijke Naam: ${a.scientificName}</p>
                     <p class="text-sm mb-1">Leefgebied: ${a.location}</p>
-                    <p class="text-sm font-medium">Owner: ${owner}</p>
+                    <p class="text-sm font-medium">Beheerder: ${owner}</p>
                 `;
 
                 // locked cards are greyed out
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     infoBtn.className = 'absolute top-2 right-2 bg-white rounded-full p-1 shadow hover:bg-gray-200 transition';
 
                     const tooltip = document.createElement('div');
-                    tooltip.className = 'absolute top-10 right-2 bg-gray-800 text-white text-xs p-2 rounded shadow hidden z-10 w-44 text-left';
+                    tooltip.className = 'absolute top-10 right-2 bg-black text-white text-xs p-2 rounded shadow hidden z-10 w-44 text-left';
                     tooltip.textContent = a.info ?? 'Geen extra informatie beschikbaar';
 
                     infoBtn.addEventListener('click', (e) => {
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         infoBtn.className = 'absolute top-2 right-2 bg-white rounded-full p-1 shadow hover:bg-gray-200 transition';
 
                         const tooltip = document.createElement('div');
-                        tooltip.className = 'absolute top-10 right-2 bg-gray-800 text-white text-xs p-2 rounded shadow hidden z-10 w-44 text-left';
+                        tooltip.className = 'absolute top-10 right-2 bg-black text-white text-xs p-2 rounded shadow hidden z-10 w-44 text-left';
                         tooltip.textContent = a.info ?? 'Geen extra informatie beschikbaar';
 
                         infoBtn.addEventListener('click', (e) => {
