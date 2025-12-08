@@ -1,12 +1,29 @@
 <?php
 
+use App\Http\Controllers\CollectionController;
+
+use App\Http\Controllers\CoinController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AnimalController;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+// home screen
+Route::middleware('auth')->get('/', function () {
+    return view('home');
+})->name('home');
+
+Route::middleware('auth')->get('/areas', function () {
+    return view('areas');
+})->name('areas');
+
+
+//coins
+Route::middleware('auth')->get('/coins', [CoinController::class, 'getCoins'])->name('coins.get');
+Route::middleware('auth')->post('/coins/add', [CoinController::class, 'addCoins'])->name('coins.add');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -20,4 +37,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::prefix('api')->group(function () {
+    Route::get('/animals', [CollectionController::class, 'index']);
+});
+
+Route::get('/collectie', function () {
+    return view('collection.animals');
+})->name('collectie');
+
+require __DIR__ . '/auth.php';
