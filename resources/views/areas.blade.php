@@ -15,7 +15,7 @@
 
         <!-- Area Title -->
         <h2 id="area-title" class="text-3xl font-bold text-gray-800 mb-6">Bos</h2>
-
+        <img id="info_button" alt="info" src="/images/info.png">
         <!-- Progress Bar -->
         <div class="w-11/12 md:w-3/4 lg:w-2/3 py-6">
             <div class="w-full bg-red-400 rounded-lg h-6 overflow-hidden">
