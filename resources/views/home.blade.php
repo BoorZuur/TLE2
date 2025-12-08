@@ -28,11 +28,6 @@
             const walker = clickerAnimal.parentElement;
             if (walker) walker.classList.add('walk');
 
-            //hunger goes down by one
-            setInterval(() => {
-                hunger = Math.max(0, hunger - 1);
-                hungerDisplay.textContent = hunger;
-            }, 1000);
 
             clickerAnimal.addEventListener('click', async () => {
                 coins++;
