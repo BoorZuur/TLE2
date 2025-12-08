@@ -24,12 +24,14 @@ Route::middleware('auth')->get('/areas', function () {
 Route::middleware('auth')->get('/coins', [CoinController::class, 'getCoins'])->name('coins.get');
 Route::middleware('auth')->post('/coins/add', [CoinController::class, 'addCoins'])->name('coins.add');
 
+// shop
+Route::middleware('auth')->resource('product', ProductController::class);
+Route::middleware('auth')->post('/product/{product}/purchase', [ProductController::class, 'purchase'])->name('product.purchase');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->resource('product', ProductController::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
