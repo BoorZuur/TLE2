@@ -13,10 +13,19 @@ class Specie extends Model
     protected $fillable = [
         'name',
         'habitat_tag',
+        'scientific-name',
+        'info',
+        'image',
+        'beheerder'
     ];
 
     public function habitat(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Habitat::class, 'habitat_tag', 'id');
+    }
+
+    public function unlocks()
+    {
+        return $this->hasMany(UserSpeciesUnlock::class, 'species_id');
     }
 }
