@@ -43,23 +43,35 @@
                     alert("Wait before feeding again!"); //vervang deze is ff tijdelijk
                     return;
                 }
-                hungerDisplay.textContent = data.hunger;
+                
+                // Update local hunger and reload from server
+                hunger = data.hunger;
+                hungerDisplay.textContent = hunger;
+                lastServerSync = Date.now();
+                await loadHunger();
             });
 
-            //fetch hunger from server
+            let hunger = 0;
+            let lastServerSync = Date.now();
+
+            //fetch hunger from server and update display
             async function loadHunger() {
                 const res = await fetch("{{ route('animal.hunger.get', $animal->id) }}");
                 const data = await res.json();
-                hungerDisplay.textContent = data.hunger;
-
-                const lastUpdate = new Date(data.last_hunger_update + 'GMT+0100');
-                const now = new Date();
-                const secondsPassed = Math.floor((now - lastUpdate) / 1000);
+                hunger = data.hunger;
+                hungerDisplay.textContent = hunger;
+                lastServerSync = Date.now();
             }
 
-            console.log('Seconds since last hunger update:', secondsPassed);
+            // Update hunger display every second for smooth countdown
+            setInterval(() => {
+                const secondsSinceSync = Math.floor((Date.now() - lastServerSync) / 1000);
+                const decrease = Math.floor(secondsSinceSync / 2);
+                const currentHunger = Math.max(0, hunger - decrease);
+                hungerDisplay.textContent = currentHunger;
+            }, 1000);
 
-            //^^^ run the fetch every 2000ms (2sec)
+            // Sync with server every 2 seconds
             setInterval(loadHunger, 2000);
             loadHunger();
 

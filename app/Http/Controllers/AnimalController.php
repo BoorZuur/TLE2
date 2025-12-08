@@ -14,23 +14,31 @@ class AnimalController extends Controller
         if ($animal->last_hunger_update === null) {
             $animal->last_hunger_update = $now;
             $animal->save();
-
-            return response()->json([
-                'hunger' => $animal->hunger,
+            \Log::info('Initialized last_hunger_update', ['animal_id' => $animal->id, 'time' => $now]);
+        } else {
+            $secondsPassed = $animal->last_hunger_update->diffInSeconds($now);
+            \Log::info('Checking hunger', [
+                'animal_id' => $animal->id,
+                'seconds_passed' => $secondsPassed,
+                'last_update' => $animal->last_hunger_update,
+                'now' => $now
             ]);
-        }
 
-        $secondsPassed = $now->diffInSeconds($animal->last_hunger_update);
-
-        if ($secondsPassed > 0) {
-            $decrease = floor($secondsPassed / 3);
-            $animal->hunger = max(0, $animal->hunger - $decrease);
-            $animal->last_hunger_update = now();
-            $animal->save();
+            // change this
+            if ($secondsPassed >= 5) {
+                $decrease = floor($secondsPassed / 2);
+                $animal->hunger = max(0, $animal->hunger - $decrease);
+                $animal->last_hunger_update = $now;
+                $animal->save();
+                \Log::info('Saved hunger update', ['animal_id' => $animal->id, 'new_hunger' => $animal->hunger]);
+            } else {
+                \Log::info('Skipped save - not enough time passed', ['animal_id' => $animal->id, 'seconds' => $secondsPassed]);
+            }
         }
 
         return response()->json([
-            'hunger' => $animal->hunger
+            'hunger' => $animal->hunger,
+            'last_hunger_update' => $animal->last_hunger_update->toIso8601String()
         ]);
     }
 
@@ -39,14 +47,15 @@ class AnimalController extends Controller
         $now = now();
         $lastFed = $animal->last_fed ?? now()->subMinutes(5);
 
-        $secondsSinceFed = $now->diffInSeconds($lastFed);
+        $secondsSinceFed = $lastFed->diffInSeconds($now);
 
-        if ($secondsSinceFed < 60) {
+        if ($secondsSinceFed < 10) {
             return response()->json(['error' => 'cooldown'], 429);
         }
 
         $animal->hunger = min(100, $animal->hunger + 20);
         $animal->last_fed = $now;
+        $animal->last_hunger_update = $now;
         $animal->save();
 
         return response()->json([

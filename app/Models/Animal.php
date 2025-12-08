@@ -9,7 +9,10 @@ class Animal extends Model
     //
     protected $table = 'animals';
 
-    public $timestamps = false;
+    public $timestamps = true;
+    const CREATED_AT = null; // No created_at column
+    const UPDATED_AT = 'updated_at';
+    
     protected $fillable = [
         'user_id', 'name', 'happiness', 'hunger', 'cleanliness',
         'species_tag', 'adopted_at', 'updated_at', 'last_hunger_update', 'last_fed'
