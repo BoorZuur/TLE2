@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h3 class="font-bold text-lg">${a.vernacularName}</h3>
                     <p class="italic text-sm mb-1">Wetenschappelijke Naam: ${a.scientificName}</p>
                     <p class="text-sm mb-1">Leefgebied: ${a.location}</p>
-                    <p class="text-sm font-medium">Owner: ${owner}</p>
+                    <p class="text-sm font-medium">Beheerder: ${owner}</p>
                 `;
 
                 // Info-knop alleen voor unlocked dieren

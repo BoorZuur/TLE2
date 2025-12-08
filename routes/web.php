@@ -3,6 +3,7 @@
 use App\Http\Controllers\CollectionController;
 
 use App\Http\Controllers\CoinController;
+use App\Http\Controllers\EnergyController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AnimalController;
@@ -23,13 +24,27 @@ Route::middleware('auth')->get('/areas', function () {
 Route::middleware('auth')->get('/coins', [CoinController::class, 'getCoins'])->name('coins.get');
 Route::middleware('auth')->post('/coins/add', [CoinController::class, 'addCoins'])->name('coins.add');
 
+// shop
+Route::middleware('auth')->resource('product', ProductController::class);
+Route::middleware('auth')->post('/product/{product}/purchase', [ProductController::class, 'purchase'])->name('product.purchase');
+
+//Energy
+Route::middleware('auth')->get('/energy', [EnergyController::class, 'getEnergy'])->name('energy.get');
+Route::middleware('auth')->post('/energy/add', [EnergyController::class, 'addEnergy'])->name('energy.add');
+
+// Get animal properties
+Route::middleware('auth')->get('/animal/{id}/get', [AnimalController::class, 'get'])->name('animal.get');
+Route::middleware('auth')->post('/animal/{id}/update', [AnimalController::class, 'update'])->name('animal.update');
+
+// Show user's animal
+Route::middleware('auth')->get('/animal/{id}/show', [AnimalController::class, 'show'])->name('animal.show');
+
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/api/animals', [CollectionController::class, 'index']);
-
-Route::middleware('auth')->resource('shop', ProductController::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
