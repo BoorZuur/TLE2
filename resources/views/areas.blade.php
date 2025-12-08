@@ -14,8 +14,26 @@
     <div class="min-h-screen flex flex-col items-center pt-2">
 
         <!-- Area Title -->
-        <h2 id="area-title" class="text-3xl font-bold text-gray-800 mb-6">Bos</h2>
-        <img id="info_button" alt="info" src="/images/info.png">
+        <div class="flex justify-center items-center  space-x-4">
+            <h2 id="area-title" class="text-3xl font-bold text-gray-800 m-0">Bos</h2>
+            <img id="info-button" alt="info" src="/images/info.png"
+                 class="w-10 h-10 cursor-pointer hover:scale-110 transition-transform">
+        </div>
+
+        <!-- Info Modal -->
+        <div id="info-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+            <div class="bg-white rounded-xl p-6 w-11/12 md:w-2/3 lg:w-1/2 relative">
+                <!-- Close button -->
+                <img id="close-modal" src="/images/close.png" alt="Close"
+                     class="w-8 h-8 absolute top-4 right-4 cursor-pointer hover:scale-110 transition-transform">
+
+                <!-- Modal content -->
+                <h3 id="modal-title" class="text-2xl font-bold mb-4"></h3>
+                <p id="modal-text" class="text-gray-700"></p>
+            </div>
+        </div>
+
+
         <!-- Progress Bar -->
         <div class="w-11/12 md:w-3/4 lg:w-2/3 py-6">
             <div class="w-full bg-red-400 rounded-lg h-6 overflow-hidden">
@@ -155,6 +173,55 @@
         currentArea = (currentArea + 1) % areas.length;
         renderArea(currentArea);
     });
+
+
+    const infoButton = document.getElementById('info-button');
+    const infoModal = document.getElementById('info-modal');
+    const closeModal = document.getElementById('close-modal');
+
+    const modalTitle = document.getElementById('modal-title');
+    const modalText = document.getElementById('modal-text');
+
+    // Info content for each area
+    const areaInfo = [
+        {
+            name: 'Bos',
+            text: 'Het bos is rijk aan dieren en planten. Hier kun je allerlei wilde dieren vinden.'
+        },
+        {
+            name: 'Strand',
+            text: 'Het strand is een open gebied met zand en zee. Je vindt hier andere soorten dieren.'
+        },
+        {
+            name: 'Kunstgebied',
+            text: 'Het kunstgebied bevat verschillende kunstwerken en creatieve plekken.'
+        },
+        {
+            name: 'Heide',
+            text: 'De heide is een kleurrijk gebied vol bloemen en bijzondere dieren.'
+        },
+        {
+            name: 'Zandverstuiving',
+            text: 'Een uitgestrekt zandgebied waar het moeilijk is om dieren te vinden.'
+        },
+    ];
+
+    // Open modal
+    infoButton.addEventListener('click', () => {
+        const area = areas[currentArea]; // get current area
+        const info = areaInfo.find(a => a.name === area.name);
+
+        modalTitle.textContent = info.name;
+        modalText.textContent = info.text;
+
+        infoModal.classList.remove('hidden');
+    });
+
+    // Close modal
+    closeModal.addEventListener('click', () => {
+        infoModal.classList.add('hidden');
+    });
+
 </script>
 
 </body>
