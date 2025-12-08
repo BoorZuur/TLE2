@@ -2,24 +2,24 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Habitat;
 
 class HabitatSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // seed habitats
         $habitats = [
-            ['name' => 'Bos'],
-            ['name' => 'Duinen'],
+            'Veluwe',
+            'Lauwersmeer',
+            'Weerribben-Wieden',
         ];
 
-        foreach ($habitats as $habitat) {
-            \App\Models\Habitat::create($habitat);
+        foreach ($habitats as $index => $name) {
+            Habitat::updateOrCreate(
+                ['id' => $index + 1],
+                ['name' => $name]
+            );
         }
     }
 }
