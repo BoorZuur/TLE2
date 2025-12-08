@@ -24,6 +24,13 @@ Route::middleware('auth')->get('/areas', function () {
 Route::middleware('auth')->get('/coins', [CoinController::class, 'getCoins'])->name('coins.get');
 Route::middleware('auth')->post('/coins/add', [CoinController::class, 'addCoins'])->name('coins.add');
 
+// Get animal properties
+Route::middleware('auth')->get('/animal/{id}/get', [AnimalController::class, 'get'])->name('animal.get');
+Route::middleware('auth')->post('/animal/{id}/update', [AnimalController::class, 'update'])->name('animal.update');
+
+// Show user's animal
+Route::middleware('auth')->get('/animal/{id}/show', [AnimalController::class, 'show'])->name('animal.show');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
