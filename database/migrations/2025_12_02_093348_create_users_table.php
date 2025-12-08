@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->bigInteger('coins')->default(100);
-            $table->bigInteger('energy')->default(100);
+            $table->bigInteger('energy')->default(1000);
             $table->boolean('is_admin')->default(false);
             $table->rememberToken();
             $table->timestamps();
