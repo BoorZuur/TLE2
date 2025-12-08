@@ -17,6 +17,19 @@
 
             if (!coinsDisplay || !clickerAnimal || !hungerDisplay) return;
 
+            // Function to show temporary message
+            function showMessage(text) {
+                const messageDiv = document.createElement('div');
+                messageDiv.textContent = text;
+                messageDiv.className = 'fixed top-20 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-opacity duration-300';
+                document.body.appendChild(messageDiv);
+                
+                setTimeout(() => {
+                    messageDiv.style.opacity = '0';
+                    setTimeout(() => messageDiv.remove(), 300);
+                }, 2000);
+            }
+
             // Fetch saved coins from server
             const res = await fetch("{{ route('coins.get') }}");
             const data = await res.json();
@@ -40,7 +53,7 @@
                 const data = await res.json();
 
                 if (data.error === 'cooldown') {
-                    alert("Wait before feeding again!"); //vervang deze is ff tijdelijk
+                    showMessage("Wait before feeding again!");
                     return;
                 }
                 
