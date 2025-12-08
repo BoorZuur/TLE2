@@ -3,6 +3,7 @@
 use App\Http\Controllers\CollectionController;
 
 use App\Http\Controllers\CoinController;
+use App\Http\Controllers\EnergyController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AnimalController;
@@ -23,6 +24,10 @@ Route::middleware('auth')->get('/areas', function () {
 //coins
 Route::middleware('auth')->get('/coins', [CoinController::class, 'getCoins'])->name('coins.get');
 Route::middleware('auth')->post('/coins/add', [CoinController::class, 'addCoins'])->name('coins.add');
+
+//Energy
+Route::middleware('auth')->get('/energy', [EnergyController::class, 'getEnergy'])->name('energy.get');
+Route::middleware('auth')->post('/energy/add', [EnergyController::class, 'addEnergy'])->name('energy.add');
 
 // Get animal properties
 Route::middleware('auth')->get('/animal/{id}/get', [AnimalController::class, 'get'])->name('animal.get');
