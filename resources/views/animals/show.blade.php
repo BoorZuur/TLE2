@@ -107,6 +107,19 @@
                 } catch (error) {
                     console.error('Failed to save coins:', error);
                 }
+
+                try {
+                    await fetch("{{ route('animal.update', ['id' => $animal->id]) }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                        },
+                        body: JSON.stringify({ cleanliness: cleanliness })
+                    });
+                } catch (error) {
+                    console.error('Failed to save cleanliness:', error);
+                }
             });
 
             feedButton.addEventListener('click', async () => {
@@ -127,18 +140,7 @@
                     console.error('Failed to save hunger:', error);
                 }
 
-                try {
-                    await fetch("{{ route('animal.update', ['id' => $animal->id]) }}", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                        },
-                        body: JSON.stringify({ cleanliness: cleanliness })
-                    });
-                } catch (error) {
-                    console.error('Failed to save cleanliness:', error);
-                }
+
             });
 
             cleanButton.addEventListener('click', async () => {
