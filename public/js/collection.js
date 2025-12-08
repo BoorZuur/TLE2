@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     infoBtn.className = 'absolute top-2 right-2 bg-white rounded-full p-1 shadow hover:bg-gray-200 transition';
 
                     const tooltip = document.createElement('div');
-                    tooltip.className = 'absolute top-10 right-2 bg-gray-800 text-white text-xs p-2 rounded shadow hidden z-10 w-44 text-left';
+                    tooltip.className = 'absolute top-0 right-0 bg-black text-white text-xs p-2 rounded shadow hidden z-10 w-44 text-left';
                     tooltip.textContent = a.info ?? 'Geen extra informatie beschikbaar';
 
                     infoBtn.addEventListener('click', e => {
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         infoBtn.className = 'absolute top-2 right-2 bg-white rounded-full p-1 shadow hover:bg-gray-200 transition';
 
                         const tooltip = document.createElement('div');
-                        tooltip.className = 'absolute top-10 right-2 bg-black-800 text-white text-xs p-2 rounded shadow hidden z-10 w-44 text-left';
+                        tooltip.className = 'absolute top-0 right-0 bg-black text-white text-xs p-2 rounded shadow hidden z-10 w-44 text-left';
                         tooltip.textContent = a.info ?? 'Geen extra informatie beschikbaar';
 
                         infoBtn.addEventListener('click', e => {

@@ -8,6 +8,7 @@
     @vite(['resources/css/app.css'])
 </head>
 <body class="bg-gray-100 min-h-screen">
+<x-app-layout></x-app-layout>
 
 <main class="container mx-auto p-6">
     <header class="mb-6">
