@@ -27,6 +27,13 @@ Route::middleware('auth')->post('/coins/add', [CoinController::class, 'addCoins'
 // shop
 Route::middleware('auth')->resource('product', ProductController::class);
 Route::middleware('auth')->post('/product/{product}/purchase', [ProductController::class, 'purchase'])->name('product.purchase');
+// Get animal properties
+Route::middleware('auth')->get('/animal/{id}/get', [AnimalController::class, 'get'])->name('animal.get');
+Route::middleware('auth')->post('/animal/{id}/update', [AnimalController::class, 'update'])->name('animal.update');
+
+// Show user's animal
+Route::middleware('auth')->get('/animal/{id}/show', [AnimalController::class, 'show'])->name('animal.show');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
