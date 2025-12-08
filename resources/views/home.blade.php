@@ -10,7 +10,6 @@
     <script>
         window.addEventListener('DOMContentLoaded', async () => {
             let coins = 0;
-            let hunger = 100;
             const coinsDisplay = document.getElementById('coins');
             const hungerDisplay = document.getElementById('hunger');
             const clickerAnimal = document.getElementById('clicker');
@@ -23,10 +22,46 @@
             const data = await res.json();
             coins = data.coins;
             coinsDisplay.textContent = coins;
-            hungerDisplay.textContent = hunger;
 
+
+            //walker animation
             const walker = clickerAnimal.parentElement;
             if (walker) walker.classList.add('walk');
+
+            //feedbutton logica
+            feedButton.addEventListener('click', async () => {
+                const res = await fetch("{{ route('animal.feed', $animal->id) }}", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                });
+
+                const data = await res.json();
+
+                if (data.error === 'cooldown') {
+                    alert("Wait before feeding again!"); //vervang deze is ff tijdelijk
+                    return;
+                }
+                hungerDisplay.textContent = data.hunger;
+            });
+
+            //fetch hunger from server
+            async function loadHunger() {
+                const res = await fetch("{{ route('animal.hunger.get', $animal->id) }}");
+                const data = await res.json();
+                hungerDisplay.textContent = data.hunger;
+
+                const lastUpdate = new Date(data.last_hunger_update + 'GMT+0100');
+                const now = new Date();
+                const secondsPassed = Math.floor((now - lastUpdate) / 1000);
+            }
+
+            console.log('Seconds since last hunger update:', secondsPassed);
+
+            //^^^ run the fetch every 2000ms (2sec)
+            setInterval(loadHunger, 2000);
+            loadHunger();
 
 
             clickerAnimal.addEventListener('click', async () => {
@@ -50,11 +85,6 @@
                     },
                     body: JSON.stringify({amount: 1})
                 });
-            });
-
-            feedButton.addEventListener('click', async () => {
-                hunger = Math.min(100, hunger + 20);
-                hungerDisplay.textContent = hunger;
             });
 
             // When pet animation finishes, resume walking
