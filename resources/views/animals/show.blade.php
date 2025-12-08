@@ -23,6 +23,7 @@
             const happinessDisplay = document.getElementById('happiness');
             const clickerAnimal = document.getElementById('clicker');
             const feedButton = document.getElementById('feedButton');
+            const cleanButton = document.getElementById('cleanButton');
 
             if (!coinsDisplay || !clickerAnimal || !hungerDisplay) return;
 
@@ -85,6 +86,9 @@
                 coins++;
                 coinsDisplay.textContent = coins;
 
+                cleanliness = Math.max(0, cleanliness - 10);
+                cleanlinessDisplay.textContent = cleanliness;
+
                 if (walker) walker.style.animationPlayState = 'paused';
 
                 clickerAnimal.classList.remove('pet');
@@ -109,6 +113,7 @@
                 hunger = Math.min(100, hunger + 20);
                 hungerDisplay.textContent = hunger;
 
+
                 try {
                     await fetch("{{ route('animal.update', ['id' => $animal->id]) }}", {
                         method: "POST",
@@ -121,7 +126,38 @@
                 } catch (error) {
                     console.error('Failed to save hunger:', error);
                 }
+
+                try {
+                    await fetch("{{ route('animal.update', ['id' => $animal->id]) }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                        },
+                        body: JSON.stringify({ cleanliness: cleanliness })
+                    });
+                } catch (error) {
+                    console.error('Failed to save cleanliness:', error);
+                }
             });
+
+            cleanButton.addEventListener('click', async () => {
+                cleanliness = Math.min(100, cleanliness + 10);
+                cleanlinessDisplay.textContent = cleanliness;
+
+                try {
+                    await fetch("{{ route('animal.update', ['id' => $animal->id]) }}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                        },
+                        body: JSON.stringify({ cleanliness: cleanliness })
+                    });
+                } catch (error) {
+                    console.error('Failed to save cleanliness:', error);
+                }
+            })
 
             clickerAnimal.addEventListener('animationend', (ev) => {
                 if (ev.animationName === 'pet') {
@@ -227,6 +263,9 @@
     </div>
     <div>
         <img class="w-10 h-10 cursor-pointer flex-shrink-0" src="/images/food.png" id="feedButton" alt="icon of food">
+    </div>
+    <div>
+        <img class="w-10 h-10 cursor-pointer flex-shrink-0" src="/images/bath-tub.png" id="cleanButton" alt="icon of bathtub">
     </div>
 </div>
 <div class="walker walk">
