@@ -67,7 +67,7 @@
 <script>
     const areas = [
         {
-            name: 'Bos',
+            name: 'De veluwe',
             animals: ['fox', 'Deer', 'Rabbit', 'Owl', 'Squirrel', 'fortnite', 'google'],
             collected: [''],
             images: {
@@ -80,7 +80,7 @@
             }
         },
         {
-            name: 'Strand',
+            name: 'Zuiderpark (Den Haag)',
             animals: ['Lion', 'Elephant', 'Zebra', 'Giraffe', 'Hyena'],
             collected: [''],
             images: {
@@ -93,7 +93,7 @@
             }
         },
         {
-            name: 'Kunstgebied',
+            name: 'De Biesbosch',
             animals: ['Fox', 'Deer', 'Rabbit', 'Owl', 'Squirrel'],
             collected: [],
             images: {
@@ -106,7 +106,7 @@
             }
         },
         {
-            name: 'Heide',
+            name: 'De Waddeneilanden',
             animals: ['Fox', 'Deer', 'Rabbit', 'Owl', 'Squirrel'],
             collected: ['Fox', 'Owl', 'Rabbit', 'Deer'],
             images: {
@@ -119,7 +119,7 @@
             }
         },
         {
-            name: 'Zandverstuiving',
+            name: 'Speulderbos',
             animals: ['Fox', 'Deer', 'Rabbit', 'Owl', 'Squirrel'],
             collected: ['Fox'],
             images: {
