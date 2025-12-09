@@ -12,25 +12,101 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        // seed products
+        // seed products - animals and powerups
         $products = [
+            // Animals with coins
             [
-                'name' => 'Product 1',
-                'description' => 'Description for product 1',
-                'image_url' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/2560px-Placeholder_view_vector.svg.png',
-                'price' => 19.99,
+                'name' => 'Konijn',
+                'description' => 'Een schattig konijn dat graag huppelt. Perfect voor beginners!',
+                'image_url' => '/images/cheerful-fox.png',
+                'price' => 100,
+                'product_type' => 'animal',
+                'currency_type' => 'coins',
+                'species_tag' => 1,
             ],
             [
-                'name' => 'Product 2',
-                'description' => 'Description for product 2',
-                'image_url' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/2560px-Placeholder_view_vector.svg.png',
-                'price' => 29.99,
+                'name' => 'Eend',
+                'description' => 'Een vrolijke eend die graag zwemt. Makkelijk te verzorgen.',
+                'image_url' => '/images/eend.jpg',
+                'price' => 150,
+                'product_type' => 'animal',
+                'currency_type' => 'coins',
+                'species_tag' => 2,
             ],
             [
-                'name' => 'Product 3',
-                'description' => 'Description for product 3',
-                'image_url' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/2560px-Placeholder_view_vector.svg.png',
-                'price' => 39.99,
+                'name' => 'Vos',
+                'description' => 'Een slimme en speelse vos. Vereist wat meer aandacht.',
+                'image_url' => '/images/cheerful-fox.png',
+                'price' => 250,
+                'product_type' => 'animal',
+                'currency_type' => 'coins',
+                'species_tag' => 3,
+            ],
+            // Premium animals with real money
+            [
+                'name' => 'Edelhert',
+                'description' => 'Een majestueus edelhert. Exclusief en zeldzaam!',
+                'image_url' => '/images/edelhert.avif',
+                'price' => 4.99,
+                'product_type' => 'animal',
+                'currency_type' => 'real_money',
+                'species_tag' => 4,
+            ],
+            [
+                'name' => 'Boomkikker',
+                'description' => 'Een zeldzame boomkikker met prachtige kleuren. Limited edition!',
+                'image_url' => '/images/boomkikker.avif',
+                'price' => 3.99,
+                'product_type' => 'animal',
+                'currency_type' => 'real_money',
+                'species_tag' => 5,
+            ],
+            // Powerups with coins
+            [
+                'name' => 'Dubbele Munten',
+                'description' => 'Verdien 2x zoveel munten voor 1 uur!',
+                'image_url' => '/images/food.png',
+                'price' => 50,
+                'product_type' => 'powerup',
+                'currency_type' => 'coins',
+                'powerup_effects' => ['Dubbele munten voor 1 uur', 'Stapelbaar met andere bonussen'],
+            ],
+            [
+                'name' => 'Auto-Voeding',
+                'description' => 'Je dieren worden automatisch gevoerd voor 24 uur!',
+                'image_url' => '/images/food.png',
+                'price' => 75,
+                'product_type' => 'powerup',
+                'currency_type' => 'coins',
+                'powerup_effects' => ['Automatisch voeden voor 24 uur', 'Werkt voor alle dieren'],
+            ],
+            [
+                'name' => 'Geluk Booster',
+                'description' => 'Verhoog je geluk en vind zeldzame items!',
+                'image_url' => '/images/food.png',
+                'price' => 100,
+                'product_type' => 'powerup',
+                'currency_type' => 'coins',
+                'powerup_effects' => ['10% meer kans op zeldzame items', 'Duurt 12 uur'],
+            ],
+            // Premium powerups with real money
+            [
+                'name' => 'VIP Pakket',
+                'description' => 'Krijg toegang tot exclusive features en extra munten!',
+                'image_url' => '/images/food.png',
+                'price' => 9.99,
+                'product_type' => 'powerup',
+                'currency_type' => 'real_money',
+                'powerup_effects' => ['500 bonus munten', 'Toegang tot VIP gebied', '5x snellere groei', 'Permanent actief'],
+            ],
+            [
+                'name' => 'Mega Booster',
+                'description' => 'De ultieme powerup voor serieuze spelers!',
+                'image_url' => '/images/food.png',
+                'price' => 14.99,
+                'product_type' => 'powerup',
+                'currency_type' => 'real_money',
+                'powerup_effects' => ['1000 bonus munten', '3x sneller munten verdienen', 'Alle dieren altijd gelukkig', '30 dagen actief'],
             ],
         ];
 

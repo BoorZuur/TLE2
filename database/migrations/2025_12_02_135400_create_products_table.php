@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->enum('product_type', ['animal', 'powerup'])->default('powerup');
             $table->string('name');
             $table->text('description')->nullable();
             $table->text('image_url')->nullable();
             $table->decimal('price', 8, 2);
+            $table->enum('currency_type', ['coins', 'real_money'])->default('coins');
+            $table->string('species_tag')->nullable();
+            $table->json('powerup_effects')->nullable();
             $table->timestamps();
         });
     }

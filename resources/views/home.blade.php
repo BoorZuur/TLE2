@@ -10,12 +10,16 @@
     <script>
         window.addEventListener('DOMContentLoaded', async () => {
             let coins = 0;
+            let hunger = 100;
+            let energy = 1000;
             const coinsDisplay = document.getElementById('coins');
             const hungerDisplay = document.getElementById('hunger');
+            const energyDisplay = document.getElementById('energy');
             const clickerAnimal = document.getElementById('clicker');
-            const feedButton = document.getElementById('feedButton')
+            const feedButton = document.getElementById('feedButton');
+            const sleepButton = document.getElementById('sleepButton');
 
-            if (!coinsDisplay || !clickerAnimal || !hungerDisplay) return;
+            if (!coinsDisplay || !clickerAnimal || !hungerDisplay || !energyDisplay) return;
 
             // Function to show temporary message
             function showMessage(text) {
@@ -32,9 +36,14 @@
 
             // Fetch saved coins from server
             const res = await fetch("{{ route('coins.get') }}");
+            const energyRes = await fetch("{{ route('energy.get') }}");
             const data = await res.json();
+            const energyData = await energyRes.json();
             coins = data.coins;
+            energy = energyData.energy;
             coinsDisplay.textContent = coins;
+            hungerDisplay.textContent = hunger;
+            energyDisplay.textContent = energy;
 
 
             //walker animation
@@ -82,6 +91,7 @@
                 const decrease = Math.floor(secondsSinceSync / 2);
                 const currentHunger = Math.max(0, hunger - decrease);
                 hungerDisplay.textContent = currentHunger;
+                updateWalkerAnimation();
             }, 1000);
 
             // Sync with server every 2 seconds
@@ -90,8 +100,11 @@
 
 
             clickerAnimal.addEventListener('click', async () => {
+                if (energy <= 0 || clickerAnimal.dataset.sleeping === 'true') return;
                 coins++;
+                energy = Math.max(0, energy - 1);
                 coinsDisplay.textContent = coins;
+                energyDisplay.textContent = energy;
 
                 // Pause walking while pet animation runs
                 if (walker) walker.style.animationPlayState = 'paused';
@@ -110,6 +123,69 @@
                     },
                     body: JSON.stringify({amount: 1})
                 });
+
+                // Save energy to server
+                await fetch("{{ route('energy.add') }}", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({amount: -1})
+                });
+                updateWalkerAnimation();
+            });
+
+            sleepButton.addEventListener('click', async () => {
+                const isSleeping = clickerAnimal.dataset.sleeping === 'true';
+                const walker = clickerAnimal.parentElement;
+                const overlay = document.getElementById('sleepOverlay');
+                const statsText = document.getElementById('statsText');
+                const feedBtn = document.getElementById('feedButton');
+                const sleepBtn = document.getElementById('sleepButton');
+                const errorMsg = document.getElementById('errorMessage');
+
+                if (isSleeping) {
+                    clickerAnimal.src = '/images/fox-standing.png';
+                    clickerAnimal.dataset.sleeping = 'false';
+                    if (walker) walker.style.animationPlayState = 'running';
+                    if (overlay) overlay.style.opacity = '0';
+                    statsText.classList.remove('sleep-mode-text');
+                    feedBtn.classList.remove('sleep-mode-button');
+                    sleepBtn.classList.remove('sleep-mode-button');
+                    errorMsg.classList.remove('sleep-mode-text');
+                } else {
+                    clickerAnimal.src = '/images/fox-sleeping.png';
+                    clickerAnimal.dataset.sleeping = 'true';
+                    if (walker) walker.style.animationPlayState = 'paused';
+                    if (overlay) overlay.style.opacity = '1';
+                    statsText.classList.add('sleep-mode-text');
+                    feedBtn.classList.add('sleep-mode-button');
+                    sleepBtn.classList.add('sleep-mode-button');
+                    errorMsg.classList.add('sleep-mode-text');
+                }
+
+                const gained = 1;
+                const energyInterval = setInterval(async () => {
+                    if (clickerAnimal.dataset.sleeping !== 'true') {
+                        clearInterval(energyInterval);
+                        return;
+                    }
+                    if (energy < 1000) {
+                        energy = Math.min(1000, energy + gained);
+                        energyDisplay.textContent = energy;
+
+                        await fetch("{{ route('energy.add') }}", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                            },
+                            body: JSON.stringify({amount: gained})
+                        });
+                        updateWalkerAnimation();
+                    }
+                }, 1000);
             });
 
             // When pet animation finishes, resume walking
@@ -119,6 +195,27 @@
                     if (walker) walker.style.animationPlayState = 'running';
                 }
             });
+
+            function updateWalkerAnimation() {
+                const errorMessage = document.getElementById('errorMessage');
+                if (clickerAnimal.dataset.sleeping === 'true' || energy <= 0) {
+                    walker.style.animationPlayState = 'paused';
+                    feedButton.style.opacity = '0.25';
+                    feedButton.style.pointerEvents = 'none';
+
+                    if (errorMessage && energy <= 0) {
+                        errorMessage.textContent = "Je hebt geen energie meer, laat je dier slapen!";
+                    }
+                } else {
+                    walker.style.animationPlayState = 'running';
+                    feedButton.style.opacity = '1';
+                    feedButton.style.pointerEvents = 'auto';
+
+                    if (errorMessage) {
+                        errorMessage.textContent = "";
+                    }
+                }
+            }
         });
     </script>
 
@@ -127,6 +224,7 @@
     <style>
         html, body {
             height: 100%;
+            overflow-y: hidden;
         }
 
         #clicker {
@@ -197,6 +295,14 @@
             width: 300px;
             height: auto;
         }
+
+        .sleep-mode-text {
+            color: white !important;
+        }
+
+        .sleep-mode-button {
+            filter: invert(100%) brightness(200%);
+        }
     </style>
 </head>
 
@@ -206,19 +312,31 @@
 <body class="min-h-screen flex flex-col items-center justify-center bg-fixed"
       style="background-image: url('https://static.vecteezy.com/system/resources/thumbnails/003/467/246/small_2x/nature-landscape-background-cute-simple-cartoon-style-free-vector.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
 
+<div id="sleepOverlay"
+     class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-500 z-10"></div>
 
-<!-- Coins + vos foto -->
-<div class="flex flex-row items-center justify-center gap-6 mb-4 w-full">
-    <div>
-        <h2 class="text-xl font-semibold text-gray-800 m-0">Honger: <span id="hunger">0</span></h2>
-        <h2 class="text-xl font-semibold text-gray-800 m-0">Muntjes: <span id="coins">0</span></h2>
+
+<!-- Coins + animal foto -->
+<div id="statsContainer" class="relative z-20 flex flex-row items-center justify-center gap-6 mb-4 w-full">
+    <div id="statsText">
+        <h2 class="text-xl font-semibold m-0">Honger: <span id="hunger">0</span></h2>
+        <h2 class="text-xl font-semibold m-0">Energie: <span id="energy">0</span></h2>
+        <h2 class="text-xl font-semibold m-0">Muntjes: <span id="coins">0</span></h2>
     </div>
     <div>
         <img class="w-10 h-10 cursor-pointer flex-shrink-0" src="/images/food.png" id="feedButton" alt="icon of food">
     </div>
+    <div>
+        <img class="w-10 h-10 cursor-pointer flex-shrink-0" src="/images/sleep-icon.png"
+             id="sleepButton"
+             alt="icon for sleeping">
+    </div>
 </div>
+<div id="errorMessage" class="relative z-20 text-red-600 font-semibold text-lg text-center m-0"
+     style="min-height: 1.5em;"></div>
+
 <div class="walker walk">
-    <img src="/images/cheerful-fox.png"
+    <img src="/images/fox-standing.png"
          id="clicker"
          alt="clickable animal">
 </div>

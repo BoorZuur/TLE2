@@ -46,7 +46,7 @@
 
                 <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#319E88]">
                     <img src="{{ asset('images/shop-icon.png') }}" alt="Shop icon" class="ml-3 w-8 h-8 object-cover">
-                    <x-menu-link>Winkel</x-menu-link>
+                    <x-menu-link href="{{ route('product.index') }}">Winkel</x-menu-link>
                 </div>
 
                 <div class="border-t mt-4 pt-4 flex flex-col space-y-2">
