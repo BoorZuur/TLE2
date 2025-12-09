@@ -25,6 +25,12 @@ class AnimalController extends Controller
                 $animal->save();
             }
         }
+
+        return response()->json([
+            'hunger' => $animal->hunger,
+            'last_hunger_update' => $animal->last_hunger_update->toIso8601String()
+        ]);
+    }
     /**
      * Get a specific animal by ID (for /animal/{id})
      */
@@ -93,9 +99,9 @@ class AnimalController extends Controller
 
         return response()->json([
             'hunger' => $animal->hunger,
-            'last_hunger_update' => $animal->last_hunger_update->toIso8601String()
             'cleanliness' => $animal->cleanliness,
             'happiness' => $animal->happiness,
+            'last_hunger_update' => $animal->last_hunger_update->toIso8601String()
         ]);
     }
 

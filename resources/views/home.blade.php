@@ -27,7 +27,7 @@
                 messageDiv.textContent = text;
                 messageDiv.className = 'fixed top-20 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-opacity duration-300';
                 document.body.appendChild(messageDiv);
-                
+
                 setTimeout(() => {
                     messageDiv.style.opacity = '0';
                     setTimeout(() => messageDiv.remove(), 300);
@@ -62,10 +62,10 @@
                 const data = await res.json();
 
                 if (data.error === 'cooldown') {
-                    showMessage("Wait before feeding again!");
+                    showMessage("Wacht even voordat je je dier weer kunt voeden!");
                     return;
                 }
-                
+
                 // Update local hunger and reload from server
                 hunger = data.hunger;
                 hungerDisplay.textContent = hunger;
@@ -73,7 +73,7 @@
                 await loadHunger();
             });
 
-            let hunger = 0;
+            // let hunger = 0;
             let lastServerSync = Date.now();
 
             //fetch hunger from server and update display
