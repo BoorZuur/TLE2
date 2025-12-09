@@ -1,39 +1,45 @@
-{{--<!DOCTYPE html>--}}
-{{--<html lang="nl">--}}
-{{--<head>--}}
-{{--    <meta charset="UTF-8">--}}
-{{--    <meta name="viewport" content="width=device-width, initial-scale=1.0">--}}
-{{--    <title>Dieren Collectie</title>--}}
-{{--    <script defer type="module" src="/js/collection.js"></script>--}}
-{{--    @vite(['resources/css/app.css'])--}}
-{{--</head>--}}
-{{--<body class="bg-gray-100 min-h-screen">--}}
 <x-app-layout>
-    <script defer type="module" src="/js/collection.js"></script>
-<main class="container mx-auto p-6">
-    <header class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Dieren binnen geselecteerde gebieden</h1>
-    </header>
+    <main class="container mx-auto p-6">
+        <header class="mb-6">
+            <h1 class="text-2xl font-bold text-black">Dieren binnen geselecteerde gebieden</h1>
+        </header>
 
-    <section class="mb-6">
-        <form class="flex items-center gap-2">
-            <label for="region" class="font-semibold">Selecteer een gebied:</label>
-            <select id="region" class="border rounded p-1">
-                <option value="">Alle gebieden</option>
-                @foreach(config('animals.defaultLocalities', []) as $locality)
-                    <option value="{{ $locality }}" {{ request('region') == $locality ? 'selected' : '' }}>
-                        {{ $locality }}
-                    </option>
-                @endforeach
-            </select>
-        </form>
-    </section>
+        <section class="mb-6">
+            <form class="flex items-center gap-2">
+                <label for="region" class="font-semibold">Selecteer een gebied:</label>
+                <select id="region" class="border rounded p-1">
+                    <option value="">Alle gebieden</option>
+                    @foreach(config('animals.defaultLocalities', []) as $locality)
+                        <option value="{{ $locality }}" {{ request('region') == $locality ? 'selected' : '' }}>
+                            {{ $locality }}
+                        </option>
+                    @endforeach
+                </select>
+            </form>
+        </section>
 
-    <section>
-        <div id="animals-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
-    </section>
-</main>
+        <section>
+            <div id="animals-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+        </section>
 
-{{--</body>--}}
-{{--</html>--}}
+        <div id="animal-modal"
+             class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white rounded p-6 w-[600px] relative">
+                <button id="close-modal"
+                        class="absolute top-2 right-2 text-black hover:text-black text-xl">&times;
+                </button>
+
+                <img id="modal-image" class="w-full h-48 object-cover rounded mb-4"/>
+
+                <h2 id="modal-name" class="text-xl font-bold mb-1"></h2>
+                <p id="modal-scientific" class="italic text-black text-sm mb-3"></p>
+
+                <p><strong>Gebied:</strong> <span id="modal-location"></span></p>
+                <p><strong>Beheerder:</strong> <span id="modal-beheerder"></span></p>
+                <p class="mt-4 text-black" id="modal-info"></p>
+            </div>
+        </div>
+    </main>
+
+    <script defer src="/js/collection.js"></script>
 </x-app-layout>
