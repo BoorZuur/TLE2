@@ -68,8 +68,8 @@
     const areas = [
         {
             name: 'Bos',
-            animals: ['Fox', 'Deer', 'Rabbit', 'Owl', 'Squirrel'],
-            collected: ['Fox', 'Owl', 'Rabbit', 'Squirrel', 'Deer'],
+            animals: ['fox', 'Deer', 'Rabbit', 'Owl', 'Squirrel', 'fortnite', 'google'],
+            collected: [''],
             images: {
                 0: "/images/Gebieden/0/bos0.png",
                 20: "/images/Gebieden/1/bos1.png",
@@ -82,7 +82,7 @@
         {
             name: 'Strand',
             animals: ['Lion', 'Elephant', 'Zebra', 'Giraffe', 'Hyena'],
-            collected: ['Elephant', 'Giraffe', 'Zebra'],
+            collected: [''],
             images: {
                 0: "/images/Gebieden/0/bos0.png",
                 20: "/images/Gebieden/1/bos1.png",
@@ -133,6 +133,7 @@
         },
     ];
 
+
     let currentArea = 0;
 
     const areaTitle = document.getElementById('area-title');
@@ -152,17 +153,23 @@
     function renderArea(index) {
         const area = areas[index];
         areaTitle.textContent = area.name;
+        const percent = (area.collected.length / area.animals.length) * 100
+        progressBar.style.width = `${percent}%`
+        progressText.textContent = `${area.collected.length} / ${area.animals.length} Verzameld`
 
-        const percent = (area.collected.length / area.animals.length) * 100;
-
-        progressBar.style.width = `${percent}%`;
-        progressText.textContent = `${area.collected.length} / ${area.animals.length} Verzameld`;
-
-        // Pick image based on progress
         areaImage.src = getProgressImage(area, percent);
     }
 
-    renderArea(currentArea);
+    fetch('/api/collected')
+        .then(res => res.json())
+        .then(data => {
+            const collected = data.collected;
+            areas.forEach(area => {
+                area.collected = area.animals.filter(a => collected.includes(a));
+            });
+            renderArea(currentArea)
+        });
+
 
     document.getElementById('prev-area').addEventListener('click', () => {
         currentArea = (currentArea - 1 + areas.length) % areas.length;

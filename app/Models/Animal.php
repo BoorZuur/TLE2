@@ -16,4 +16,9 @@ class Animal extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function species()
+    {
+        return $this->belongsTo(Specie::class, 'species_tag', 'id');
+    }
 }

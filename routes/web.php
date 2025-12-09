@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\AreaController;
 use App\Http\Controllers\CollectionController;
-
 use App\Http\Controllers\CoinController;
 use App\Http\Controllers\EnergyController;
 use App\Http\Controllers\ProductController;
@@ -16,9 +16,11 @@ Route::middleware('auth')->get('/', function () {
     return view('home');
 })->name('home');
 
-Route::middleware('auth')->get('/areas', function () {
+// areas/gebieden
+Route::middleware('auth')->get('/areas', function() {
     return view('areas');
-})->name('areas');
+}) ->name('areas');
+Route::middleware('auth')->get('/api/collected', [AreaController::class, 'getArea']);
 
 //coins
 Route::middleware('auth')->get('/coins', [CoinController::class, 'getCoins'])->name('coins.get');
