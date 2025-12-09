@@ -25,29 +25,37 @@
             </div>
 
             <nav class="p-3 flex flex-col gap-2 items-center ">
-                <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934]">
-                    <img src="{{ asset('images/home-icon.webp') }}" alt="House icon" class="ml-3 w-8 h-8 object-cover">
-                    <x-menu-link href="{{ route('home') }}">Dieren</x-menu-link>
-                </div>
+                <x-menu-link href="{{ route('home') }}">
+                    <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934] hover:bg-[#6F962B]">
+                        <img src="{{ asset('images/home-icon.webp') }}" alt="House icon"
+                             class="ml-3 w-8 h-8 object-cover">
+                        Dieren
+                    </div>
+                </x-menu-link>
 
-                <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#319E88]">
-                    <img src="{{ asset('images/tree-icon.png') }}" alt="Tree icon"
-                         class="ml-3 w-8 h-8 object-cover">
-                    <x-menu-link href="{{ route('areas') }}">Gebieden</x-menu-link>
-                </div>
-                <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934]">
+                <x-menu-link href="{{ route('areas') }}">
+                    <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#319E88] hover:bg-[#007866]">
+                        <img src="{{ asset('images/tree-icon.png') }}" alt="Tree icon"
+                             class="ml-3 w-8 h-8 object-cover">
+                        Gebieden
+                    </div>
+                </x-menu-link>
 
-                    <img src="{{ asset('images/list-icon.png') }}" alt="Collection icon"
-                         class="ml-3 w-8 h-8 object-cover">
-                    <x-menu-link href="{{ route('collectie') }}">
+                <x-menu-link href="{{ route('collectie') }}">
+                    <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934] hover:bg-[#6F962B]">
+                        <img src="{{ asset('images/list-icon.png') }}" alt="Collection icon"
+                             class="ml-3 w-8 h-8 object-cover">
                         Verzameling
-                    </x-menu-link>
-                </div>
+                    </div>
+                </x-menu-link>
 
-                <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#319E88]">
-                    <img src="{{ asset('images/shop-icon.png') }}" alt="Shop icon" class="ml-3 w-8 h-8 object-cover">
-                    <x-menu-link href="{{ route('product.index') }}">Winkel</x-menu-link>
-                </div>
+                <x-menu-link href="{{ route('product.index') }}">
+                    <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#319E88] hover:bg-[#007866]">
+                        <img src="{{ asset('images/shop-icon.png') }}" alt="Shop icon"
+                             class="ml-3 w-8 h-8 object-cover">
+                        Winkel
+                    </div>
+                </x-menu-link>
 
                 <div class="border-t mt-4 pt-4 flex flex-col space-y-2">
                     @auth
