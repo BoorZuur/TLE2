@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CoinController;
@@ -44,6 +45,11 @@ Route::middleware('auth')->post('/animal/{id}/update', [AnimalController::class,
 // Show user's animal
 Route::middleware('auth')->get('/animal/{id}/show', [AnimalController::class, 'show'])->name('animal.show');
 
+// add animal (for admins)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/add', [AdminController::class, 'addSpecie'])->name('admin.addSpecie');
+    Route::post('/admin/store', [AdminController::class, 'storeSpecie'])->name('admin.storeSpecie');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');

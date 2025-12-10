@@ -59,7 +59,8 @@
 
                 <div class="border-t mt-4 pt-4 flex flex-col space-y-2">
                     @auth
-                        <a href="{{ route('profile.edit') }}" class="text-black">{{ Auth::user()->username }}</a>
+                        <a href="{{ route('profile.edit') }}"
+                           class="text-black hover:underline">{{ Auth::user()->username }}</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button class="text-red-500 hover:underline">Uitloggen</button>
@@ -67,6 +68,16 @@
                     @else
                         <a href="{{ route('login') }}" class="text-black hover:text-gray-700">Login</a>
                         <a href="{{ route('register') }}" class="text-black hover:text-gray-700">Register</a>
+                    @endauth
+                </div>
+
+                {{--admin buttons--}}
+                <div class="border-t mt-4 pt-4 flex flex-col space-y-2">
+                    @auth()
+                        @if(auth()->user()->is_admin)
+                            <a href="{{ route('admin.addSpecie') }}" class="text-black hover:underline">Diersoort
+                                Toevoegen</a>
+                        @endif
                     @endauth
                 </div>
             </nav>
