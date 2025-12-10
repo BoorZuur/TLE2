@@ -29,7 +29,9 @@
                         class="absolute top-2 right-2 text-black hover:text-black text-xl">&times;
                 </button>
 
-                <img id="modal-image" class="w-full h-48 object-cover rounded mb-4"/>
+                <div class="flex justify-center">
+                    <img id="modal-image" class="w-48 h-48 object-cover rounded mb-4" alt="animal image"/>
+                </div>
 
                 <h2 id="modal-name" class="text-xl font-bold mb-1"></h2>
                 <p id="modal-scientific" class="italic text-black text-sm mb-3"></p>

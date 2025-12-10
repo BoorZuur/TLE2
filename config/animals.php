@@ -211,8 +211,8 @@ Eeuwenlang waren ze in Nederland te vinden, maar in sommige periodes werden ze z
             'location' => 'Weerribben-Wieden',
             'observedDate' => '2023-05-15',
             'beheerder' => 'Natuurmonumenten',
-            'image' => '/images/watersnip-standing.png',
-            //            'image-sleeping' => '/images/watersnip-sleeping.png',
+            'image' => '/images/commonstripe-standing.png',
+            //            'image-sleeping' => '/images/commonstripe-sleeping.png',
             'locked' => true,
             'info' => 'Weinig dieren zijn zo geheimzinnig en behendig als de watersnip. Met zijn lange, slanke snavel, gespikkelde verenkleed en korte poten is hij gemaakt om te foerageren in drassige weilanden, moerassen en rietvelden.
 Overdag verstopt de watersnip zich vaak in dicht riet of gras. Ze zijn schuw en verdwijnen razendsnel in een flits van vleugels als er gevaar dreigt.

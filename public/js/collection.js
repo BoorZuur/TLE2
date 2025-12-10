@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const card = document.createElement("div");
         card.className = "bg-white rounded shadow p-3 relative cursor-pointer hover:shadow-lg transition";
 
-        const imgSrc = animal.locked ? '/images/locked.jpg' : animal.image;
+        const imgSrc = animal.locked ? '/images/locked.png' : animal.image;
         card.innerHTML = `
             <div class="relative">
                 <img src="${imgSrc}" class="w-full h-40 object-cover rounded mb-2" />
