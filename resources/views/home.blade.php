@@ -21,6 +21,19 @@
 
             if (!coinsDisplay || !clickerAnimal || !hungerDisplay || !energyDisplay) return;
 
+            // Function to show temporary message
+            function showMessage(text) {
+                const messageDiv = document.createElement('div');
+                messageDiv.textContent = text;
+                messageDiv.className = 'fixed top-20 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-opacity duration-300';
+                document.body.appendChild(messageDiv);
+
+                setTimeout(() => {
+                    messageDiv.style.opacity = '0';
+                    setTimeout(() => messageDiv.remove(), 300);
+                }, 2000);
+            }
+
             // Fetch saved coins from server
             const res = await fetch("{{ route('coins.get') }}");
             const energyRes = await fetch("{{ route('energy.get') }}");
@@ -32,15 +45,59 @@
             hungerDisplay.textContent = hunger;
             energyDisplay.textContent = energy;
 
+
+            //walker animation
             const walker = clickerAnimal.parentElement;
             if (walker) walker.classList.add('walk');
 
-            //hunger goes down by one
-            setInterval(() => {
-                hunger = Math.max(0, hunger - 1);
+            //feedbutton logica
+            feedButton.addEventListener('click', async () => {
+                const res = await fetch("{{ route('animal.feed', $animal->id) }}", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                    },
+                });
+
+                const data = await res.json();
+
+                if (data.error === 'cooldown') {
+                    showMessage("Wacht even voordat je je dier weer kunt voeden!");
+                    return;
+                }
+
+                // Update local hunger and reload from server
+                hunger = data.hunger;
                 hungerDisplay.textContent = hunger;
+                lastServerSync = Date.now();
+                await loadHunger();
+            });
+
+            // let hunger = 0;
+            let lastServerSync = Date.now();
+
+            //fetch hunger from server and update display
+            async function loadHunger() {
+                const res = await fetch("{{ route('animal.hunger.get', $animal->id) }}");
+                const data = await res.json();
+                hunger = data.hunger;
+                hungerDisplay.textContent = hunger;
+                lastServerSync = Date.now();
+            }
+
+            // Update hunger display every second for smooth countdown
+            setInterval(() => {
+                const secondsSinceSync = Math.floor((Date.now() - lastServerSync) / 1000);
+                const decrease = Math.floor(secondsSinceSync / 2);
+                const currentHunger = Math.max(0, hunger - decrease);
+                hungerDisplay.textContent = currentHunger;
                 updateWalkerAnimation();
             }, 1000);
+
+            // Sync with server every 2 seconds
+            setInterval(loadHunger, 2000);
+            loadHunger();
+
 
             clickerAnimal.addEventListener('click', async () => {
                 if (energy <= 0 || clickerAnimal.dataset.sleeping === 'true') return;
@@ -129,11 +186,6 @@
                         updateWalkerAnimation();
                     }
                 }, 1000);
-            });
-
-            feedButton.addEventListener('click', async () => {
-                hunger = Math.min(100, hunger + 20);
-                hungerDisplay.textContent = hunger;
             });
 
             // When pet animation finishes, resume walking

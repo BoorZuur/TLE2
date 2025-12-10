@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\CollectionController;
-
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CoinController;
 use App\Http\Controllers\EnergyController;
 use App\Http\Controllers\ProductController;
@@ -11,14 +11,19 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
 
 
-// home screen
-Route::middleware('auth')->get('/', function () {
-    return view('home');
-})->name('home');
+// home screen -> linked to homecontroller for getting animal
+Route::middleware('auth')->get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware('auth')->get('/areas', function () {
     return view('areas');
 })->name('areas');
+
+// feeding get/post
+Route::get('/animal/{animal}/hunger', [AnimalController::class, 'getHunger'])
+    ->name('animal.hunger.get');
+Route::post('/animal/{animal}/feed', [AnimalController::class, 'feed'])
+    ->name('animal.feed');
+
 
 //coins
 Route::middleware('auth')->get('/coins', [CoinController::class, 'getCoins'])->name('coins.get');
