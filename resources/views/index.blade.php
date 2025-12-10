@@ -12,12 +12,6 @@
 <nav class="bg-[#89B934] shadow-lg">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
-            {{--            <a href="/">--}}
-            {{--                <x-application-logo class="h-10 mr-2"></x-application-logo>--}}
-            {{--            </a>--}}
-            {{--            <div class="flex-shrink-0">--}}
-            {{--                <a href="/" class="text-2xl font-bold text-[#36298B] bowlby-one-sc-regular">NMklikker</a>--}}
-            {{--            </div>--}}
             <a href="/">
                 <x-application-logo class="w-52 fill-current text-gray-500"/>
             </a>
