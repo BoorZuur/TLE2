@@ -72,7 +72,7 @@ class User extends Authenticatable
             'happiness' => 100,
             'hunger' => 50,
             'cleanliness' => 75,
-            'species_tag' => 1,
+            'species_tag' => 2,
             'adopted_at' => now(),
             'updated_at' => now(),
         ]);

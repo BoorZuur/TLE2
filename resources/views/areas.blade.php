@@ -10,6 +10,11 @@
 <body class="bg-blue-50 min-h-screen">
 
 <x-app-layout>
+    <x-slot name="header">
+        <h2 class="text-2xl leading-tight">
+            {{ __('Gebieden') }}
+        </h2>
+    </x-slot>
 
     <div class="min-h-screen flex flex-col items-center pt-2">
 

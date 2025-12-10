@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-100 leading-tight">
+        <h2 class="text-2xl leading-tight">
             {{ __('Winkel') }}
         </h2>
     </x-slot>
@@ -12,7 +12,7 @@
                     <div class="flex justify-between items-center">
                         <div>
                             <h3 class="text-2xl font-bold mb-2">Welkom in de winkel!</h3>
-                            <p class="text-gray-700">Koop dieren en powerups om je spel te verbeteren</p>
+                            <p class="text-black">Koop dieren en powerups om je spel te verbeteren</p>
                         </div>
                         <div class="text-right">
                             <p class="text-lg font-semibold">Jouw munten:</p>
