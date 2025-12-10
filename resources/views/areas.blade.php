@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,7 @@
 
 <x-app-layout>
 
-    <div class="min-h-screen flex flex-col items-center pt-2">
+    <div class=" flex flex-col items-center pt-2">
 
         <!-- Area Title -->
         <div class="flex justify-center items-center  space-x-4">
@@ -21,7 +22,8 @@
         </div>
 
         <!-- Info Modal -->
-        <div id="info-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div id="info-modal"
+             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
             <div class="bg-white rounded-xl p-6 w-11/12 md:w-2/3 lg:w-1/2 relative">
                 <!-- Close button -->
                 <img id="close-modal" src="/images/close.png" alt="Close"
@@ -29,7 +31,10 @@
 
                 <!-- Modal content -->
                 <h3 id="modal-title" class="text-2xl font-bold mb-4"></h3>
-                <p id="modal-text" class="text-gray-700"></p>
+                <p id="modal-text" class="text-gray-700 py-2"></p>
+                <img id="modal-img"
+                     class="w-full h-auto pt-4 rounded-lg"
+                     src="/images/fox-posin.png">
             </div>
         </div>
 
@@ -43,9 +48,8 @@
         </div>
 
         <!-- image-->
-        <div class="p-4 bg-green-200 rounded-xl">
-            <img id="area-image"
-                 class="w-96 h-auto object-contain transition-all duration-300" src="">
+        <div class="p-6 bg-green-200 rounded-xl">
+            <img id="area-image" class="w-xl h-96 transition-all duration-300" src="">
         </div>
 
         <!-- Arrows -->
@@ -65,31 +69,33 @@
 </x-app-layout>
 
 <script>
+    //FOTOS 1500 x 900
+    //dit server side maken later als er tijd is
     const areas = [
         {
             name: 'De veluwe',
-            animals: ['fox', 'Deer', 'Rabbit', 'Owl', 'Squirrel', 'fortnite', 'google'],
+            animals: ['fox', 'google', 'a'], // <-- hoofdletter gevoelig
             collected: [''],
             images: {
-                0: "/images/Gebieden/0/bos0.png",
-                20: "/images/Gebieden/1/bos1.png",
-                40: "/images/Gebieden/2/bos2.png",
-                60: "/images/Gebieden/3/bos3.png",
-                80: "/images/Gebieden/4/bos4.png",
-                100: "/images/Gebieden/5/bos5.png",
+                0: "/images/Gebieden/0/veluwe0-2.png",
+                20: "/images/Gebieden/1/veluwe1.png",
+                40: "/images/Gebieden/2/veluwe2.png",
+                60: "/images/Gebieden/3/veluwe3.png",
+                80: "/images/Gebieden/4/veluwe4.png",
+                100: "/images/Gebieden/5/veluwe5.jpg",
             }
         },
         {
-            name: 'Zuiderpark (Den Haag)',
-            animals: ['Lion', 'Elephant', 'Zebra', 'Giraffe', 'Hyena'],
+            name: 'Zuiderpark (Rotterdam)',
+            animals: ['dier1', 'dier2', 'dier3'],
             collected: [''],
             images: {
-                0: "/images/Gebieden/0/bos0.png",
-                20: "/images/Gebieden/1/bos1.png",
-                40: "/images/Gebieden/2/bos2.png",
-                60: "/images/Gebieden/3/bos3.png",
-                80: "/images/Gebieden/4/bos4.png",
-                100: "/images/Gebieden/5/bos5.png",
+                0: "/images/Gebieden/0/park0.png",
+                20: "/images/Gebieden/1/park1.png",
+                40: "/images/Gebieden/2/park2-2.png",
+                60: "/images/Gebieden/3/park3.png",
+                80: "/images/Gebieden/4/park4.png",
+                100: "/images/Gebieden/5/park5.png",
             }
         },
         {
@@ -97,12 +103,12 @@
             animals: ['Fox', 'Deer', 'Rabbit', 'Owl', 'Squirrel'],
             collected: [],
             images: {
-                0: "/images/Gebieden/0/bos0.png",
-                20: "/images/Gebieden/1/bos1.png",
-                40: "/images/Gebieden/2/bos2.png",
-                60: "/images/Gebieden/3/bos3.png",
-                80: "/images/Gebieden/4/bos4.png",
-                100: "/images/Gebieden/5/bos5.png",
+                0: "/images/Gebieden/0/biesbosch0.png",
+                20: "/images/Gebieden/1/biesbosch1.png",
+                40: "/images/Gebieden/2/biesbosch2.png",
+                60: "/images/Gebieden/3/biesbosch3.png",
+                80: "/images/Gebieden/4/biesbosch4.png",
+                100: "/images/Gebieden/5/biesbosch5.png",
             }
         },
         {
@@ -110,12 +116,12 @@
             animals: ['Fox', 'Deer', 'Rabbit', 'Owl', 'Squirrel'],
             collected: ['Fox', 'Owl', 'Rabbit', 'Deer'],
             images: {
-                0: "/images/Gebieden/0/bos0.png",
-                20: "/images/Gebieden/1/bos1.png",
-                40: "/images/Gebieden/2/bos2.png",
-                60: "/images/Gebieden/3/bos3.png",
-                80: "/images/Gebieden/4/bos4.png",
-                100: "/images/Gebieden/5/bos5.png",
+                0: "/images/Gebieden/0/wadden0.png",
+                20: "/images/Gebieden/1/wadden1.png",
+                40: "/images/Gebieden/2/wadden2.png",
+                60: "/images/Gebieden/3/wadden3.png",
+                80: "/images/Gebieden/4/wadden4.png",
+                100: "/images/Gebieden/5/wadden5.png",
             }
         },
         {
@@ -123,12 +129,12 @@
             animals: ['Fox', 'Deer', 'Rabbit', 'Owl', 'Squirrel'],
             collected: ['Fox'],
             images: {
-                0: "/images/Gebieden/0/bos0.png",
-                20: "/images/Gebieden/1/bos1.png",
-                40: "/images/Gebieden/2/bos2.png",
-                60: "/images/Gebieden/3/bos3.png",
-                80: "/images/Gebieden/4/bos4.png",
-                100: "/images/Gebieden/5/bos5.png",
+                0: "/images/Gebieden/0/speulderbos0.png",
+                20: "/images/Gebieden/1/speulderbos1.png",
+                40: "/images/Gebieden/2/speulderbos2.png",
+                60: "/images/Gebieden/3/speulderbos3.png",
+                80: "/images/Gebieden/4/speulderbos4.png",
+                100: "/images/Gebieden/5/speulderbos5.png",
             }
         },
     ];
@@ -188,38 +194,52 @@
 
     const modalTitle = document.getElementById('modal-title');
     const modalText = document.getElementById('modal-text');
+    const modalImg = document.getElementById('modal-img');
 
     // Info content for each area
     const areaInfo = [
-        {
-            name: 'Bos',
-            text: 'Het bos is rijk aan dieren en planten. Hier kun je allerlei wilde dieren vinden.'
-        },
-        {
-            name: 'Strand',
-            text: 'Het strand is een open gebied met zand en zee. Je vindt hier andere soorten dieren.'
-        },
-        {
-            name: 'Kunstgebied',
-            text: 'Het kunstgebied bevat verschillende kunstwerken en creatieve plekken.'
-        },
-        {
-            name: 'Heide',
-            text: 'De heide is een kleurrijk gebied vol bloemen en bijzondere dieren.'
-        },
-        {
-            name: 'Zandverstuiving',
-            text: 'Een uitgestrekt zandgebied waar het moeilijk is om dieren te vinden.'
-        },
-    ];
+            {
+                name: 'De veluwe',
+                text: 'De Veluwe is het grootste natuurgebied in nederland! Gelegen in Gelderland (en een deel van utrecht). Dit natuurgebied is erg populair om te wandelen, fietsen of paardrijden. Ook zijn er wilde dieren te vinden zoals herten, wilde zwijnen en vossen!',
+                image: '/images/Gebieden/veluwe.png',
+            },
+
+            {
+                name: 'Zuiderpark (Rotterdam)',
+                text: 'Een van de grootste stadsparken in Nederland! Ideaal om te wandelen, hardlopen of picknicken! Erg gezinsvriendelijk en daarnaast zijn er ook sportvoorzieningen. De beste plek om te zijn als je even de natuur in wil in Rotterdam!',
+                image: '/images/Gebieden/Zuiderpark_Rotterdam.png',
+            },
+
+            {
+                name: 'De Biesbosch',
+                text: 'Een groot waterrijk natuurgebied in Noord-Brabant! prachtige zoetwatergetijden, bekend vanwege de bever en diverse andere dieren, en daarnaast perfect om te kanoën, varen, wandelen of fietsen!',
+                image: '/images/Gebieden/biesbosch.png',
+            },
+
+            {
+                name: 'De Waddeneilanden',
+                text: 'Een rij aan eilanden in het Noorden van Nederland. De eilanden hebben brede & lange stranden. Ook is de Waddenzee goed te zien vanaf het eiland en bevat het eiland zeehonden, diverse vogelsoorten en unieke plantsoorten. Perfect voor een wandeltocht, strandactiviteiten of kamperen!',
+                image: '/images/Gebieden/waaden.png',
+
+            },
+
+            {
+                name: 'Speulderbos',
+                text: 'Het Speulderbos is een van de meest Sfeervolle bossen in Nederland! Geleden in de Veluwe, De kronkelige bomen en scheefgegroeide bomen geven het bos een sprookjesachtige uitstraling! Ook is er een groot palette aan wildlife te vinden, zoals edelherten, zwijnen en vossen! Dit is het perfecte en allerbeste gebied voor een wandeltocht!',
+                image: '/images/Gebieden/bos.png',
+            },
+
+        ]
+    ;
 
     // Open modal
     infoButton.addEventListener('click', () => {
-        const area = areas[currentArea]; // get current area
+        const area = areas[currentArea];
         const info = areaInfo.find(a => a.name === area.name);
 
         modalTitle.textContent = info.name;
         modalText.textContent = info.text;
+        modalImg.src = info.image;
 
         infoModal.classList.remove('hidden');
     });
@@ -232,4 +252,5 @@
 </script>
 
 </body>
+
 </html>
