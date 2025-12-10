@@ -24,6 +24,20 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+        ], [
+            'email.required' => 'Het e-mailadres is verplicht.',
+            'email.email' => 'Voer een geldig e-mailadres in.',
+            'password.required' => 'Het wachtwoord is verplicht.',
+            'password.min' => 'Het wachtwoord moet minstens 8 tekens bevatten.',
+        ]);
+        if (!Auth::attempt($request->only('email', 'password'), $request->filled('remember'))) {
+            return back()->withErrors([
+                'email' => 'Deze combinatie van e-mail en wachtwoord bestaat niet.',
+            ])->withInput($request->only('email'));
+        }
         $request->authenticate();
 
         $request->session()->regenerate();
