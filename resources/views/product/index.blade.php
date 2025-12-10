@@ -25,20 +25,30 @@
             <!-- Filters -->
             <div class="mt-6 bg-white rounded-lg shadow-sm p-4">
                 <div class="flex flex-wrap gap-4" id="filters">
-                    <button onclick="filterProducts('all')" class="filter-btn active px-4 py-2 rounded-lg bg-lime-400 hover:bg-lime-500 font-semibold">
+                    <button onclick="filterProducts('all')"
+                            class="filter-btn active px-4 py-2 rounded-lg bg-lime-400 hover:bg-lime-500 font-semibold">
                         Alle producten
                     </button>
-                    <button onclick="filterProducts('animal')" class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
+                    <button onclick="filterProducts('animal')"
+                            class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
                         🐾 Dieren
                     </button>
-                    <button onclick="filterProducts('powerup')" class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
+                    <button onclick="filterProducts('powerup')"
+                            class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
                         ⚡ Powerups
                     </button>
-                    <button onclick="filterProducts('coins')" class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
+                    <button onclick="filterProducts('coins')"
+                            class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
                         🪙 Met munten
                     </button>
-                    <button onclick="filterProducts('real_money')" class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
+                    <button onclick="filterProducts('real_money')"
+                            class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
                         💳 Met geld
+                    </button>
+                    <button onclick="filterProducts('qr')"
+                            class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
+                        <x-mdi-qrcode class="w-5"></x-mdi-qrcode>
+                        QR-code
                     </button>
                 </div>
             </div>
@@ -49,21 +59,38 @@
                     <p class="text-gray-700 col-span-full text-center py-8">Er zijn geen producten beschikbaar.</p>
                 @else
                     @foreach($products as $product)
-                        <div class="product-card border rounded-lg p-4 flex flex-col shadow-lg hover:shadow-xl transition-shadow {{ $product->requiresRealMoney() ? 'bg-gradient-to-br from-purple-400 to-pink-400' : 'bg-lime-400' }}"
-                             data-type="{{ $product->product_type }}"
-                             data-currency="{{ $product->currency_type }}">
+                        <div
+                            class="product-card border rounded-lg p-4 flex flex-col shadow-lg hover:shadow-xl transition-shadow
+                                {{ $product->requiresRealMoney() ? 'bg-gradient-to-br from-purple-400 to-pink-400' : '' }}
+                                {{ $product->requiresQRCode() ? 'bg-gradient-to-br from-yellow-300 to-yellow-500' : '' }}
+                                {{ !$product->requiresRealMoney() && !$product->requiresQRCode() ? 'bg-lime-400' : '' }}"
+                            data-type="{{ $product->product_type }}"
+                            data-currency="{{ $product->currency_type }}">
                             <a href="{{ route('product.show', $product) }}" class="flex flex-col h-full">
                                 <!-- Product Image -->
                                 <div class="relative">
-                                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="mb-4 h-48 w-full object-cover rounded">
+                                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
+                                         class="mb-4 h-48 w-full object-cover rounded">
                                     <!-- Product Type Badge -->
-                                    <span class="absolute top-2 left-2 px-2 py-1 rounded text-xs font-bold {{ $product->isAnimal() ? 'bg-green-500' : 'bg-blue-500' }} text-white">
+                                    <span
+                                        class="absolute top-2 left-2 px-2 py-1 rounded text-xs font-bold {{ $product->isAnimal() ? 'bg-green-500' : 'bg-blue-500' }} text-white">
                                         {{ $product->isAnimal() ? '🐾 Dier' : '⚡ Powerup' }}
                                     </span>
                                     <!-- Currency Badge -->
-                                    <span class="absolute top-2 right-2 px-2 py-1 rounded text-xs font-bold {{ $product->requiresRealMoney() ? 'bg-purple-600' : 'bg-yellow-500' }} text-white">
-                                        {{ $product->requiresRealMoney() ? '💳' : '🪙' }}
-                                    </span>
+                                    <span
+                                        class="absolute top-2 right-2 px-2 py-1 rounded text-xs font-bold {{ $product->requiresRealMoney() ? 'bg-purple-600' : 'bg-yellow-500' }} text-white">
+                                        @switch($product)
+                                            @case($product->requiresRealMoney())
+                                                💳
+                                                @break
+                                            @case($product->canBuyWithCoins())
+                                                🪙
+                                                @break
+                                            @case($product->requiresQRCode())
+                                                <x-mdi-qrcode class="w-5"/>
+                                                @break
+                                        @endswitch
+                                        </span>
                                 </div>
 
                                 <!-- Product Info -->
@@ -76,14 +103,18 @@
                                         <span class="text-xl font-bold">
                                             @if($product->requiresRealMoney())
                                                 €{{ number_format($product->price, 2) }}
+                                            @elseif($product->requiresQRCode())
+                                                <x-mdi-qrcode-scan class="w-5"/>
                                             @else
                                                 🪙 {{ number_format($product->price, 0) }}
                                             @endif
                                         </span>
                                         @if($user->hasPurchased($product))
-                                            <span class="bg-green-500 text-white px-3 py-2 rounded text-sm font-semibold">✓ Gekocht</span>
+                                            <span
+                                                class="bg-green-500 text-white px-3 py-2 rounded text-sm font-semibold">✓ Gekocht</span>
                                         @else
-                                            <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 text-sm font-semibold">
+                                            <button
+                                                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 text-sm font-semibold">
                                                 Bekijken
                                             </button>
                                         @endif
@@ -116,7 +147,7 @@
                     card.style.display = 'block';
                 } else if (filter === 'animal' || filter === 'powerup') {
                     card.style.display = card.dataset.type === filter ? 'block' : 'none';
-                } else if (filter === 'coins' || filter === 'real_money') {
+                } else if (filter === 'coins' || filter === 'real_money' || filter === 'qr') {
                     card.style.display = card.dataset.currency === filter ? 'block' : 'none';
                 }
             });
