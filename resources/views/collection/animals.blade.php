@@ -1,20 +1,9 @@
-{{--<!DOCTYPE html>--}}
-{{--<html lang="nl">--}}
-{{--<head>--}}
-{{--    <meta charset="UTF-8">--}}
-{{--    <meta name="viewport" content="width=device-width, initial-scale=1.0">--}}
-{{--    <title>Dieren Collectie</title>--}}
-{{--    <script defer type="module" src="/js/collection.js"></script>--}}
-{{--    @vite(['resources/css/app.css'])--}}
-{{--</head>--}}
-{{--<body class="bg-gray-100 min-h-screen">--}}
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-2xl leading-tight">
             {{ __('Verzameling') }}
         </h2>
     </x-slot>
-    <script defer type="module" src="/js/collection.js"></script>
     <main class="container mx-auto p-6">
         <header class="mb-6">
             <h1 class="text-2xl font-bold text-gray-800">Dieren binnen geselecteerde gebieden</h1>
@@ -37,8 +26,27 @@
         <section>
             <div id="animals-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
         </section>
+
+        <div id="animal-modal"
+             class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white rounded p-6 w-[600px] relative">
+                <button id="close-modal"
+                        class="absolute top-2 right-2 text-black hover:text-black text-xl">&times;
+                </button>
+
+                <div class="flex justify-center">
+                    <img id="modal-image" class="w-48 h-48 object-cover rounded mb-4" alt="animal image"/>
+                </div>
+
+                <h2 id="modal-name" class="text-xl font-bold mb-1"></h2>
+                <p id="modal-scientific" class="italic text-black text-sm mb-3"></p>
+
+                <p><strong>Gebied:</strong> <span id="modal-location"></span></p>
+                <p><strong>Beheerder:</strong> <span id="modal-beheerder"></span></p>
+                <p class="mt-4 text-black" id="modal-info"></p>
+            </div>
+        </div>
     </main>
 
-    {{--</body>--}}
-    {{--</html>--}}
+    <script defer src="/js/collection.js"></script>
 </x-app-layout>
