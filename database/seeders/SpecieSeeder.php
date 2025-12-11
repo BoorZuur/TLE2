@@ -2,32 +2,40 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Specie;
+use App\Models\Habitat;
 
 class SpecieSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // seed species
-        $species = [
-            ['name' => 'Vos', 'habitat_tag' => 1],
-            ['name' => 'Das', 'habitat_tag' => 1],
-            ['name' => 'Egel', 'habitat_tag' => 1],
-            ['name' => 'Ree', 'habitat_tag' => 1],
-            ['name' => 'Boomkikker', 'habitat_tag' => 1],
-            ['name' => 'Adder', 'habitat_tag' => 1],
-            ['name' => 'Schorpioen', 'habitat_tag' => 2],
-            ['name' => 'Kleine vos', 'habitat_tag' => 2],
-            ['name' => 'Duinparelmoervlinder', 'habitat_tag' => 2],
-            ['name' => 'Zandhagedis', 'habitat_tag' => 2],
-        ];
+        $dummyAnimals = config('animals.dummyAnimals', []);
 
-        foreach ($species as $specie) {
-            \App\Models\Specie::create($specie);
+        foreach ($dummyAnimals as $animal) {
+            // Haal habitat id op uit naam
+            $habitat = Habitat::firstWhere('name', $animal['location']);
+            if (!$habitat) continue;
+
+            // Zorg dat image altijd vanaf public/ wordt gelezen
+            $imagePath = $animal['image'] ?? '/images/placeholder.png';
+            if ($imagePath[0] !== '/') {
+                $imagePath = '/' . $imagePath;
+            }
+
+            Specie::updateOrCreate(
+                [
+                    'name' => $animal['vernacularName'],
+                    'habitat_tag' => $habitat->id
+                ],
+                [
+                    'scientific_name' => $animal['scientificName'] ?? '-',
+                    'beheerder' => $animal['beheerder'] ?? '-',
+                    'image' => $imagePath,
+                    'info' => $animal['info'] ?? '-',
+                    'locked' => $animal['locked'] ?? true,
+                ]
+            );
         }
     }
 }

@@ -52,6 +52,17 @@ class User extends Authenticatable
     {
         return $this->hasMany(Animal::class);
     }
+
+    public function purchases()
+    {
+        return $this->hasMany(UserPurchase::class);
+    }
+
+    public function hasPurchased(Product $product): bool
+    {
+        return $this->purchases()->where('product_id', $product->id)->exists();
+    }
+
     protected static function booted(): void
     {
         static::created(function ($user) {
@@ -61,7 +72,7 @@ class User extends Authenticatable
             'happiness' => 100,
             'hunger' => 50,
             'cleanliness' => 75,
-            'species_tag' => 1,
+            'species_tag' => 2,
             'adopted_at' => now(),
             'updated_at' => now(),
         ]);
