@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Animal;
+use App\Models\UserSpeciesUnlock;
 
 class User extends Authenticatable
 {
@@ -76,6 +78,10 @@ class User extends Authenticatable
             'adopted_at' => now(),
             'updated_at' => now(),
         ]);
+            UserSpeciesUnlock::create([
+                'user_id' => $user->id,
+                'species_id' => 2,
+            ]);
         });
     }
 }
