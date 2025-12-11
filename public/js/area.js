@@ -23,8 +23,8 @@ const areas = [
             20: "/images/Gebieden/1/park1.png",
             40: "/images/Gebieden/2/park2-2.png",
             60: "/images/Gebieden/3/park3.png",
-            80: "/images/Gebieden/4/park4.png",
-            100: "/images/Gebieden/5/park5.png",
+            80: "/images/Gebieden/4/park4-2.png",
+            100: "/images/Gebieden/5/park5-2.png",
         }
     },
     {
