@@ -108,6 +108,17 @@ class ProductSeeder extends Seeder
                 'currency_type' => 'real_money',
                 'powerup_effects' => ['1000 bonus munten', '3x sneller munten verdienen', 'Alle dieren altijd gelukkig', '30 dagen actief'],
             ],
+            // QR-code dieren
+            [
+                'name' => 'Bunzing',
+                'description' => 'Een zeldzaam dier met een knuffelig uiterlijk. Alleen op te halen bij een bezoekerscentrum van natuurmonumenten!',
+                'image_url' => '/images/bunzing.webp',
+                'price' => 0,
+                'product_type' => 'animal',
+                'currency_type' => 'qr',
+                'species_tag' => 6,
+                'qr_filename' => 'tiengemeenten.png',
+            ],
         ];
 
         foreach ($products as $product) {

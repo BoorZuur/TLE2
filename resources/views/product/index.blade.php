@@ -45,6 +45,11 @@
                             class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
                         💳 Met geld
                     </button>
+                    <button onclick="filterProducts('qr')"
+                            class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
+                        <x-mdi-qrcode class="w-5"></x-mdi-qrcode>
+                        QR-code
+                    </button>
                 </div>
             </div>
 
@@ -55,7 +60,10 @@
                 @else
                     @foreach($products as $product)
                         <div
-                            class="product-card border rounded-lg p-4 flex flex-col shadow-lg hover:shadow-xl transition-shadow {{ $product->requiresRealMoney() ? 'bg-gradient-to-br from-purple-400 to-pink-400' : 'bg-lime-400' }}"
+                            class="product-card border rounded-lg p-4 flex flex-col shadow-lg hover:shadow-xl transition-shadow
+                                {{ $product->requiresRealMoney() ? 'bg-gradient-to-br from-purple-400 to-pink-400' : '' }}
+                                {{ $product->requiresQRCode() ? 'bg-gradient-to-br from-yellow-300 to-yellow-500' : '' }}
+                                {{ !$product->requiresRealMoney() && !$product->requiresQRCode() ? 'bg-lime-400' : '' }}"
                             data-type="{{ $product->product_type }}"
                             data-currency="{{ $product->currency_type }}">
                             <a href="{{ route('product.show', $product) }}" class="flex flex-col h-full">
@@ -71,8 +79,18 @@
                                     <!-- Currency Badge -->
                                     <span
                                         class="absolute top-2 right-2 px-2 py-1 rounded text-xs font-bold {{ $product->requiresRealMoney() ? 'bg-purple-600' : 'bg-yellow-500' }} text-white">
-                                        {{ $product->requiresRealMoney() ? '💳' : '🪙' }}
-                                    </span>
+                                        @switch($product)
+                                            @case($product->requiresRealMoney())
+                                                💳
+                                                @break
+                                            @case($product->canBuyWithCoins())
+                                                🪙
+                                                @break
+                                            @case($product->requiresQRCode())
+                                                <x-mdi-qrcode class="w-5"/>
+                                                @break
+                                        @endswitch
+                                        </span>
                                 </div>
 
                                 <!-- Product Info -->
@@ -85,6 +103,8 @@
                                         <span class="text-xl font-bold">
                                             @if($product->requiresRealMoney())
                                                 €{{ number_format($product->price, 2) }}
+                                            @elseif($product->requiresQRCode())
+                                                <x-mdi-qrcode-scan class="w-5"/>
                                             @else
                                                 🪙 {{ number_format($product->price, 0) }}
                                             @endif
@@ -127,7 +147,7 @@
                     card.style.display = 'block';
                 } else if (filter === 'animal' || filter === 'powerup') {
                     card.style.display = card.dataset.type === filter ? 'block' : 'none';
-                } else if (filter === 'coins' || filter === 'real_money') {
+                } else if (filter === 'coins' || filter === 'real_money' || filter === 'qr') {
                     card.style.display = card.dataset.currency === filter ? 'block' : 'none';
                 }
             });
