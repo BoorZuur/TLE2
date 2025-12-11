@@ -165,12 +165,31 @@
                                                     @endif
                                                 </form>
                                             @else
-                                                <form method="POST" action="{{ route('product.purchase', $product) }}">
+                                                <!-- Buy with Real Money (Mock) -->
+                                                <form method="POST" action="{{ route('product.purchase', $product) }}"
+                                                      id="payment-form">
                                                     @csrf
+                                                    <div class="mb-4">
+                                                        <label class="block text-gray-700 text-sm font-bold mb-2">
+                                                            Betaalmethode:
+                                                        </label>
+                                                        <select name="payment_method" required
+                                                                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                                            <option value="">Kies een betaalmethode</option>
+                                                            <option value="ideal">iDEAL</option>
+                                                            <option value="creditcard">Creditcard</option>
+                                                            <option value="paypal">PayPal</option>
+                                                        </select>
+                                                    </div>
+
                                                     <button type="submit"
                                                             class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-6 rounded-lg text-lg transition-colors">
                                                         💳 Koop met geld (€{{ number_format($product->price, 2) }})
                                                     </button>
+
+                                                    <p class="text-xs text-gray-600 mt-2 text-center">
+                                                        * Met deze aankoop steun je Natuurmonumenten.
+                                                    </p>
                                                 </form>
                                             @endif
                                         @endif
