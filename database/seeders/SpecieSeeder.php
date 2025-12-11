@@ -34,6 +34,7 @@ class SpecieSeeder extends Seeder
                     'image' => $imagePath,
                     'info' => $animal['info'] ?? '-',
                     'locked' => $animal['locked'] ?? true,
+                    'status' => $animal['nullable'] ?? 1,
                 ]
             );
         }

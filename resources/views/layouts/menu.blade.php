@@ -57,6 +57,21 @@
                     </div>
                 </x-menu-link>
 
+                @if (Route::has('login'))
+                    @auth
+                        @if (Auth::user()->is_admin == 1)
+                            <x-menu-link href="{{ route('admin.index') }}" :active="Route::is('admin.index')">
+                                <div
+                                    class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934] hover:bg-[#6F962B]">
+                                    <img src="{{ asset('images/admin-icon.png') }}" alt="Admin icon"
+                                         class="ml-3 w-8 h-8 object-cover"> Admin
+                                </div>
+                            </x-menu-link>
+
+                        @endif
+                    @endauth
+                @endif
+
                 <div class="border-t mt-4 pt-4 flex flex-col space-y-2">
                     @auth
                         <a href="{{ route('profile.edit') }}" class="text-black">{{ Auth::user()->username }}</a>

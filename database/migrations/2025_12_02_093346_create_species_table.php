@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->string('beheerder')->default('-');
             $table->text('info')->default('-');
             $table->boolean('locked')->default(true);
+            $table->smallInteger('status')->default(1);
 
             $table->foreign('habitat_tag')->references('id')->on('habitats');
         });

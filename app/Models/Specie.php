@@ -16,7 +16,8 @@ class Specie extends Model
         'scientific-name',
         'info',
         'image',
-        'beheerder'
+        'beheerder',
+        'status',
     ];
 
     public function habitat(): \Illuminate\Database\Eloquent\Relations\BelongsTo

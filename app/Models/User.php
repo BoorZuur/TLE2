@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @property mixed $is_admin
+ */
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -67,15 +70,20 @@ class User extends Authenticatable
     {
         static::created(function ($user) {
             Animal::create([
-            'user_id' => $user->id,
-            'name' => 'Fluffy',
-            'happiness' => 100,
-            'hunger' => 50,
-            'cleanliness' => 75,
-            'species_tag' => 2,
-            'adopted_at' => now(),
-            'updated_at' => now(),
-        ]);
+                'user_id' => $user->id,
+                'name' => 'Fluffy',
+                'happiness' => 100,
+                'hunger' => 50,
+                'cleanliness' => 75,
+                'species_tag' => 2,
+                'adopted_at' => now(),
+                'updated_at' => now(),
+            ]);
         });
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->is_admin === 1;
     }
 }
