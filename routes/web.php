@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 
 // home screen -> linked to homecontroller for getting animal
-Route::middleware('auth')->get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware('auth')->get('/areas', function () {
     return view('areas');
