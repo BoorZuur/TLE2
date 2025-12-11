@@ -1,10 +1,10 @@
 //FOTOS 1500 x 900
-//dit server side maken later als er tijd is
+// Areas with image configurations - animals loaded server-side
 const areas = [
     {
         name: 'De veluwe',
-        animals: ['fox', 'google', 'a'], // <-- hoofdletter gevoelig
-        collected: [''],
+        animals: [],
+        collected: [],
         images: {
             0: "/images/Gebieden/0/veluwe0-2.png",
             20: "/images/Gebieden/1/veluwe1.png",
@@ -16,8 +16,8 @@ const areas = [
     },
     {
         name: 'Zuiderpark (Rotterdam)',
-        animals: ['dier1', 'dier2', 'dier3'],
-        collected: [''],
+        animals: [],
+        collected: [],
         images: {
             0: "/images/Gebieden/0/park0.png",
             20: "/images/Gebieden/1/park1.png",
@@ -29,7 +29,7 @@ const areas = [
     },
     {
         name: 'De Biesbosch',
-        animals: ['Fox', 'Deer', 'Rabbit', 'Owl', 'Squirrel'],
+        animals: [],
         collected: [],
         images: {
             0: "/images/Gebieden/0/biesbosch0.png",
@@ -42,8 +42,8 @@ const areas = [
     },
     {
         name: 'De Waddeneilanden',
-        animals: ['Fox', 'Deer', 'Rabbit', 'Owl', 'Squirrel'],
-        collected: ['Fox', 'Owl', 'Rabbit', 'Deer'],
+        animals: [],
+        collected: [],
         images: {
             0: "/images/Gebieden/0/wadden0.png",
             20: "/images/Gebieden/1/wadden1.png",
@@ -55,8 +55,8 @@ const areas = [
     },
     {
         name: 'Speulderbos',
-        animals: ['Fox', 'Deer', 'Rabbit', 'Owl', 'Squirrel'],
-        collected: ['Fox'],
+        animals: [],
+        collected: [],
         images: {
             0: "/images/Gebieden/0/speulderbos0.png",
             20: "/images/Gebieden/1/speulderbos1.png",
@@ -88,22 +88,38 @@ function getProgressImage(area, percent) {
 function renderArea(index) {
     const area = areas[index];
     areaTitle.textContent = area.name;
-    const percent = (area.collected.length / area.animals.length) * 100
-    progressBar.style.width = `${percent}%`
-    progressText.textContent = `${area.collected.length} / ${area.animals.length} Verzameld`
+
+    const total = area.animals.length;
+    const collected = area.collected.length;
+
+    const percent = total === 0 ? 0 : (collected / total) * 100;
+
+    progressBar.style.width = `${percent}%`;
+    progressText.textContent = `${collected} / ${total} Verzameld`;
 
     areaImage.src = getProgressImage(area, percent);
 }
 
-fetch('/api/collected')
-    .then(res => res.json())
-    .then(data => {
-        const collected = data.collected;
-        areas.forEach(area => {
-            area.collected = area.animals.filter(a => collected.includes(a));
-        });
-        renderArea(currentArea)
+
+// Load animals from server and calculate progress client-side
+Promise.all([
+    fetch('/api/areas').then(res => res.json()),
+    fetch('/api/collected').then(res => res.json())
+])
+.then(([areasData, collectedData]) => {
+    const collectedSpecies = collectedData.collected || [];
+    
+    // Populate animals from server and calculate collected client-side
+    areas.forEach(area => {
+        area.animals = areasData.areas[area.name] || [];
+        area.collected = area.animals.filter(animal => collectedSpecies.includes(animal));
     });
+    
+    renderArea(currentArea);
+})
+.catch(error => {
+    console.error('Error loading areas:', error);
+});
 
 
 document.getElementById('prev-area').addEventListener('click', () => {
@@ -172,6 +188,7 @@ infoButton.addEventListener('click', () => {
 
     infoModal.classList.remove('hidden');
 });
+
 
 // Close modal
 closeModal.addEventListener('click', () => {

@@ -21,4 +21,16 @@ class AreaController extends Controller
             'collected' => $collected
         ]);
     }
+
+    public function getAreas()
+    {
+        $areas = \App\Models\Specie::with('habitat')
+            ->get()
+            ->groupBy('habitat.name')
+            ->map(fn($group) => $group->pluck('name')->values());
+
+        return response()->json([
+            'areas' => $areas
+        ]);
+    }
 }

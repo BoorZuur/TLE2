@@ -17,10 +17,11 @@ Route::middleware('auth')->get('/', function () {
 })->name('home');
 
 // areas/gebieden
-Route::middleware('auth')->get('/areas', function() {
+Route::middleware('auth')->get('/areas', function () {
     return view('areas');
-}) ->name('areas');
+})->name('areas');
 Route::middleware('auth')->get('/api/collected', [AreaController::class, 'getArea']);
+Route::middleware('auth')->get('/api/areas', [AreaController::class, 'getAreas']);
 
 //coins
 Route::middleware('auth')->get('/coins', [CoinController::class, 'getCoins'])->name('coins.get');

@@ -34,7 +34,7 @@
                 <p id="modal-text" class="text-gray-700 py-2"></p>
                 <img id="modal-img"
                      class="w-full h-auto pt-4 rounded-lg"
-                     src="/images/fox-posin.png">
+                     src="/images/flamingo.png">
             </div>
         </div>
 
