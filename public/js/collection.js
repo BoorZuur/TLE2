@@ -75,17 +75,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const imgElement = card.querySelector("img");
         const overlay = card.querySelector("div.absolute");
 
-//        if (animal.locked) {
-//            card.addEventListener("click", () => {
-//                animal.locked = false;
-//                if (overlay) overlay.remove();
-//                if (imgElement) imgElement.src = animal.image;
-//
-//                card.addEventListener("click", () => openModal(animal));
-//            });
-//        } else {
-//            card.addEventListener("click", () => openModal(animal));
-//        }
+        if (animal.locked) {
+            // card.addEventListener("click", () => {
+            //     animal.locked = false;
+            //     if (overlay) overlay.remove();
+            //     if (imgElement) imgElement.src = animal.image;
+            //
+            //     card.addEventListener("click", () => openModal(animal));
+            // });
+        } else {
+            card.addEventListener("click", () => openModal(animal));
+        }
         return card;
     }
 
