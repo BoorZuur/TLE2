@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Animal;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 
 class AnimalController extends Controller
 {
@@ -19,9 +17,9 @@ class AnimalController extends Controller
         } else {
             $secondsPassed = $animal->last_hunger_update->diffInSeconds($now);
 
-            // server side honger decrease, waarde veranderen
-            if ($secondsPassed >= 30) {
-                $decrease = floor($secondsPassed / 20);
+            // change this
+            if ($secondsPassed >= 5) {
+                $decrease = floor($secondsPassed / 2);
                 $animal->hunger = max(0, $animal->hunger - $decrease);
                 $animal->last_hunger_update = $now;
                 $animal->save();
@@ -30,11 +28,9 @@ class AnimalController extends Controller
 
         return response()->json([
             'hunger' => $animal->hunger,
-            'last_hunger_update' => $animal->last_hunger_update->toIso8601String(),
-            'coins' => auth()->user()->coins
+            'last_hunger_update' => $animal->last_hunger_update->toIso8601String()
         ]);
     }
-
     /**
      * Get a specific animal by ID (for /animal/{id})
      */
@@ -114,13 +110,10 @@ class AnimalController extends Controller
         $now = now();
         $lastFed = $animal->last_fed ?? now()->subMinutes(5);
 
-        //cooldown voor eten geven
-        $cooldown = 10;
         $secondsSinceFed = $lastFed->diffInSeconds($now);
-        $remaining = max(0, $cooldown - $secondsSinceFed);
 
-        if ($secondsSinceFed < $cooldown) {
-            return response()->json(['error' => 'cooldown', 'remaining' => $remaining], 429);
+        if ($secondsSinceFed < 10) {
+            return response()->json(['error' => 'cooldown'], 429);
         }
 
         $animal->hunger = min(100, $animal->hunger + 20);
@@ -128,13 +121,8 @@ class AnimalController extends Controller
         $animal->last_hunger_update = $now;
         $animal->save();
 
-        $user = Auth::user();
-        $user->coins += 20;
-        $user->save();
-
         return response()->json([
-            'hunger' => $animal->hunger,
-            'coins' => $animal->coins
+            'hunger' => $animal->hunger
         ]);
     }
 }
