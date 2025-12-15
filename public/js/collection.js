@@ -1,101 +1,108 @@
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.getElementById('animals-grid');
     const regionSelect = document.getElementById('region');
+    const progressBar = document.getElementById('progress-bar');
 
-    async function loadAnimals(region = null) {
+    const modal = document.getElementById("animal-modal");
+    const closeModalBtn = document.getElementById("close-modal");
+
+    function openModal(animal) {
+        document.getElementById("modal-image").src = animal.image;
+        document.getElementById("modal-name").textContent = animal.vernacularName;
+        document.getElementById("modal-scientific").textContent = animal.scientificName ?? '-';
+        document.getElementById("modal-location").textContent = animal.location ?? '-';
+        document.getElementById("modal-beheerder").textContent = animal.beheerder ?? '-';
+        document.getElementById("modal-info").textContent = animal.info ?? 'Geen extra informatie beschikbaar';
+
+        modal.classList.add("flex");
+        modal.classList.remove("hidden");
+    }
+
+    function closeModal() {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+    }
+
+    closeModalBtn.addEventListener("click", closeModal);
+    modal.addEventListener("click", e => {
+        if (e.target === modal) closeModal();
+    });
+
+    function updateProgressBar(animals, region) {
+        const total = animals.length;
+        const owned = animals.filter(a => !a.locked).length;
+        const percentage = total > 0 ? (owned / total) * 100 : 0;
+
+        const regionText = region ? ` in ${region}` : '';
+
+        progressBar.innerHTML = `
+        <div style="margin-top: 10px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px;">
+                <span>Animals Owned${regionText}: ${owned}/${total}</span>
+                <span>${percentage.toFixed(1)}%</span>
+            </div>
+            <div style="width: 100%; height: 24px; background-color: #e0e0e0; border-radius: 12px; overflow: hidden;">
+                <div style="height: 100%; background-color: #4caf50; width: ${percentage}%; transition: width 0.3s ease;"></div>
+            </div>
+        </div>
+    `;
+    }
+
+    function createAnimalCard(animal) {
+        const card = document.createElement("div");
+        card.className = "bg-white rounded shadow p-3 relative cursor-pointer hover:shadow-lg transition";
+
+        const imgSrc = animal.locked ? '/images/locked.png' : animal.image;
+        card.innerHTML = `
+            <div class="relative">
+                <img src="${imgSrc}" class="w-full h-40 object-cover rounded mb-2" />
+                ${animal.locked ? '<div class="absolute inset-0 flex items-center justify-center"><span class="text-white text-3xl">🔒</span></div>' : ''}
+            </div>
+            <h3 class="font-bold text-lg">${animal.vernacularName}</h3>
+            <p class="text-sm italic mb-1">Wetenschappelijke naam: ${animal.scientificName ?? '-'}</p>
+            <p class="text-sm mb-1">Leefgebied: ${animal.location ?? '-'}</p>
+            <p class="text-sm font-medium">Beheerder: ${animal.beheerder ?? '-'}</p>
+        `;
+
+        const imgElement = card.querySelector("img");
+        const overlay = card.querySelector("div.absolute");
+
+        if (animal.locked) {
+            // card.addEventListener("click", () => {
+            //     animal.locked = false;
+            //     if (overlay) overlay.remove();
+            //     if (imgElement) imgElement.src = animal.image;
+            //
+            //     card.addEventListener("click", () => openModal(animal));
+            // });
+        } else {
+            card.addEventListener("click", () => openModal(animal));
+        }
+        return card;
+    }
+
+    async function loadAnimals(region = '') {
         grid.innerHTML = '';
-        let url = '/api/animals';
+        let url = `/collection`;
         if (region) url += `?region=${encodeURIComponent(region)}`;
 
         try {
             const res = await fetch(url);
             const animals = await res.json();
 
-            animals.forEach(a => {
-                const card = document.createElement('div');
-                card.className = 'bg-white rounded shadow p-4 text-center relative transition-all duration-300';
-
-                const owner = a.beheerder ?? 'Onbekend';
-                const imgSrc = a.image ?? '/images/placeholder.png';
-
-                card.innerHTML = `
-                    <div class="relative">
-                        <img src="${imgSrc}" alt="${a.vernacularName}" class="w-full h-40 object-cover rounded mb-2 ${a.locked ? 'brightness-50' : ''}">
-                        ${a.locked ? '<div class="absolute inset-0 flex items-center justify-center bg-black rounded"><span class="text-white text-3xl">🔒</span></div>' : ''}
-                    </div>
-                    <h3 class="font-bold text-lg">${a.vernacularName}</h3>
-                    <p class="italic text-sm mb-1">Wetenschappelijke Naam: ${a.scientificName}</p>
-                    <p class="text-sm mb-1">Leefgebied: ${a.location}</p>
-                    <p class="text-sm font-medium">Beheerder: ${owner}</p>
-                `;
-
-                // Info-knop alleen voor unlocked dieren
-                if (!a.locked) {
-                    const infoBtn = document.createElement('button');
-                    infoBtn.innerHTML = 'ℹ️';
-                    infoBtn.className = 'absolute top-2 right-2 bg-white rounded-full p-1 shadow hover:bg-gray-200 transition';
-
-                    const tooltip = document.createElement('div');
-                    tooltip.className = 'absolute top-0 right-0 bg-black text-white text-xs p-2 rounded shadow hidden z-10 w-44 text-left';
-                    tooltip.textContent = a.info ?? 'Geen extra informatie beschikbaar';
-
-                    infoBtn.addEventListener('click', e => {
-                        e.stopPropagation();
-                        tooltip.classList.toggle('hidden');
-                    });
-
-                    document.addEventListener('click', e => {
-                        if (!card.contains(e.target)) tooltip.classList.add('hidden');
-                    });
-
-                    card.appendChild(infoBtn);
-                    card.appendChild(tooltip);
-                }
-
-                // Unlock on click
-                card.addEventListener('click', () => {
-                    if (a.locked) {
-                        a.locked = false;
-                        card.querySelector('img').classList.remove('brightness-50');
-
-                        const overlay = card.querySelector('div.absolute');
-                        if (overlay) overlay.remove();
-
-                        // Voeg info-knop toe na unlock
-                        const infoBtn = document.createElement('button');
-                        infoBtn.innerHTML = 'ℹ️';
-                        infoBtn.className = 'absolute top-2 right-2 bg-white rounded-full p-1 shadow hover:bg-gray-200 transition';
-
-                        const tooltip = document.createElement('div');
-                        tooltip.className = 'absolute top-0 right-0 bg-black text-white text-xs p-2 rounded shadow hidden z-10 w-44 text-left';
-                        tooltip.textContent = a.info ?? 'Geen extra informatie beschikbaar';
-
-                        infoBtn.addEventListener('click', e => {
-                            e.stopPropagation();
-                            tooltip.classList.toggle('hidden');
-                        });
-
-                        document.addEventListener('click', e => {
-                            if (!card.contains(e.target)) tooltip.classList.add('hidden');
-                        });
-
-                        card.appendChild(infoBtn);
-                        card.appendChild(tooltip);
-                    }
-                });
-
+            animals.forEach(animal => {
+                const card = createAnimalCard(animal);
                 grid.appendChild(card);
             });
 
+            updateProgressBar(animals, region);
         } catch (err) {
             console.error(err);
             grid.innerHTML = '<p class="text-red-600">Er is iets misgegaan bij het laden van de dieren.</p>';
         }
     }
 
-    // Initial load
     loadAnimals();
 
-    // Filter op regio
-    regionSelect.addEventListener('change', () => loadAnimals(regionSelect.value || null));
+    regionSelect.addEventListener("change", () => loadAnimals(regionSelect.value || ''));
 });

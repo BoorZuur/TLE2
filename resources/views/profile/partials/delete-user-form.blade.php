@@ -18,37 +18,39 @@
         <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
             @csrf
             @method('delete')
+            <div class="p-4 sm:p-8 bg-[#319E88] shadow sm:rounded-lg">
 
-            <h2 class="text-lg font-medium text-white">
-                {{ __('Weet je zeker dat je het account wilt verwijderen?') }}
-            </h2>
+                <h2 class="text-lg font-medium text-white">
+                    {{ __('Weet je zeker dat je het account wilt verwijderen?') }}
+                </h2>
 
-            <p class="mt-1 text-sm text-white">
-                {{ __('Wanneer je account is verwijderd, wordt alle data permanent verwijderd.') }}
-            </p>
+                <p class="mt-1 text-sm text-white">
+                    {{ __('Wanneer je account is verwijderd, wordt alle data permanent verwijderd.') }}
+                </p>
 
-            <div class="mt-6">
-                <x-input-label for="password" value="{{ __('Wachtwoord') }}" class="sr-only"/>
+                <div class="mt-6">
+                    <x-input-label for="password" value="{{ __('Wachtwoord') }}" class="sr-only"/>
 
-                <x-text-input
-                    id="password"
-                    name="password"
-                    type="password"
-                    class="mt-1 block w-3/4"
-                    placeholder="{{ __('Wachtwoord') }}"
-                />
+                    <x-text-input
+                        id="password"
+                        name="password"
+                        type="password"
+                        class="mt-1 block w-3/4"
+                        placeholder="{{ __('Wachtwoord') }}"
+                    />
 
-                <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2"/>
-            </div>
+                    <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2"/>
+                </div>
 
-            <div class="mt-6 flex justify-end">
-                <x-secondary-button x-on:click="$dispatch('close')">
-                    {{ __('Annuleren') }}
-                </x-secondary-button>
+                <div class="mt-6 flex justify-end">
+                    <x-secondary-button x-on:click="$dispatch('close')">
+                        {{ __('Annuleren') }}
+                    </x-secondary-button>
 
-                <x-danger-button class="ms-3">
-                    {{ __('Verwijder Account') }}
-                </x-danger-button>
+                    <x-primary-button class="ms-3">
+                        {{ __('Verwijder Account') }}
+                    </x-primary-button>
+                </div>
             </div>
         </form>
     </x-modal>
