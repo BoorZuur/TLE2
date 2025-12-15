@@ -149,7 +149,7 @@
                                                     @csrf
                                                     @if($user->coins >= $product->price)
                                                         <button type="submit"
-                                                                class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-4 px-6 rounded-lg text-lg transition-colors">
+                                                            class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-4 px-6 rounded-lg text-lg transition-colors transform transition hover:scale-105 focus-visible:scale-105">
                                                             🪙 Koop met munten
                                                         </button>
                                                     @else
@@ -182,8 +182,8 @@
                                                         </select>
                                                     </div>
 
-                                                    <button type="submit"
-                                                            class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-6 rounded-lg text-lg transition-colors">
+                                                        <button type="submit"
+                                                            class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-6 rounded-lg text-lg transition-colors transform transition hover:scale-105 focus-visible:scale-105">
                                                         💳 Koop met geld (€{{ number_format($product->price, 2) }})
                                                     </button>
 

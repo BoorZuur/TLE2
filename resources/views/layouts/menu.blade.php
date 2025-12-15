@@ -1,6 +1,19 @@
+<style>
+    /* Slight grow for menu tiles on hover/focus */
+    .menu-entry {
+        transition: transform 160ms ease;
+        transform-origin: center;
+    }
+
+    .menu-entry:hover,
+    .menu-entry:focus-visible {
+        transform: scale(1.06);
+    }
+</style>
+
 <nav class="bg-[#89B934] border-b border-gray-200">
     <div class="max-w-8xl gap-4 mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-16">
-        <button id="menu-button" class="text-black focus:outline-none">
+        <button id="menu-button" class="text-black">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M4 6h16M4 12h16M4 18h16"/>
@@ -26,7 +39,8 @@
 
             <nav class="p-3 flex flex-col gap-2 items-center ">
                 <x-menu-link href="{{ route('home') }}">
-                    <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934] hover:bg-[#6F962B]">
+                    <div
+                        class="menu-entry flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934] hover:bg-[#6F962B]">
                         <img src="{{ asset('images/home-icon.webp') }}" alt="House icon"
                              class="ml-3 w-8 h-8 object-cover">
                         Dieren
@@ -34,7 +48,8 @@
                 </x-menu-link>
 
                 <x-menu-link href="{{ route('areas') }}">
-                    <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#319E88] hover:bg-[#007866]">
+                    <div
+                        class="menu-entry flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#319E88] hover:bg-[#007866]">
                         <img src="{{ asset('images/tree-icon.png') }}" alt="Tree icon"
                              class="ml-3 w-8 h-8 object-cover">
                         Gebieden
@@ -42,7 +57,8 @@
                 </x-menu-link>
 
                 <x-menu-link href="{{ route('collectie') }}">
-                    <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934] hover:bg-[#6F962B]">
+                    <div
+                        class="menu-entry flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934] hover:bg-[#6F962B]">
                         <img src="{{ asset('images/list-icon.png') }}" alt="Collection icon"
                              class="ml-3 w-8 h-8 object-cover">
                         Verzameling
@@ -50,7 +66,8 @@
                 </x-menu-link>
 
                 <x-menu-link href="{{ route('product.index') }}">
-                    <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#319E88] hover:bg-[#007866]">
+                    <div
+                        class="menu-entry flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#319E88] hover:bg-[#007866]">
                         <img src="{{ asset('images/shop-icon.png') }}" alt="Shop icon"
                              class="ml-3 w-8 h-8 object-cover">
                         Winkel
@@ -59,7 +76,8 @@
 
                 <div class="border-t mt-4 pt-4 flex flex-col space-y-2">
                     @auth
-                        <a href="{{ route('profile.edit') }}" class="text-black">{{ Auth::user()->username }}</a>
+                        <a href="{{ route('profile.edit') }}"
+                           class="text-black hover:underline">{{ Auth::user()->username }} </a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button class="text-red-500 hover:underline">Uitloggen</button>

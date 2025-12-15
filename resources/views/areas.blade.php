@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verzamelde gebieden</title>
+    <title>NM Klikker</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -32,17 +32,18 @@
         <!-- image-->
         <div class="p-4 bg-green-200 rounded-xl">
             <img id="area-image"
-                 class="w-96 h-auto object-contain transition-all duration-300" src="">
+                 class="w-96 h-auto object-contain transition-all duration-300" src=""
+                 alt="afbeelding van waar de digitale dieren leven">
         </div>
 
         <!-- Arrows -->
         <div class="flex gap-4 py-4">
             <button id="prev-area"
-                    class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
+                    class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition transform hover:scale-105 focus-visible:scale-105">
                 ← Vorige
             </button>
             <button id="next-area"
-                    class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
+                    class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition transform hover:scale-105 focus-visible:scale-105">
                 Volgende →
             </button>
         </div>

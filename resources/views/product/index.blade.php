@@ -26,27 +26,27 @@
             <div class="mt-6 bg-white rounded-lg shadow-sm p-4">
                 <div class="flex flex-wrap gap-4" id="filters">
                     <button onclick="filterProducts('all')"
-                            class="filter-btn active px-4 py-2 rounded-lg bg-lime-400 hover:bg-lime-500 font-semibold">
+                            class="filter-btn active px-4 py-2 rounded-lg bg-lime-400 hover:bg-lime-500 font-semibold transform transition hover:scale-105 focus-visible:scale-105">
                         Alle producten
                     </button>
                     <button onclick="filterProducts('animal')"
-                            class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
+                            class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold transform transition hover:scale-105 focus-visible:scale-105">
                         🐾 Dieren
                     </button>
                     <button onclick="filterProducts('powerup')"
-                            class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
+                            class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold transform transition hover:scale-105 focus-visible:scale-105">
                         ⚡ Powerups
                     </button>
                     <button onclick="filterProducts('coins')"
-                            class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
+                            class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold transform transition hover:scale-105 focus-visible:scale-105">
                         🪙 Met munten
                     </button>
                     <button onclick="filterProducts('real_money')"
-                            class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
+                            class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold transform transition hover:scale-105 focus-visible:scale-105">
                         💳 Met geld
                     </button>
                     <button onclick="filterProducts('qr')"
-                            class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
+                            class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold transform transition hover:scale-105 focus-visible:scale-105">
                         <x-mdi-qrcode class="w-5"></x-mdi-qrcode>
                         QR-code
                     </button>
@@ -114,7 +114,7 @@
                                                 class="bg-green-500 text-white px-3 py-2 rounded text-sm font-semibold">✓ Gekocht</span>
                                         @else
                                             <button
-                                                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 text-sm font-semibold">
+                                                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 text-sm font-semibold transform transition hover:scale-105 focus-visible:scale-105">
                                                 Bekijken
                                             </button>
                                         @endif
