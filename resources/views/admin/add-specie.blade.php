@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="max-w-2xl mx-auto px-4">
-            
+
             @if(session('success'))
                 <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
                     {{ session('success') }}
@@ -39,6 +39,7 @@
                                class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-green-500">
                     </div>
 
+                    {{--                    deze veranderen later--}}
                     <div>
                         <label class="block text-gray-700 font-medium mb-1">
                             Habitat Tag <span class="text-red-500">*</span>
@@ -91,7 +92,7 @@
                     </div>
 
                     <div class="flex gap-3 pt-4">
-                        <a href="{{ route('dashboard') }}" 
+                        <a href="{{ route('dashboard') }}"
                            class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
                             Annuleren
                         </a>
