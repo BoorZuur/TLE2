@@ -19,7 +19,8 @@ class AdminController extends Controller
 
         $species = Specie::all();
 
-        return view('admin.species.index', compact('species'));
+//        return view('admin.species.index', compact('species'));
+        return redirect()->route('admin.species.index')->with('species', $species);
     }
 
     /**

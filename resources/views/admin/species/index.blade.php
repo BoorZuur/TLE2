@@ -40,7 +40,7 @@
                             </form>
                         </td>
                         <td class="py-3 px-4 text-center">
-                            <a href="{{ route('admin.edit', $specie->id) }}" class="text-blue-600 hover:underline">Bewerk</a>
+                            <a href="{{ route('admin.species.edit', $specie->id) }}" class="text-blue-600 hover:underline">Bewerk</a>
                         </td>
                     </tr>
                 @endforeach

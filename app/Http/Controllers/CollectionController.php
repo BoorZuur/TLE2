@@ -42,18 +42,18 @@ class CollectionController extends Controller
         return response()->json($result->values());
     }
 
-    public function dashboard()
-    {
-        $species = Specie::all();
-        return view('admin.species.index', compact('species'));
-    }
-
     public function show(string $id)
     {
         $specie = Specie::where('id', $id)->where('status', true)->firstOrFail();
 
         $userSpecieCount = Specie::where('user_id', Auth::id())->count();
         return view('collection.animals', compact('specie', 'userSpecieCount'));
+    }
+
+    public function dashboard()
+    {
+        $species = Specie::all();
+        return view('admin.species.index', compact('species'));
     }
 
     public function edit(Specie $specie)
