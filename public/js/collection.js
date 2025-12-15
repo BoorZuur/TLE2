@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const grid = document.getElementById('animals-grid');
     const regionSelect = document.getElementById('region');
+    const progressBar = document.getElementById('progress-bar');
 
     const modal = document.getElementById("animal-modal");
     const closeModalBtn = document.getElementById("close-modal");
@@ -27,6 +28,26 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === modal) closeModal();
     });
 
+    function updateProgressBar(animals, region) {
+        const total = animals.length;
+        const owned = animals.filter(a => !a.locked).length;
+        const percentage = total > 0 ? (owned / total) * 100 : 0;
+
+        const regionText = region ? ` in ${region}` : '';
+
+        progressBar.innerHTML = `
+        <div style="margin-top: 10px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px;">
+                <span>Animals Owned${regionText}: ${owned}/${total}</span>
+                <span>${percentage.toFixed(1)}%</span>
+            </div>
+            <div style="width: 100%; height: 24px; background-color: #e0e0e0; border-radius: 12px; overflow: hidden;">
+                <div style="height: 100%; background-color: #4caf50; width: ${percentage}%; transition: width 0.3s ease;"></div>
+            </div>
+        </div>
+    `;
+    }
+
     function createAnimalCard(animal) {
         const card = document.createElement("div");
         card.className = "bg-white rounded shadow p-3 relative cursor-pointer hover:shadow-lg transition";
@@ -47,13 +68,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const overlay = card.querySelector("div.absolute");
 
         if (animal.locked) {
-            card.addEventListener("click", () => {
-                animal.locked = false;
-                if (overlay) overlay.remove();
-                if (imgElement) imgElement.src = animal.image;
-
-                card.addEventListener("click", () => openModal(animal));
-            });
+            // card.addEventListener("click", () => {
+            //     animal.locked = false;
+            //     if (overlay) overlay.remove();
+            //     if (imgElement) imgElement.src = animal.image;
+            //
+            //     card.addEventListener("click", () => openModal(animal));
+            // });
         } else {
             card.addEventListener("click", () => openModal(animal));
         }
@@ -73,6 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const card = createAnimalCard(animal);
                 grid.appendChild(card);
             });
+
+            updateProgressBar(animals, region);
         } catch (err) {
             console.error(err);
             grid.innerHTML = '<p class="text-red-600">Er is iets misgegaan bij het laden van de dieren.</p>';
