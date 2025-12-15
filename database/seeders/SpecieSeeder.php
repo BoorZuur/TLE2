@@ -69,10 +69,11 @@ class SpecieSeeder extends Seeder
                 ['name' => $specie['name']],
                 [
                     'scientific_name' => $specie['scientific_name'],
-                    'habitat_tag' => $habitat->id,
+                    'habitat_id' => $habitat->id,
                     'info' => $specie['info'],
                     'image' => $specie['image'],
                     'beheerder' => $specie['beheerder'],
+                    'status' => $animal['nullable'] ?? 1,
                 ]
             );
         }
