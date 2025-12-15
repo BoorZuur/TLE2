@@ -78,6 +78,7 @@ class ProductSeeder extends Seeder
                 'product_type' => 'animal',
                 'currency_type' => 'qr',
                 'species_name' => 'Bever',
+                'qr_filename' => 'tiengemeenten.png',
             ],
             [
                 'name' => 'Bunzing',
@@ -87,7 +88,6 @@ class ProductSeeder extends Seeder
                 'product_type' => 'animal',
                 'currency_type' => 'real_money',
                 'species_name' => 'Bunzing',
-                'qr_filename' => 'tiengemeenten.png',
             ],
             [
                 'name' => 'Kikker',
@@ -108,6 +108,7 @@ class ProductSeeder extends Seeder
                 'product_type' => 'animal',
                 'currency_type' => 'qr',
                 'species_name' => 'Oehoe',
+                'qr_filename' => 'tiengemeenten.png',
             ],
 
             // Waddeneilanden
