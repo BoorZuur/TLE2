@@ -10,6 +10,14 @@ class Habitat extends Model
 
     protected $fillable = [
         'name',
+        'description',
+        'info_image',
+        'image_0',
+        'image_20',
+        'image_40',
+        'image_60',
+        'image_80',
+        'image_100',
     ];
 
     // Define relationship with Specie model

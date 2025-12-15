@@ -1,73 +1,6 @@
 //FOTOS 1500 x 900
-// Areas with image configurations - animals loaded server-side
-const areas = [
-    {
-        name: 'De veluwe',
-        animals: [],
-        collected: [],
-        images: {
-            0: "/images/Gebieden/0/veluwe0-2.png",
-            20: "/images/Gebieden/1/veluwe1.png",
-            40: "/images/Gebieden/2/veluwe2.png",
-            60: "/images/Gebieden/3/veluwe3.png",
-            80: "/images/Gebieden/4/veluwe4.png",
-            100: "/images/Gebieden/5/veluwe5.jpg",
-        }
-    },
-    {
-        name: 'Zuiderpark (Rotterdam)',
-        animals: [],
-        collected: [],
-        images: {
-            0: "/images/Gebieden/0/park0.png",
-            20: "/images/Gebieden/1/park1.png",
-            40: "/images/Gebieden/2/park2-2.png",
-            60: "/images/Gebieden/3/park3.png",
-            80: "/images/Gebieden/4/park4-2.png",
-            100: "/images/Gebieden/5/park5-2.png",
-        }
-    },
-    {
-        name: 'De Biesbosch',
-        animals: [],
-        collected: [],
-        images: {
-            0: "/images/Gebieden/0/biesbosch0.png",
-            20: "/images/Gebieden/1/biesbosch1.png",
-            40: "/images/Gebieden/2/biesbosch2.png",
-            60: "/images/Gebieden/3/biesbosch3.png",
-            80: "/images/Gebieden/4/biesbosch4.png",
-            100: "/images/Gebieden/5/biesbosch5.png",
-        }
-    },
-    {
-        name: 'De Waddeneilanden',
-        animals: [],
-        collected: [],
-        images: {
-            0: "/images/Gebieden/0/wadden0.png",
-            20: "/images/Gebieden/1/wadden1.png",
-            40: "/images/Gebieden/2/wadden2.png",
-            60: "/images/Gebieden/3/wadden3.png",
-            80: "/images/Gebieden/4/wadden4.png",
-            100: "/images/Gebieden/5/wadden5.png",
-        }
-    },
-    {
-        name: 'Speulderbos',
-        animals: [],
-        collected: [],
-        images: {
-            0: "/images/Gebieden/0/speulderbos0.png",
-            20: "/images/Gebieden/1/speulderbos1.png",
-            40: "/images/Gebieden/2/speulderbos2.png",
-            60: "/images/Gebieden/3/speulderbos3.png",
-            80: "/images/Gebieden/4/speulderbos4.png",
-            100: "/images/Gebieden/5/speulderbos5.png",
-        }
-    },
-];
-
+// Areas loaded from server
+let areas = [];
 
 let currentArea = 0;
 
@@ -101,20 +34,25 @@ function renderArea(index) {
 }
 
 
-// Load animals from server and calculate progress client-side
+// Load all data from server
 Promise.all([
     fetch('/api/areas').then(res => res.json()),
     fetch('/api/collected').then(res => res.json())
 ])
 .then(([areasData, collectedData]) => {
     const collectedSpecies = collectedData.collected || [];
-    
-    // Populate animals from server and calculate collected client-side
-    areas.forEach(area => {
-        area.animals = areasData.areas[area.name] || [];
-        area.collected = area.animals.filter(animal => collectedSpecies.includes(animal));
-    });
-    
+
+    // Build areas array from server data
+    areas = areasData.areas.map(area => ({
+        id: area.id,
+        name: area.name,
+        description: area.description,
+        info_image: area.info_image,
+        animals: area.animals || [],
+        collected: (area.animals || []).filter(animal => collectedSpecies.includes(animal)),
+        images: area.images
+    }));
+
     renderArea(currentArea);
 })
 .catch(error => {
@@ -141,50 +79,13 @@ const modalTitle = document.getElementById('modal-title');
 const modalText = document.getElementById('modal-text');
 const modalImg = document.getElementById('modal-img');
 
-// Info content for each area
-const areaInfo = [
-        {
-            name: 'De veluwe',
-            text: 'De Veluwe is het grootste natuurgebied in nederland! Gelegen in Gelderland (en een deel van utrecht). Dit natuurgebied is erg populair om te wandelen, fietsen of paardrijden. Ook zijn er wilde dieren te vinden zoals herten, wilde zwijnen en vossen!',
-            image: '/images/Gebieden/veluwe.png',
-        },
-
-        {
-            name: 'Zuiderpark (Rotterdam)',
-            text: 'Een van de grootste stadsparken in Nederland! Ideaal om te wandelen, hardlopen of picknicken! Erg gezinsvriendelijk en daarnaast zijn er ook sportvoorzieningen. De beste plek om te zijn als je even de natuur in wil in Rotterdam!',
-            image: '/images/Gebieden/Zuiderpark_Rotterdam.png',
-        },
-
-        {
-            name: 'De Biesbosch',
-            text: 'Een groot waterrijk natuurgebied in Noord-Brabant! prachtige zoetwatergetijden, bekend vanwege de bever en diverse andere dieren, en daarnaast perfect om te kanoën, varen, wandelen of fietsen!',
-            image: '/images/Gebieden/biesbosch.png',
-        },
-
-        {
-            name: 'De Waddeneilanden',
-            text: 'Een rij aan eilanden in het Noorden van Nederland. De eilanden hebben brede & lange stranden. Ook is de Waddenzee goed te zien vanaf het eiland en bevat het eiland zeehonden, diverse vogelsoorten en unieke plantsoorten. Perfect voor een wandeltocht, strandactiviteiten of kamperen!',
-            image: '/images/Gebieden/waaden.png',
-
-        },
-
-        {
-            name: 'Speulderbos',
-            text: 'Het Speulderbos is een van de meest Sfeervolle bossen in Nederland! Geleden in de Veluwe, De kronkelige bomen en scheefgegroeide bomen geven het bos een sprookjesachtige uitstraling! Ook is er een groot palette aan wildlife te vinden, zoals edelherten, zwijnen en vossen! Dit is het perfecte en allerbeste gebied voor een wandeltocht!',
-            image: '/images/Gebieden/bos.png',
-        },
-
-    ]
-;
-
 // Open modal
 infoButton.addEventListener('click', () => {
     const area = areas[currentArea];
-    const info = areaInfo.find(a => a.name === area.name);
 
-    modalTitle.textContent = info.name;
-    modalText.textContent = info.text;
-    modalImg.src = info.image;
+    modalTitle.textContent = area.name;
+    modalText.textContent = area.description;
+    modalImg.src = area.info_image;
 
     infoModal.classList.remove('hidden');
 });

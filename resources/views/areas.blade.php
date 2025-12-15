@@ -49,7 +49,7 @@
 
         <!-- image-->
         <div class="p-6 bg-green-200 rounded-xl">
-            <img id="area-image" class="w-xl h-96 transition-all duration-300" src="">
+            <img id="area-image" class="w-xl h-96 transition-all duration-300" src="" alt="">
         </div>
 
         <!-- Arrows -->
