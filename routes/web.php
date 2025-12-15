@@ -45,12 +45,6 @@ Route::middleware('auth')->post('/animal/{id}/update', [AnimalController::class,
 // Show user's animal
 Route::middleware('auth')->get('/animal/{id}/show', [AnimalController::class, 'show'])->name('animal.show');
 
-// add animal (for admins)
-Route::middleware(['auth'])->group(function () {
-    Route::get('/admin/add', [AdminController::class, 'addSpecie'])->name('admin.addSpecie');
-    Route::post('/admin/store', [AdminController::class, 'storeSpecie'])->name('admin.storeSpecie');
-});
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -74,6 +68,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
 // Species management
+    Route::get('/admin/species/create', [CollectionController::class, 'create'])->name('admin.species.create');
+    Route::post('/admin/species', [CollectionController::class, 'store'])->name('admin.species.store');
     Route::patch('/species/{specie}/toggle-status', [CollectionController::class, 'toggleStatus'])->name('species.toggleStatus');
     Route::get('/admin/species/{specie}/edit', [CollectionController::class, 'edit'])->name('admin.species.edit');
     Route::put('/admin/species/{specie}', [CollectionController::class, 'update'])->name('admin.species.update');

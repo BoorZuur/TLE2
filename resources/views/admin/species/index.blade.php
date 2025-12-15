@@ -6,6 +6,13 @@
     </x-slot>
     <div class="p-6">
         <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+{{--            add button --}}
+            <div class="flex justify-start p-4">
+                <a href="{{ route('admin.species.create') }}"
+                   class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    Nieuw Dier
+                </a>
+            </div>
             <table class="min-w-full border border-gray-200">
                 <thead class="bg-gray-100">
                 <tr class="text-left text-black uppercase text-sm">
