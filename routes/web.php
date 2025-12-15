@@ -60,7 +60,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/collectie', function () {
     $species = \App\Models\Specie::with('habitat')->where('status', 1)->get();
     return view('collection.animals', compact('species'));
-})->name('collectie');
+})->name('collectie')->middleware('auth');
 
 
 // Admin routes
