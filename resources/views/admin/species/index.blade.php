@@ -17,7 +17,6 @@
                     <th class="py-3 px-4 border-b">Informatie</th>
                     <th class="py-3 px-4 border-b text-center">Status</th>
                     <th class="py-3 px-4 border-b text-center">Bewerk</th>
-                    <th class="py-3 px-4 border-b text-center">Verwijder</th>
                 </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
@@ -41,23 +40,8 @@
                             </form>
                         </td>
                         <td class="py-3 px-4 text-center">
-                            {{--                            <a href="{{ route('admin.species.edit', $specie->id) }}"--}}
-                            {{--                               class="text-blue-600 hover:underline">
-                                                        Bewerk</a>--}}
                             <a href="{{ route('admin.edit', $specie->id) }}" class="text-blue-600 hover:underline">Bewerk</a>
-
                         </td>
-                        {{--                        <td class="py-3 px-4 text-center">--}}
-                        {{--                            <form method="POST" action="{{ route('species.destroy', $specie->id) }}">--}}
-                        {{--                                @csrf--}}
-                        {{--                                @method('DELETE')--}}
-                        {{--                                <button type="submit"--}}
-                        {{--                                        class="text-red-600 hover:underline"--}}
-                        {{--                                        onclick="return confirm('Weet je het zeker dat je dit dier wilt verwijderen?')">--}}
-                        {{--                                    Verwijder--}}
-                        {{--                                </button>--}}
-                        {{--                            </form>--}}
-                        {{--                        </td>--}}
                     </tr>
                 @endforeach
                 </tbody>

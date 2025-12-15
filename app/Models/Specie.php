@@ -13,7 +13,7 @@ class Specie extends Model
     protected $fillable = [
         'name',
         'habitat_tag',
-        'scientific-name',
+        'scientific_name',
         'info',
         'image',
         'beheerder',

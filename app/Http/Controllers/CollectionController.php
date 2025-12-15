@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Animal;
+use App\Models\Habitat;
 use App\Models\Specie;
 use App\Models\UserSpeciesUnlock;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class CollectionController extends Controller
         $user = $request->user();
         $region = $request->query('region');
 
-        $query = Specie::with('habitat')->where('status', 1); // Alleen gepubliceerde dieren
+        $query = Specie::with('habitat')->where('status', 1);
 
         if ($region) {
             $query->whereHas('habitat', fn($q) => $q->where('name', $region));
@@ -59,10 +60,11 @@ class CollectionController extends Controller
     {
         $user = Auth::user();
         if (!$user || $user->is_admin != 1) {
-            return redirect()->route('home')->with('error', 'Je moet admin zijn om een dier te bewerken.');
+            return redirect()->route('admin.species.index')->with('error', 'Je moet admin zijn om een dier te bewerken.');
         }
 
-        return view('admin.species.edit', compact('specie'));
+        $habitats = Habitat::all(); //
+        return view('admin.species.edit', compact('specie', 'habitats'));
     }
 
     public function update(Request $request, Specie $specie)
@@ -72,7 +74,6 @@ class CollectionController extends Controller
             'scientific_name' => 'nullable|string|max:255',
             'beheerder' => 'nullable|string|max:255',
             'info' => 'nullable|string',
-            'status' => 'required|in:0,1',
             'location' => 'required|exists:habitats,id',
             'image' => 'nullable|image',
         ]);
@@ -82,12 +83,22 @@ class CollectionController extends Controller
             'scientific_name' => $request->scientific_name,
             'beheerder' => $request->beheerder,
             'info' => $request->info,
-            'status' => $request->status,
-            'habitat_id' => $request->location,
-            'image' => $request->hasFile('image') ? $request->file('image')->store('species', 'public') : $specie->image,
+//            'habitat_id' => $request->location,
         ]);
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/species'), $filename);
+            $specie->image = '/images/species/' . $filename;
+        }
 
-        return redirect()->route('admin.species.index')->with('success', 'Dier geüpdatet');
+        $specie->habitat_tag = $request->input('location');
+        $specie->save();
+
+        $specie->save();
+
+
+        return redirect()->route('admin.index')->with('success', 'Dier geüpdatet');
     }
 
     public function store(Request $request)
@@ -97,8 +108,7 @@ class CollectionController extends Controller
             'scientific_name' => ['nullable', 'string', 'max:255'],
             'beheerder' => ['nullable', 'string', 'max:255'],
             'info' => ['nullable', 'string'],
-            'status' => ['required', 'in:0,1'],
-            'location' => ['required', 'exists:locations,id'],
+            'location' => ['required', 'exists:habitats,id'],
             'image' => ['nullable', 'image'],
         ]);
 
@@ -107,19 +117,22 @@ class CollectionController extends Controller
         $specie->scientific_name = $request->input('scientific_name');
         $specie->beheerder = $request->input('beheerder');
         $specie->info = $request->input('info');
-        $specie->status = $request->input('status');
-        $specie->habitat_id = $request->input('location'); // Correcte foreign key
+        $specie->status = 1;
+        $specie->habitat_tag = $request->input('location');
         $specie->user_id = Auth::id();
 
         if ($request->hasFile('image')) {
-            $specie->image = $request->file('image')->store('species', 'public');
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('images/species'), $filename);
+            $specie->image = '/images/species/' . $filename;
         } else {
             $specie->image = '/images/placeholder.jpg';
         }
 
         $specie->save();
 
-        return redirect()->route('admin.species.index')->with('success', 'Dier toegevoegd');
+        return redirect()->route('admin.index')->with('success', 'Dier toegevoegd');
     }
 
 

@@ -1,3 +1,12 @@
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-2xl leading-tight">
@@ -6,7 +15,7 @@
     </x-slot>
     <div class="flex justify-center items-center ">
         <div class="w-full max-w-3xl bg-white p-8 rounded-lg shadow-lg">
-            <form method="POST" action="{{ route('admin.species.update',  $specie->id) }}"
+            <form method="POST" action="{{ route('admin.species.update',  $specie) }}"
                   enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -48,24 +57,25 @@
                     <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
                     @enderror
                 </div>
-
                 <div class="mb-6">
                     <label for="location" class="block mb-1 font-medium">Gebied:</label>
                     <select id="location" name="location" class="w-full border border-gray-300 p-2 rounded">
                         @foreach ($habitats as $habitat)
                             <option
-                                value="{{ $habitat->id }}" @selected(old('location', $specie->habitat_id) == $habitat->id)>{{ $habitat->name }}</option>
+                                value="{{ $habitat->id }}"
+                                @selected(old('location', $specie->habitat_tag) == $habitat->id)
+                                data-name="{{ $habitat->name }}"
+                            >
+                                {{ $habitat->name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
-
-                @if($specie->image)
-                    <div class="mb-4">
-                        <label class="block mb-1 font-medium">Huidige afbeelding:</label>
-                        <img src="{{ asset('storage/' . $specie->image) }}" alt="Huidige afbeelding"
-                             class="w-32 h-32 object-cover rounded">
-                    </div>
-                @endif
+                <div class="mb-4">
+                    <label class="block mb-1 font-medium">Huidige afbeelding:</label>
+                    <img src="{{ $specie->image ?? '/images/placeholder.jpg' }}" alt="Dier"
+                         class="w-32 h-32 object-cover rounded">
+                </div>
 
                 <div class="mb-6">
                     <label for="image" class="block mb-1 font-medium">Verander afbeelding:</label>
