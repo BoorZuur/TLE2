@@ -7,7 +7,6 @@
     <title>NM Klikker</title>
     @vite(['resources/css/app.css', 'resources/js/app.js']) <!-- Tailwind & JS -->
 
-
     <script>
         window.addEventListener('DOMContentLoaded', async () => {
             let coins = 0;
@@ -219,6 +218,7 @@
             }
         });
     </script>
+
 
     <!-- animatie voor aaien/flip/lopen -> niet aanraken -->
     <style>
