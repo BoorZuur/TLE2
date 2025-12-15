@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -18,9 +17,10 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->text('image_url')->nullable();
             $table->decimal('price', 8, 2);
-            $table->enum('currency_type', ['coins', 'real_money'])->default('coins');
+            $table->enum('currency_type', ['coins', 'real_money', 'qr'])->default('coins');
             $table->string('species_tag')->nullable();
             $table->json('powerup_effects')->nullable();
+            $table->string('qr_filename')->nullable();
             $table->timestamps();
         });
     }

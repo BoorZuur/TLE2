@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\UserPurchase;
 use App\Models\Animal;
+use App\Models\UserSpeciesUnlock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -89,7 +90,13 @@ class ProductController extends Controller
                         'adopted_at' => now(),
                         'updated_at' => now(),
                     ]);
+                    UserSpeciesUnlock::create([
+                        'user_id' => $user->id,
+                        'species_id' => $product->species_tag,
+                    ]);
                 }
+
+
 
                 // todo: if powerup, add to user's powerups (not implemented yet)
 
@@ -121,6 +128,10 @@ class ProductController extends Controller
                         'species_tag' => $product->species_tag,
                         'adopted_at' => now(),
                         'updated_at' => now(),
+                    ]);
+                    UserSpeciesUnlock::create([
+                        'user_id' => $user->id,
+                        'species_id' => $product->species_tag,
                     ]);
                 }
 

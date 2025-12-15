@@ -9,8 +9,13 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $animal = Animal::first();
+        if (auth()->check()) {
+            $animal = Animal::first();
 
-        return view('home', compact('animal'));
+            return view('home', compact('animal'));
+        } else {
+            return view('index');
+        }
+
     }
 }

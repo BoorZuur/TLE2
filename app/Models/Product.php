@@ -46,4 +46,9 @@ class Product extends Model
     {
         return $this->currency_type === 'coins';
     }
+
+    public function requiresQRCode(): bool
+    {
+        return $this->currency_type === 'qr';
+    }
 }
