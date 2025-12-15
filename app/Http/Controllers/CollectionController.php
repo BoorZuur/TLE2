@@ -42,6 +42,11 @@ class CollectionController extends Controller
         return response()->json($result->values());
     }
 
+    public function create()
+    {
+        return view('admin.species.create')->with('habitats', Habitat::all());
+    }
+
     public function show(string $id)
     {
         $specie = Specie::where('id', $id)->where('status', true)->firstOrFail();
@@ -83,7 +88,7 @@ class CollectionController extends Controller
             'scientific_name' => $request->scientific_name,
             'beheerder' => $request->beheerder,
             'info' => $request->info,
-//            'habitat_id' => $request->location,
+            'habitat_id' => $request->location,
         ]);
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -92,7 +97,7 @@ class CollectionController extends Controller
             $specie->image = '/images/species/' . $filename;
         }
 
-        $specie->habitat_tag = $request->input('location');
+        $specie->habitat_id = $request->input('location');
         $specie->save();
 
         $specie->save();
@@ -118,8 +123,8 @@ class CollectionController extends Controller
         $specie->beheerder = $request->input('beheerder');
         $specie->info = $request->input('info');
         $specie->status = 1;
-        $specie->habitat_tag = $request->input('location');
-        $specie->user_id = Auth::id();
+        $specie->habitat_id = $request->input('location');
+//        $specie->user_id = Auth::id();
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');

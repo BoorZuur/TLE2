@@ -74,7 +74,8 @@
 
                 <div class="border-t mt-4 pt-4 flex flex-col space-y-2">
                     @auth
-                        <a href="{{ route('profile.edit') }}" class="text-black">{{ Auth::user()->username }} </a>
+                        <a href="{{ route('profile.edit') }}"
+                           class="text-black hover:underline">{{ Auth::user()->username }}</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button class="text-red-500 hover:underline">Uitloggen</button>
