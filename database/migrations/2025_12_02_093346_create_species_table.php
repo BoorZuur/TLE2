@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->text('info')->default('-')->nullable();
             $table->boolean('locked')->default(true);
             $table->smallInteger('status')->default(1);
-            $table->foreignId('habitat_id')->constrained('habitats')->cascadeOnDelete()->nullOnDelete();
+            $table->foreignId('habitat_id')->constrained('habitats')->cascadeOnDelete();
         });
     }
 
