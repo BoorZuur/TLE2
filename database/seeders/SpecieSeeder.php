@@ -49,6 +49,7 @@ class SpecieSeeder extends Seeder
                     'info' => $specie['info'],
                     'image' => $specie['image'],
                     'beheerder' => $specie['beheerder'],
+                    'status' => $animal['nullable'] ?? 1,
                 ]
             );
         }
