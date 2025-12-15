@@ -36,25 +36,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const regionText = region ? ` in ${region}` : '';
 
         progressBar.innerHTML = `
-        <div class="mt-4">
-            <div class="flex justify-between items-center mb-2">
-                <span class="text-sm font-semibold text-gray-700">
-                    Verzameling${regionText}: ${owned} / ${total} dieren
-                </span>
-                <span class="text-sm font-semibold text-gray-700">
-                    ${percentage.toFixed(0)}%
-                </span>
+        <div style="margin-top: 10px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px;">
+                <span>Animals Owned${regionText}: ${owned}/${total}</span>
+                <span>${percentage.toFixed(1)}%</span>
             </div>
-            <div class="w-full bg-green-200 rounded-full h-4 overflow-hidden">
-                <div class="bg-green-600 h-4 rounded-full transition-all duration-500 ease-out flex items-center justify-end"
-                     style="width: ${Math.max(percentage, 8)}%; padding-right: 4px;">
-                    ${percentage > 5 ? '<span class="text-xs text-white font-bold whitespace-nowrap">' + owned + '</span>' : ''}
-                </div>
+            <div style="width: 100%; height: 24px; background-color: #e0e0e0; border-radius: 12px; overflow: hidden;">
+                <div style="height: 100%; background-color: #4caf50; width: ${percentage}%; transition: width 0.3s ease;"></div>
             </div>
         </div>
     `;
     }
-
 
     function createAnimalCard(animal) {
         const card = document.createElement("div");
