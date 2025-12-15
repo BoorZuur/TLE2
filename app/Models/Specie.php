@@ -19,6 +19,7 @@ class Specie extends Model
         'info',
         'image',
         'beheerder',
+        'status',
     ];
 
     public function habitat(): BelongsTo

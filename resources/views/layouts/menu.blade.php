@@ -25,7 +25,7 @@
             </div>
 
             <nav class="p-3 flex flex-col gap-2 items-center ">
-                <x-menu-link href="{{ route('home') }}">
+                <x-menu-link href="{{ route('home') }}" :active="Route::is('home')">
                     <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934] hover:bg-[#6F962B]">
                         <img src="{{ asset('images/home-icon.webp') }}" alt="House icon"
                              class="ml-3 w-8 h-8 object-cover">
@@ -33,7 +33,7 @@
                     </div>
                 </x-menu-link>
 
-                <x-menu-link href="{{ route('areas') }}">
+                <x-menu-link href="{{ route('areas') }}" :active="Route::is('areas')">
                     <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#319E88] hover:bg-[#007866]">
                         <img src="{{ asset('images/tree-icon.png') }}" alt="Tree icon"
                              class="ml-3 w-8 h-8 object-cover">
@@ -41,7 +41,7 @@
                     </div>
                 </x-menu-link>
 
-                <x-menu-link href="{{ route('collectie') }}">
+                <x-menu-link href="{{ route('collectie') }}" :active="Route::is('collectie')">
                     <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934] hover:bg-[#6F962B]">
                         <img src="{{ asset('images/list-icon.png') }}" alt="Collection icon"
                              class="ml-3 w-8 h-8 object-cover">
@@ -49,13 +49,28 @@
                     </div>
                 </x-menu-link>
 
-                <x-menu-link href="{{ route('product.index') }}">
+                <x-menu-link href="{{ route('product.index') }}" :active="Route::is('product.index')">
                     <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#319E88] hover:bg-[#007866]">
                         <img src="{{ asset('images/shop-icon.png') }}" alt="Shop icon"
                              class="ml-3 w-8 h-8 object-cover">
                         Winkel
                     </div>
                 </x-menu-link>
+
+                @if (Route::has('login'))
+                    @auth
+                        @if (Auth::user()->is_admin == 1)
+                            <x-menu-link href="{{ route('admin.index') }}" :active="Route::is('admin.index')">
+                                <div
+                                    class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934] hover:bg-[#6F962B]">
+                                    <img src="{{ asset('images/admin-icon.png') }}" alt="Admin icon"
+                                         class="ml-3 w-8 h-8 object-cover"> Admin
+                                </div>
+                            </x-menu-link>
+
+                        @endif
+                    @endauth
+                @endif
 
                 <div class="border-t mt-4 pt-4 flex flex-col space-y-2">
                     @auth

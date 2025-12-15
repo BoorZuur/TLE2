@@ -55,7 +55,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/collection', [CollectionController::class, 'index']);
+Route::get('/collection', [CollectionController::class, 'collection'])->name('collection.index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -64,7 +64,21 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/collectie', function () {
-    return view('collection.animals');
+    $species = \App\Models\Specie::with('habitat')->where('status', 1)->get();
+    return view('collection.animals', compact('species'));
 })->name('collectie');
+
+
+// Admin routes
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
+
+// Species management
+    Route::patch('/species/{specie}/toggle-status', [CollectionController::class, 'toggleStatus'])->name('species.toggleStatus');
+    Route::get('/admin/species/{specie}/edit', [CollectionController::class, 'edit'])->name('admin.species.edit');
+    Route::put('/admin/species/{specie}', [CollectionController::class, 'update'])->name('admin.species.update');
+    Route::get('/admin/species', [CollectionController::class, 'dashboard'])->name('admin.species.index');
+    Route::post('/admin/species', [CollectionController::class, 'store'])->name('admin.species.store');
+});
 
 require __DIR__ . '/auth.php';
