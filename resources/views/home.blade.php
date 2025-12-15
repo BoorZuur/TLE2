@@ -319,16 +319,16 @@
 
         @keyframes walk {
             0% {
-                transform: translateX(-50vw) scaleX(1);
+                transform: translateX(-30vw) scaleX(1);
             }
             49% {
-                transform: translateX(50vw) scaleX(1);
+                transform: translateX(30vw) scaleX(1);
             }
             50% {
-                transform: translateX(50vw) scaleX(-1);
+                transform: translateX(30vw) scaleX(-1);
             }
             100% {
-                transform: translateX(-50vw) scaleX(-1);
+                transform: translateX(-30vw) scaleX(-1);
             }
         }
 
@@ -366,16 +366,16 @@
 
             @keyframes walk {
                 0% {
-                    transform: translateX(-45vw) scaleX(1);
+                    transform: translateX(-30vw) scaleX(1);
                 }
                 49% {
-                    transform: translateX(45vw) scaleX(1);
+                    transform: translateX(30vw) scaleX(1);
                 }
                 50% {
-                    transform: translateX(45vw) scaleX(-1);
+                    transform: translateX(30vw) scaleX(-1);
                 }
                 100% {
-                    transform: translateX(-45vw) scaleX(-1);
+                    transform: translateX(-30vw) scaleX(-1);
                 }
             }
         }
