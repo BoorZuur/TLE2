@@ -21,6 +21,9 @@
                     @endforeach
                 </select>
             </form>
+            <div id="progress-bar">
+
+            </div>
         </section>
 
         <section>
