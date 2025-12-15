@@ -11,14 +11,16 @@ class HabitatSeeder extends Seeder
     {
         $habitats = [
             'Veluwe',
-            'Lauwersmeer',
-            'Weerribben-Wieden',
+            'Tiengemeenten',
+            'ENCI-Groeve',
+            'Waddeneilanden',
+            'Groene Hart',
         ];
 
-        foreach ($habitats as $index => $name) {
+        foreach ($habitats as $name) {
             Habitat::updateOrCreate(
-                ['id' => $index + 1],
-                ['name' => $name]
+                ['name' => $name],
+                ['name' => $name] // ensures it exists or updates
             );
         }
     }
