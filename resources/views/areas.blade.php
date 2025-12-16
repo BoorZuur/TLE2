@@ -5,10 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verzamelde gebieden</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        html, body {
+            height: 100vh;
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+    </style>
 </head>
 
-<body class="bg-blue-50 min-h-screen">
+<body class="bg-blue-50 h-screen max-h-screen overflow-y-auto">
 
 <x-app-layout>
     <x-slot name="header">

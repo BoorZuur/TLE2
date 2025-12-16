@@ -54,27 +54,27 @@
                     </div>
                 </div>
 
-                <!-- Products Grid -->
-                <div class="mt-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    @if($products->isEmpty())
-                        <p class="text-gray-700 col-span-full text-center py-8">Er zijn geen producten beschikbaar.</p>
-                    @else
-                        @foreach($products as $product)
-                            <div
-                                class="product-card border rounded-lg p-4 flex flex-col shadow-lg hover:shadow-xl transition-shadow
+            <!-- Products Grid -->
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                @if($products->isEmpty())
+                    <p class="text-black col-span-full text-center py-8">Er zijn geen producten beschikbaar.</p>
+                @else
+                    @foreach($products as $product)
+                        <div
+                            class="product-card border rounded-lg p-4 flex flex-col shadow-lg hover:shadow-xl transition-shadow
                                 {{ $product->requiresRealMoney() ? 'bg-gradient-to-br from-purple-400 to-pink-400' : '' }}
                                 {{ $product->requiresQRCode() ? 'bg-gradient-to-br from-yellow-300 to-yellow-500' : '' }}
                                 {{ !$product->requiresRealMoney() && !$product->requiresQRCode() ? 'bg-lime-400' : '' }}"
-                                data-type="{{ $product->product_type }}"
-                                data-currency="{{ $product->currency_type }}">
-                                <a href="{{ route('product.show', $product) }}" class="flex flex-col h-full">
-                                    <!-- Product Image -->
-                                    <div class="relative">
-                                        <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
-                                             class="mb-4 h-48 w-full object-cover rounded">
-                                        <!-- Product Type Badge -->
-                                        <span
-                                            class="absolute top-2 left-2 px-2 py-1 rounded text-xs font-bold {{ $product->isAnimal() ? 'bg-green-500' : 'bg-blue-500' }} text-white">
+                            data-type="{{ $product->product_type }}"
+                            data-currency="{{ $product->currency_type }}">
+                            <a href="{{ route('product.show', $product) }}" class="flex flex-col h-full">
+                                <!-- Product Image -->
+                                <div class="relative">
+                                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
+                                         class="mb-4 h-48 w-full object-cover rounded">
+                                    <!-- Product Type Badge -->
+                                    <span
+                                        class="absolute top-2 left-2 px-2 py-1 rounded text-xs font-bold {{ $product->isAnimal() ? 'bg-[#89B934]' : 'bg-[#319E88]' }} text-white">
                                         {{ $product->isAnimal() ? '🐾 Dier' : '⚡ Powerup' }}
                                         </span>
                                         <!-- Currency Badge -->

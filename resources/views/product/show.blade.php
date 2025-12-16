@@ -30,28 +30,26 @@
                         {{ $product->requiresQRCode() ? 'bg-gradient-to-br from-yellow-300 to-yellow-500' : '' }}
                         {{ !$product->requiresRealMoney() && !$product->requiresQRCode() ? 'bg-lime-400' : '' }}">
 
-                        <!-- Back Button -->
-                        <a href="{{ route('product.index') }}"
-                           class="inline-block mb-4 text-gray-700 hover:text-gray-900">
-                            ← Terug naar winkel
-                        </a>
+                    <!-- Back Button -->
+                    <a href="{{ route('product.index') }}" class="inline-block mb-4 text-black hover:text-[#36298B]">
+                        ← Terug naar winkel
+                    </a>
 
-                        <div class="flex flex-col md:flex-row md:space-x-6">
+                    <div class="flex flex-col md:flex-row md:space-x-6">
 
-                            <!-- Product Image -->
-                            <div class="md:w-1/2">
-                                <div class="relative">
-                                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
-                                         class="w-full h-auto object-cover rounded-lg shadow-lg">
+                        <!-- Product Image -->
+                        <div class="md:w-1/2">
+                            <div class="relative">
+                                <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
+                                     class="w-full h-auto object-cover rounded-lg shadow-lg bg-white">
 
-                                    <!-- Badge: Animal / Powerup -->
-                                    <span
-                                        class="absolute top-4 left-4 px-3 py-1 rounded text-sm font-bold {{ $product->isAnimal() ? 'bg-green-500' : 'bg-blue-500' }} text-white">
-                                        {{ $product->isAnimal() ? '🐾 Dier' : '⚡ Powerup' }}
-                                    </span>
-                                </div>
+                                <!-- Badge: Animal / Powerup -->
+                                <span
+                                    class="absolute top-4 left-4 px-3 py-1 rounded text-sm font-bold {{ $product->isAnimal() ? 'bg-[#89B934]' : 'bg-[#319E88]' }} text-white">
+                                    {{ $product->isAnimal() ? '🐾 Dier' : '⚡ Powerup' }}
+                                </span>
                             </div>
-
+                        </div>
                             <!-- Product Info -->
                             <div class="md:w-1/2 flex flex-col justify-between mt-6 md:mt-0">
                                 <div>
