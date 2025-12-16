@@ -312,9 +312,10 @@
 </div>
 <div class="walker walk">
     <div id="clicker" class="animal-container">
-        <img src="/images/cheerful-fox.png"
+        <img id="animal-image"
+             src="{{ $animal->species->image ?? '/images/fox-standing.png' }}"
              class="animal-image"
-             alt="clickable animal">
+             alt="{{ $animal->species->name ?? 'Animal' }}">
         <img src="/images/mud-splatter.png"
              class="dirt-overlay"
              alt="dirt splatter">
