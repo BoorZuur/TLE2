@@ -10,10 +10,10 @@ return new class extends Migration {
         Schema::create('species', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('scientific_name')->default('-');
-            $table->string('image')->default('/images/placeholder.png');
-            $table->string('beheerder')->default('-');
-            $table->text('info')->default('-');
+            $table->string('scientific_name')->default('-')->nullable();
+            $table->string('image')->default('/images/placeholder.png')->nullable();
+            $table->string('beheerder')->default('-')->nullable();
+            $table->text('info')->default('-')->nullable();
             $table->boolean('locked')->default(true);
             $table->smallInteger('status')->default(1);
             $table->foreignId('habitat_id')->constrained('habitats')->cascadeOnDelete();
