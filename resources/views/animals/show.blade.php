@@ -85,7 +85,7 @@
                                 "Content-Type": "application/json",
                                 "X-CSRF-TOKEN": "{{ csrf_token() }}"
                             },
-                            body: JSON.stringify({ hunger: hunger })
+                            body: JSON.stringify({hunger: hunger})
                         });
                     } catch (error) {
                         console.error('Failed to save hunger:', error);
@@ -148,7 +148,7 @@
                             "Content-Type": "application/json",
                             "X-CSRF-TOKEN": "{{ csrf_token() }}"
                         },
-                        body: JSON.stringify({ cleanliness: cleanliness })
+                        body: JSON.stringify({cleanliness: cleanliness})
                     });
                 } catch (error) {
                     console.error('Failed to save cleanliness:', error);
@@ -166,7 +166,7 @@
                             "Content-Type": "application/json",
                             "X-CSRF-TOKEN": "{{ csrf_token() }}"
                         },
-                        body: JSON.stringify({ hunger: hunger })
+                        body: JSON.stringify({hunger: hunger})
                     });
                 } catch (error) {
                     console.error('Failed to save hunger:', error);
@@ -186,7 +186,7 @@
                             "Content-Type": "application/json",
                             "X-CSRF-TOKEN": "{{ csrf_token() }}"
                         },
-                        body: JSON.stringify({ cleanliness: cleanliness })
+                        body: JSON.stringify({cleanliness: cleanliness})
                     });
                 } catch (error) {
                     console.error('Failed to save cleanliness:', error);
@@ -437,7 +437,13 @@
     </style>
 </head>
 
-<x-app-layout></x-app-layout>
+<x-app-layout>
+    <x-slot name="header">
+        <h1 class="text-2xl leading-tight">
+            {{ __('NM Klikker') }}
+        </h1>
+    </x-slot>
+</x-app-layout>
 <!-- background -->
 
 <body class="min-h-screen flex flex-col items-center justify-center bg-fixed"
@@ -458,7 +464,8 @@
         <img class="w-10 h-10 cursor-pointer flex-shrink-0" src="/images/food.png" id="feedButton" alt="icon of food">
     </div>
     <div>
-        <img class="w-10 h-10 cursor-pointer flex-shrink-0" src="/images/bath-tub.png" id="cleanButton" alt="icon of bathtub">
+        <img class="w-10 h-10 cursor-pointer flex-shrink-0" src="/images/bath-tub.png" id="cleanButton"
+             alt="icon of bathtub">
     </div>
     <div>
         <img class="w-10 h-10 cursor-pointer flex-shrink-0" src="/images/sleep-icon.png" id="sleepButton" alt="icon for sleeping">

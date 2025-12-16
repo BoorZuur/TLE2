@@ -1,12 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-2xl leading-tight">
+        <h1 class="text-2xl leading-tight">
             {{ __('Admin Dashboard') }}
-        </h2>
+        </h1>
     </x-slot>
     <div class="p-6">
         <div class="overflow-x-auto bg-white shadow-md rounded-lg">
-{{--            add button --}}
+            {{--            add button --}}
             <div class="flex justify-start p-4">
                 <a href="{{ route('admin.species.create') }}"
                    class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
@@ -47,7 +47,8 @@
                             </form>
                         </td>
                         <td class="py-3 px-4 text-center">
-                            <a href="{{ route('admin.species.edit', $specie->id) }}" class="text-blue-600 hover:underline">Bewerk</a>
+                            <a href="{{ route('admin.species.edit', $specie->id) }}"
+                               class="text-blue-600 hover:underline">Bewerk</a>
                         </td>
                     </tr>
                 @endforeach
