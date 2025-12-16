@@ -306,8 +306,15 @@
     </style>
 </head>
 
-<x-app-layout></x-app-layout>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="text-2xl leading-tight">
+            {{ __('NM Klikker') }}
+        </h2>
+    </x-slot>
+</x-app-layout>
 <!-- background -->
+
 
 <body class="min-h-screen flex flex-col items-center justify-center bg-fixed"
       style="background-image: url('https://static.vecteezy.com/system/resources/thumbnails/003/467/246/small_2x/nature-landscape-background-cute-simple-cartoon-style-free-vector.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
