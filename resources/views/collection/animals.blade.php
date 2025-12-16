@@ -10,18 +10,43 @@
         </header>
 
         <section class="mb-6">
-            <form class="flex items-center gap-2">
-                <label for="region" class="font-semibold">Selecteer een gebied:</label>
-                <select id="region" class="border rounded p-1">
-                    <option value="">Alle gebieden</option>
-                    @foreach(\App\Models\Habitat::orderBy('name')->get() as $habitat)
-                        <option
-                            value="{{ $habitat->name }}" {{ request('region') == $habitat->name ? 'selected' : '' }}>
-                            {{ $habitat->name }}
-                        </option>
-                    @endforeach
-                </select>
+            <form class="flex items-center gap-3">
+                <label for="region" class="font-semibold text-gray-800">
+                    Selecteer een gebied:
+                </label>
+
+                <div class="relative">
+                    <select
+                        id="region"
+                        class="
+                appearance-none
+                bg-lime-300 hover:bg-lime-300
+                text-black font-bold
+                px-4 py-2 pr-10
+                rounded-lg
+                shadow
+                cursor-pointer
+                focus:outline-none
+                focus:ring-2 focus:ring-lime-300
+                transition
+            "
+                        onchange="this.form.submit()"
+                    >
+                        <option value="">Alle gebieden</option>
+                        @foreach(\App\Models\Habitat::orderBy('name')->get() as $habitat)
+                            <option value="{{ $habitat->name }}"
+                                {{ request('region') == $habitat->name ? 'selected' : '' }}>
+                                {{ $habitat->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                        ▼
+                    </div>
+                </div>
             </form>
+
             <div id="progress-bar">
 
             </div>
