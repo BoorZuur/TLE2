@@ -78,14 +78,14 @@ window.addEventListener('DOMContentLoaded', async () => {
     // Update hunger display every second for smooth countdown
     setInterval(() => {
         const secondsSinceSync = Math.floor((Date.now() - lastServerSync) / 1000);
-        const decrease = Math.floor(secondsSinceSync / 2);
+        const decrease = Math.floor(secondsSinceSync / 14);
         const currentHunger = Math.max(0, hunger - decrease);
         hungerDisplay.textContent = currentHunger;
         updateWalkerAnimation();
     }, 1000);
 
-    // Sync with server every 2 seconds
-    setInterval(loadHunger, 2000);
+    // Sync with server every 1 seconds
+    setInterval(loadHunger, 1000);
     loadHunger();
 
 
