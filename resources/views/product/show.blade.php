@@ -49,7 +49,7 @@
                                     {{ $product->isAnimal() ? '🐾 Dier' : '⚡ Powerup' }}
                                 </span>
                             </div>
-
+                        </div>
                             <!-- Product Info -->
                             <div class="md:w-1/2 flex flex-col justify-between mt-6 md:mt-0">
                                 <div>
