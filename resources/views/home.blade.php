@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
-    <title>NM Klikker</title>
+    <title>NMKlikker</title>
     @vite(['resources/css/app.css', 'resources/js/app.js']) <!-- Tailwind & JS -->
 
     {{--    dit in een include zetten gaat breken--}}
@@ -302,6 +302,7 @@
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
             image-rendering: crisp-edges;
+            user-select: none;
         }
 
         .meter {

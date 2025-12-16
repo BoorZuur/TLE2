@@ -42,10 +42,12 @@
             <p class="mt-6 text-black dark:text-gray-300">Je leert welke dieren in welke soorten gebieden binnen
                 Nederland kunnen leven door ze in de gebieden te verzorgen waar ze thuis horen. Door dieren te verzorgen
                 vergroot je de biodiversiteit binnen die gebieden.</p>
+            <a href="{{ route('register') }}">
             <button
                 class="mt-6 rounded-lg bg-[#E2006A] hover:bg-[#B3004E] px-6 py-2.5 text-center text-sm font-medium capitalize leading-5 text-white focus:outline-none lg:mx-0 lg:w-auto">
-                <a href="{{ route('register') }}">Start met spelen</a>
+                <span>Start met spelen</span>
             </button>
+            </a>
         </div>
     </div>
 </header>
