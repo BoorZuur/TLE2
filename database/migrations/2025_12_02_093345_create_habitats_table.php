@@ -16,14 +16,6 @@ return new class extends Migration
         Schema::create('habitats', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description')->nullable();
-            $table->string('info_image')->nullable();
-            $table->string('image_0')->nullable();
-            $table->string('image_20')->nullable();
-            $table->string('image_40')->nullable();
-            $table->string('image_60')->nullable();
-            $table->string('image_80')->nullable();
-            $table->string('image_100')->nullable();
         });
 
         Schema::enableForeignKeyConstraints();

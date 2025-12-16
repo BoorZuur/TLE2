@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -20,7 +21,8 @@ return new class extends Migration {
             $table->bigInteger('happiness');
             $table->bigInteger('hunger');
             $table->bigInteger('cleanliness');
-            $table->foreignId('species_id')->constrained('species');
+            $table->bigInteger('species_tag');
+            $table->foreign('species_tag')->references('id')->on('species');
             $table->timestamp('adopted_at');
             $table->timestamp('updated_at');
         });

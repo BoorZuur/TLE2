@@ -21,22 +21,10 @@
         </button>
 
         @isset($header)
-            <header class="text-center bowlby-one-sc-regular">
+            <header class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 bowlby-one-sc-regular ">
                 <h2 class="text-black">{{ $header }}</h2>
             </header>
         @endisset
-
-
-        <div class="flex justify-end">
-            <a href="https://www.natuurmonumenten.nl/"
-               class="transition-transform duration-200 hover:scale-110">
-                <img src="{{ asset('images/natuurmonumenten.png') }}"
-                     alt="Natuurmonumenten logo"
-                     class="h-10 w-auto object-contain">
-            </a>
-        </div>
-
-
     </div>
 
     <div id="mobile-menu" class="fixed inset-0 z-40 hidden">
@@ -50,57 +38,46 @@
             </div>
 
             <nav class="p-3 flex flex-col gap-2 items-center ">
-                <x-menu-link href="{{ route('home') }}" :active="Route::is('home')">
-                    <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934] hover:bg-[#6F962B]">
+                <x-menu-link href="{{ route('home') }}">
+                    <div
+                        class="menu-entry flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934] hover:bg-[#6F962B]">
                         <img src="{{ asset('images/home-icon.webp') }}" alt="House icon"
                              class="ml-3 w-8 h-8 object-cover">
                         Dieren
                     </div>
                 </x-menu-link>
 
-                <x-menu-link href="{{ route('areas') }}" :active="Route::is('areas')">
-                    <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#319E88] hover:bg-[#007866]">
+                <x-menu-link href="{{ route('areas') }}">
+                    <div
+                        class="menu-entry flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#319E88] hover:bg-[#007866]">
                         <img src="{{ asset('images/tree-icon.png') }}" alt="Tree icon"
                              class="ml-3 w-8 h-8 object-cover">
                         Gebieden
                     </div>
                 </x-menu-link>
 
-                <x-menu-link href="{{ route('collectie') }}" :active="Route::is('collectie')">
-                    <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934] hover:bg-[#6F962B]">
+                <x-menu-link href="{{ route('collectie') }}">
+                    <div
+                        class="menu-entry flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934] hover:bg-[#6F962B]">
                         <img src="{{ asset('images/list-icon.png') }}" alt="Collection icon"
                              class="ml-3 w-8 h-8 object-cover">
                         Verzameling
                     </div>
                 </x-menu-link>
 
-                <x-menu-link href="{{ route('product.index') }}" :active="Route::is('product.index')">
-                    <div class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#319E88] hover:bg-[#007866]">
+                <x-menu-link href="{{ route('product.index') }}">
+                    <div
+                        class="menu-entry flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#319E88] hover:bg-[#007866]">
                         <img src="{{ asset('images/shop-icon.png') }}" alt="Shop icon"
                              class="ml-3 w-8 h-8 object-cover">
                         Winkel
                     </div>
                 </x-menu-link>
 
-                @if (Route::has('login'))
-                    @auth
-                        @if (Auth::user()->is_admin == 1)
-                            <x-menu-link href="{{ route('admin.index') }}" :active="Route::is('admin.index')">
-                                <div
-                                    class="flex gap-9 py-3 w-56 text-center sm:rounded-lg r-10 bg-[#89B934] hover:bg-[#6F962B]">
-                                    <img src="{{ asset('images/admin-icon.png') }}" alt="Admin icon"
-                                         class="ml-3 w-8 h-8 object-cover"> Admin
-                                </div>
-                            </x-menu-link>
-
-                        @endif
-                    @endauth
-                @endif
-
                 <div class="border-t mt-4 pt-4 flex flex-col space-y-2">
                     @auth
                         <a href="{{ route('profile.edit') }}"
-                           class="text-black hover:underline">{{ Auth::user()->username }}</a>
+                           class="text-black hover:underline">{{ Auth::user()->username }} </a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <button class="text-red-500 hover:underline">Uitloggen</button>

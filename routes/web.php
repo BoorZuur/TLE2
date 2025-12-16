@@ -1,8 +1,5 @@
 <?php
 
-
-use App\Http\Controllers\AreaController;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CoinController;
@@ -17,12 +14,9 @@ use Illuminate\Support\Facades\Route;
 // home screen -> linked to homecontroller for getting animal
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// areas/gebieden
 Route::middleware('auth')->get('/areas', function () {
     return view('areas');
 })->name('areas');
-Route::middleware('auth')->get('/api/collected', [AreaController::class, 'getArea']);
-Route::middleware('auth')->get('/api/areas', [AreaController::class, 'getAreas']);
 
 // feeding get/post
 Route::get('/animal/{animal}/hunger', [AnimalController::class, 'getHunger'])
@@ -50,11 +44,12 @@ Route::middleware('auth')->post('/animal/{id}/update', [AnimalController::class,
 // Show user's animal
 Route::middleware('auth')->get('/animal/{id}/show', [AnimalController::class, 'show'])->name('animal.show');
 
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/collection', [CollectionController::class, 'collection'])->name('collection.index');
+Route::get('/collection', [CollectionController::class, 'index']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -63,23 +58,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/collectie', function () {
-    $species = \App\Models\Specie::with('habitat')->where('status', 1)->get();
-    return view('collection.animals', compact('species'));
-})->name('collectie')->middleware('auth');
-
-
-// Admin routes
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-
-// Species management
-    Route::get('/admin/species/create', [CollectionController::class, 'create'])->name('admin.species.create');
-    Route::post('/admin/species', [CollectionController::class, 'store'])->name('admin.species.store');
-    Route::patch('/species/{specie}/toggle-status', [CollectionController::class, 'toggleStatus'])->name('species.toggleStatus');
-    Route::get('/admin/species/{specie}/edit', [CollectionController::class, 'edit'])->name('admin.species.edit');
-    Route::put('/admin/species/{specie}', [CollectionController::class, 'update'])->name('admin.species.update');
-    Route::get('/admin/species', [CollectionController::class, 'dashboard'])->name('admin.species.index');
-    Route::post('/admin/species', [CollectionController::class, 'store'])->name('admin.species.store');
-});
+    return view('collection.animals');
+})->name('collectie');
 
 require __DIR__ . '/auth.php';

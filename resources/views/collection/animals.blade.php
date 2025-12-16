@@ -14,10 +14,9 @@
                 <label for="region" class="font-semibold">Selecteer een gebied:</label>
                 <select id="region" class="border rounded p-1">
                     <option value="">Alle gebieden</option>
-                    @foreach(\App\Models\Habitat::orderBy('name')->get() as $habitat)
-                        <option
-                            value="{{ $habitat->name }}" {{ request('region') == $habitat->name ? 'selected' : '' }}>
-                            {{ $habitat->name }}
+                    @foreach(config('animals.defaultLocalities', []) as $locality)
+                        <option value="{{ $locality }}" {{ request('region') == $locality ? 'selected' : '' }}>
+                            {{ $locality }}
                         </option>
                     @endforeach
                 </select>
