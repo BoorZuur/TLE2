@@ -4,7 +4,7 @@
             {{ __('Verzameling') }}
         </h2>
     </x-slot>
-    <main id="main-content" class="container mx-auto p-6">
+    <main class="container mx-auto p-6">
         <header class="mb-6">
             <h1 class="text-2xl font-bold text-gray-800">Dieren binnen geselecteerde gebieden</h1>
         </header>

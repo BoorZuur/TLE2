@@ -43,7 +43,7 @@
     </div>
 </header>
 
-<main id="main-content" class="bg-white dark:bg-gray-900">
+<main class="bg-white dark:bg-gray-900">
     <div class="container mx-auto px-6 py-10">
         <h2 class="text-center text-3xl font-semibold capitalize text-gray-800 dark:text-white lg:text-4xl">Hoe speel je
             het spel?</h2>

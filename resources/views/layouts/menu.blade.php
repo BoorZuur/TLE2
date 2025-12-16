@@ -1,24 +1,14 @@
-<style>
-    /* Slight grow for menu tiles on hover/focus */
-    .menu-entry {
-        transition: transform 160ms ease;
-        transform-origin: center;
-    }
-
-    .menu-entry:hover,
-    .menu-entry:focus-visible {
-        transform: scale(1.06);
-    }
-</style>
-
 <nav class="bg-[#89B934] border-b border-gray-200">
-    <div class="max-w-8xl gap-4 mx-auto px-4 sm:px-6 lg:px-8 flex items-center h-16">
-        <button id="menu-button" class="text-black">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M4 6h16M4 12h16M4 18h16"/>
-            </svg>
-        </button>
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 h-16 grid grid-cols-3 items-center">
+        <div class="flex justify-start">
+            <button id="menu-button" class="text-black focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+        </div>
+
 
         @isset($header)
             <header class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 bowlby-one-sc-regular ">
@@ -91,11 +81,6 @@
         </div>
     </div>
 </nav>
-
-<a href="#main-content"
-   class="skip-link absolute -top-10 left-0 bg-black text-white px-4 py-2 z-50 focus:top-0 focus:outline-none">
-    Skip to main content
-</a>
 
 <script>
     const menuButton = document.getElementById('menu-button');
