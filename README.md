@@ -2,6 +2,117 @@
 NMklikker is a web clicker game that allows users to play with animals from Natuurmonumenten.
 User can view animals, habitats, and products to buy animals for the game.
 
+## ER Diagram
+```mermaid
+erDiagram
+    users ||--o{ animals : "owns"
+    users ||--o{ user_purchases : "makes"
+    users ||--o{ user_species_unlocks : "unlocks"
+    users ||--o{ user_friend : "has friends (user_id1)"
+    users ||--o{ user_friend : "has friends (user_id2)"
+    
+    habitats ||--o{ species : "contains"
+    
+    species ||--o{ animals : "belongs to"
+    species ||--o{ products : "related to"
+    species ||--o{ user_species_unlocks : "unlocked by"
+    
+    products ||--o{ user_purchases : "purchased in"
+    
+    users {
+        bigint id PK
+        string username
+        string email UK
+        timestamp email_verified_at
+        string password
+        bigint coins
+        bigint energy
+        boolean is_admin
+        string remember_token
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    habitats {
+        bigint id PK
+        string name
+        text description
+        string info_image
+        string image_0
+        string image_20
+        string image_40
+        string image_60
+        string image_80
+        string image_100
+    }
+    
+    species {
+        bigint id PK
+        string name
+        string scientific_name
+        string image
+        string beheerder
+        text info
+        boolean locked
+        smallint status
+        bigint habitat_id FK
+    }
+    
+    animals {
+        bigint id PK
+        bigint user_id FK
+        string name
+        bigint happiness
+        bigint hunger
+        bigint cleanliness
+        bigint species_id FK
+        timestamp adopted_at
+        timestamp updated_at
+        timestamp last_hunger_update
+        timestamp last_fed
+    }
+    
+    products {
+        bigint id PK
+        enum product_type
+        string name
+        text description
+        text image_url
+        decimal price
+        enum currency_type
+        bigint species_id FK
+        json powerup_effects
+        string qr_filename
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    user_purchases {
+        bigint id PK
+        bigint user_id FK
+        bigint product_id FK
+        enum purchase_type
+        decimal amount_paid
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    user_species_unlocks {
+        bigint id PK
+        bigint user_id FK
+        bigint species_id FK
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    user_friend {
+        bigint id PK
+        bigint user_id1 FK
+        bigint user_id2 FK
+        timestamp sent_at
+        boolean is_approved
+    }
+```
 
 ## Contributing
 
