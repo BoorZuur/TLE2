@@ -23,6 +23,6 @@ class Habitat extends Model
     // Define relationship with Specie model
     public function species() : \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Specie::class, 'habitat_tag', 'id');
+        return $this->hasMany(Specie::class, 'habitat_id', 'id');
     }
 }
