@@ -117,13 +117,8 @@
                 energy = Math.max(0, energy - 1);
                 coinsDisplay.textContent = coins;
                 energyDisplay.textContent = energy;
-
-                // Pause walking while pet animation runs
                 if (walker) walker.style.animationPlayState = 'paused';
-
-                // Restart pet animation with better control
                 clickerAnimal.classList.remove('pet');
-                // Use requestAnimationFrame for smoother reflow
                 requestAnimationFrame(() => {
                     clickerAnimal.classList.add('pet');
                 });
@@ -149,6 +144,27 @@
                 });
                 updateWalkerAnimation();
             }, {passive: false});
+
+            clickerAnimal.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    clickerAnimal.click();
+                }
+            });
+
+            feedButton.addEventListener('keydown', async (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    feedButton.click();
+                }
+            });
+
+            sleepButton.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    sleepButton.click();
+                }
+            });
 
             let energyInterval = null;
 
@@ -354,6 +370,32 @@
             filter: invert(100%) brightness(200%);
         }
 
+        /* Button hover scale effects */
+        #feedButton, #sleepButton {
+            transition: transform 200ms ease-in-out;
+        }
+
+        #feedButton:hover, #sleepButton:hover {
+            transform: scale(1.2);
+        }
+
+        /* Keyboard focus styles */
+        #feedButton:focus-visible, #sleepButton:focus-visible {
+            outline: 3px solid #FFD700;
+            outline-offset: 4px;
+            transform: scale(1.2);
+        }
+
+        #clicker:focus-visible {
+            outline: 3px solid #FFD700;
+            outline-offset: 4px;
+            border-radius: 8px;
+        }
+
+        #clicker:hover {
+            transform: translateX(-50%) scale(1.05);
+        }
+
         /* mobile */
         @media (hover: none) and (pointer: coarse) {
             #feedButton, #sleepButton {
@@ -421,12 +463,12 @@
     </div>
     <div>
         <img class="w-8 h-8 sm:w-10 sm:h-10 cursor-pointer flex-shrink-0" src="/images/food.png" id="feedButton"
-             alt="icon of food">
+             alt="icon of food" tabindex="0" role="button" aria-label="Feed your pet">
     </div>
     <div>
         <img class="w-8 h-8 sm:w-10 sm:h-10 cursor-pointer flex-shrink-0" src="/images/sleep-icon.png"
              id="sleepButton"
-             alt="icon for sleeping">
+             alt="icon for sleeping" tabindex="0" role="button" aria-label="Put your pet to sleep">
     </div>
 </div>
 <div id="errorMessage"
@@ -436,7 +478,10 @@
 <div class="walker walk">
     <img src="/images/fox-standing.png"
          id="clicker"
-         alt="clickable animal">
+         alt="clickable animal"
+         tabindex="0"
+         role="button"
+         aria-label="Click to interact with your pet">
 </div>
 </body>
 </html>
