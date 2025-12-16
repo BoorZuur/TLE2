@@ -217,7 +217,7 @@
             }
 
             sleepButton.addEventListener('click', sleepClick);
-  
+
 
             // When pet animation finishes, resume walking
             clickerAnimal.addEventListener('animationend', (ev) => {
@@ -362,28 +362,36 @@
 <body class="min-h-screen flex flex-col items-center justify-center bg-fixed"
       style="background-image: url('https://static.vecteezy.com/system/resources/thumbnails/003/467/246/small_2x/nature-landscape-background-cute-simple-cartoon-style-free-vector.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
 
+<a href="#main-content"
+   class="skip-link absolute -top-10 left-0 bg-black text-white px-4 py-2 z-50 focus:top-0 focus:outline-none">
+    Skip to main content
+</a>
+
+
 <div id="sleepOverlay"
      class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-500 z-10"></div>
 
 
 <!-- Coins + animal foto -->
-<div id="statsContainer" class="relative z-20 flex flex-row items-center justify-center gap-6 mb-4 w-full">
-    <div id="statsText">
-        <h2 class="text-xl font-semibold m-0">Honger: <span id="hunger">0</span></h2>
-        <h2 class="text-xl font-semibold m-0">Energie: <span id="energy">0</span></h2>
-        <h2 class="text-xl font-semibold m-0">Muntjes: <span id="coins">0</span></h2>
-    </div>
-    <div>
-        <button class="w-10 h-10 cursor-pointer flex-shrink-0 bg-transparent border-0 p-0" id="feedButton"
-                aria-label="Feed button">
-            <img src="/images/food.png" alt="icon of food" class="w-full h-full">
-        </button>
-    </div>
-    <div>
-        <button class="w-10 h-10 cursor-pointer flex-shrink-0 bg-transparent border-0 p-0" id="sleepButton"
-                aria-label="Sleep button">
-            <img src="/images/sleep-icon.png" alt="icon for sleeping" class="w-full h-full">
-        </button>
+<div id="main-content">
+    <div id="statsContainer" class="relative z-20 flex flex-row items-center justify-center gap-6 mb-4 w-full">
+        <div id="statsText">
+            <h2 class="text-xl font-semibold m-0">Honger: <span id="hunger">0</span></h2>
+            <h2 class="text-xl font-semibold m-0">Energie: <span id="energy">0</span></h2>
+            <h2 class="text-xl font-semibold m-0">Muntjes: <span id="coins">0</span></h2>
+        </div>
+        <div>
+            <button class="w-10 h-10 cursor-pointer flex-shrink-0 bg-transparent border-0 p-0" id="feedButton"
+                    aria-label="Feed button">
+                <img src="/images/food.png" alt="icon of food" class="w-full h-full">
+            </button>
+        </div>
+        <div>
+            <button class="w-10 h-10 cursor-pointer flex-shrink-0 bg-transparent border-0 p-0" id="sleepButton"
+                    aria-label="Sleep button">
+                <img src="/images/sleep-icon.png" alt="icon for sleeping" class="w-full h-full">
+            </button>
+        </div>
     </div>
 </div>
 <div id="errorMessage" class="relative z-20 text-red-600 font-semibold text-lg text-center m-0"
