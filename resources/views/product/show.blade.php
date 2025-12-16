@@ -1,8 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-2xl leading-tight">
+        <h1 class="text-2xl leading-tight">
             {{ __('Product Details') }}
-        </h2>
+        </h1>
     </x-slot>
 
     <main id="main-content">
@@ -11,13 +11,15 @@
 
                 <!-- Success/Error Messages -->
                 @if(session('success'))
-                    <div class="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                    <div class="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+                         role="alert">
                         <span class="block sm:inline">{{ session('success') }}</span>
                     </div>
                 @endif
 
                 @if(session('error'))
-                    <div class="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                    <div class="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                         role="alert">
                         <span class="block sm:inline">{{ session('error') }}</span>
                     </div>
                 @endif
@@ -29,7 +31,8 @@
                         {{ !$product->requiresRealMoney() && !$product->requiresQRCode() ? 'bg-lime-400' : '' }}">
 
                         <!-- Back Button -->
-                        <a href="{{ route('product.index') }}" class="inline-block mb-4 text-gray-700 hover:text-gray-900">
+                        <a href="{{ route('product.index') }}"
+                           class="inline-block mb-4 text-gray-700 hover:text-gray-900">
                             ← Terug naar winkel
                         </a>
 
@@ -38,10 +41,12 @@
                             <!-- Product Image -->
                             <div class="md:w-1/2">
                                 <div class="relative">
-                                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-auto object-cover rounded-lg shadow-lg">
+                                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
+                                         class="w-full h-auto object-cover rounded-lg shadow-lg">
 
                                     <!-- Badge: Animal / Powerup -->
-                                    <span class="absolute top-4 left-4 px-3 py-1 rounded text-sm font-bold {{ $product->isAnimal() ? 'bg-green-500' : 'bg-blue-500' }} text-white">
+                                    <span
+                                        class="absolute top-4 left-4 px-3 py-1 rounded text-sm font-bold {{ $product->isAnimal() ? 'bg-green-500' : 'bg-blue-500' }} text-white">
                                         {{ $product->isAnimal() ? '🐾 Dier' : '⚡ Powerup' }}
                                     </span>
                                 </div>
@@ -59,9 +64,12 @@
                                             <h3 class="font-semibold mb-2">🐾 Over dit dier:</h3>
                                             <p class="text-sm text-gray-700">
                                                 @if($product->requiresQRCode())
-                                                    Dit dier wordt toegevoegd aan je verzameling als je de QR-code scant bij een bezoekerscentrum van Natuurmonumenten. Je kunt ermee spelen en zorgen!
+                                                    Dit dier wordt toegevoegd aan je verzameling als je de QR-code scant
+                                                    bij een bezoekerscentrum van Natuurmonumenten. Je kunt ermee spelen
+                                                    en zorgen!
                                                 @else
-                                                    Dit dier wordt toegevoegd aan je verzameling bij aankoop. Je kunt ermee spelen en zorgen!
+                                                    Dit dier wordt toegevoegd aan je verzameling bij aankoop. Je kunt
+                                                    ermee spelen en zorgen!
                                                 @endif
                                             </p>
                                         </div>
@@ -75,7 +83,8 @@
                                                     @endforeach
                                                 </ul>
                                             @else
-                                                <p class="text-sm text-gray-700">Deze powerup geeft je extra voordelen in het spel!</p>
+                                                <p class="text-sm text-gray-700">Deze powerup geeft je extra voordelen
+                                                    in het spel!</p>
                                             @endif
                                         </div>
                                     @endif
@@ -83,10 +92,12 @@
                                     <!-- User Coins / QR-instructie -->
                                     <div class="bg-white bg-opacity-50 rounded-lg p-4 mb-6">
                                         @if($product->requiresQRCode())
-                                            <p class="text-sm text-gray-700">Scan hieronder de QR-code om te zien waar dit dier zich bevindt!</p>
+                                            <p class="text-sm text-gray-700">Scan hieronder de QR-code om te zien waar
+                                                dit dier zich bevindt!</p>
                                         @else
                                             <p class="text-sm text-gray-700">
-                                                Jouw munten: <span class="font-bold text-yellow-600 text-lg">🪙 {{ number_format($user->coins) }}</span>
+                                                Jouw munten: <span
+                                                    class="font-bold text-yellow-600 text-lg">🪙 {{ number_format($user->coins) }}</span>
                                             </p>
                                         @endif
                                     </div>
@@ -99,8 +110,10 @@
                                         @if($product->requiresQRCode() && $product->qr_filename)
                                             {{-- QR-code sectie --}}
                                             <div class="text-center">
-                                                <img src="{{ asset('qrcodes/' . $product->qr_filename) }}" alt="QR Code" class="mx-auto w-64 h-64 object-contain rounded-lg shadow-lg">
-                                                <p class="text-sm text-gray-700 mt-3">Scan deze QR-code en zoek jouw dier!</p>
+                                                <img src="{{ asset('qrcodes/' . $product->qr_filename) }}" alt="QR Code"
+                                                     class="mx-auto w-64 h-64 object-contain rounded-lg shadow-lg">
+                                                <p class="text-sm text-gray-700 mt-3">Scan deze QR-code en zoek jouw
+                                                    dier!</p>
                                             </div>
                                         @else
                                             {{-- Normale betaling / munten --}}
@@ -118,33 +131,42 @@
                                             </div>
 
                                             @if($hasPurchased)
-                                                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+                                                <div
+                                                    class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
                                                     <p class="font-semibold">✓ Je hebt dit product al gekocht!</p>
                                                 </div>
                                             @else
                                                 @if($product->canBuyWithCoins())
-                                                    <form method="POST" action="{{ route('product.purchase', $product) }}">
+                                                    <form method="POST"
+                                                          action="{{ route('product.purchase', $product) }}">
                                                         @csrf
                                                         @if($user->coins >= $product->price)
-                                                            <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-4 px-6 rounded-lg text-lg transition-colors transform transition hover:scale-105 focus-visible:scale-105">
+                                                            <button type="submit"
+                                                                    class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-4 px-6 rounded-lg text-lg transition-colors transform transition hover:scale-105 focus-visible:scale-105">
                                                                 🪙 Koop met munten
                                                             </button>
                                                         @else
-                                                            <button type="button" disabled class="w-full bg-gray-400 text-white font-bold py-4 px-6 rounded-lg text-lg cursor-not-allowed">
+                                                            <button type="button" disabled
+                                                                    class="w-full bg-gray-400 text-white font-bold py-4 px-6 rounded-lg text-lg cursor-not-allowed">
                                                                 ❌ Niet genoeg munten
                                                             </button>
                                                             <p class="text-red-600 text-sm mt-2">
-                                                                Je hebt nog {{ number_format($product->price - $user->coins) }} munten nodig!
+                                                                Je hebt
+                                                                nog {{ number_format($product->price - $user->coins) }}
+                                                                munten nodig!
                                                             </p>
                                                         @endif
                                                     </form>
                                                 @else
                                                     {{-- Real money purchase --}}
-                                                    <form method="POST" action="{{ route('product.purchase', $product) }}" id="payment-form">
+                                                    <form method="POST"
+                                                          action="{{ route('product.purchase', $product) }}"
+                                                          id="payment-form">
                                                         @csrf
                                                         <div class="mb-4">
                                                             <label class="block text-gray-700 text-sm font-bold mb-2">Betaalmethode:</label>
-                                                            <select name="payment_method" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                                            <select name="payment_method" required
+                                                                    class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
                                                                 <option value="">Kies een betaalmethode</option>
                                                                 <option value="ideal">iDEAL</option>
                                                                 <option value="creditcard">Creditcard</option>
@@ -152,7 +174,8 @@
                                                             </select>
                                                         </div>
 
-                                                        <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-6 rounded-lg text-lg transition-colors transform transition hover:scale-105 focus-visible:scale-105">
+                                                        <button type="submit"
+                                                                class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-6 rounded-lg text-lg transition-colors transform transition hover:scale-105 focus-visible:scale-105">
                                                             💳 Koop met geld (€{{ number_format($product->price, 2) }})
                                                         </button>
 

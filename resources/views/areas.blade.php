@@ -12,9 +12,9 @@
 
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-2xl leading-tight">
+        <h1 class="text-2xl leading-tight">
             {{ __('Gebieden') }}
-        </h2>
+        </h1>
     </x-slot>
 
     <main>

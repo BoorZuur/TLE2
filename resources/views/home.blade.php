@@ -105,7 +105,7 @@
                 updateWalkerAnimation();
             }, 1000);
 
-            // Sync with server every 30 seconds -> REAL/SERVER Hunger value 
+            // Sync with server every 30 seconds -> REAL/SERVER Hunger value
             setInterval(loadHunger, 30000);
             loadHunger();
 
@@ -439,9 +439,9 @@
 
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-2xl leading-tight">
+        <h1 class="text-2xl leading-tight">
             {{ __('NM Klikker') }}
-        </h2>
+        </h1>
     </x-slot>
 </x-app-layout>
 <!-- background -->

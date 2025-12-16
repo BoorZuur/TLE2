@@ -1,8 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-2xl leading-tight">
+        <h1 class="text-2xl leading-tight">
             {{ __('Verzameling') }}
-        </h2>
+        </h1>
     </x-slot>
     <main id="main-content" class="container mx-auto p-6">
         <header class="mb-6">
