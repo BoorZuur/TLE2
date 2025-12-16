@@ -92,6 +92,11 @@
     </div>
 </nav>
 
+<a href="#main-content"
+   class="skip-link absolute -top-10 left-0 bg-black text-white px-4 py-2 z-50 focus:top-0 focus:outline-none">
+    Skip to main content
+</a>
+
 <script>
     const menuButton = document.getElementById('menu-button');
     const menuClose = document.getElementById('menu-close');

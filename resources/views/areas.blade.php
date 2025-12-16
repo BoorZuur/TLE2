@@ -16,39 +16,40 @@
         </h2>
     </x-slot>
 
-    <div class="min-h-screen flex flex-col items-center pt-2">
+    <main>
+        <div id="main-content" class="min-h-screen flex flex-col items-center pt-2">
 
-        <!-- Area Title -->
-        <h2 id="area-title" class="text-3xl font-bold text-gray-800 mb-6">Bos</h2>
+            <!-- Area Title -->
+            <h2 id="area-title" class="text-3xl font-bold text-gray-800 mb-6">Bos</h2>
 
-        <!-- Progress Bar -->
-        <div class="w-11/12 md:w-3/4 lg:w-2/3 py-6">
-            <div class="w-full bg-red-400 rounded-lg h-6 overflow-hidden">
-                <div id="progress-bar" class="bg-green-500 h-6 w-0 transition-all"></div>
+            <!-- Progress Bar -->
+            <div class="w-11/12 md:w-3/4 lg:w-2/3 py-6">
+                <div class="w-full bg-red-400 rounded-lg h-6 overflow-hidden">
+                    <div id="progress-bar" class="bg-green-500 h-6 w-0 transition-all"></div>
+                </div>
+                <div id="progress-text" class="text-center mt-2 text-gray-800 font-medium">0 / 0 Verzameld</div>
             </div>
-            <div id="progress-text" class="text-center mt-2 text-gray-800 font-medium">0 / 0 Verzameld</div>
-        </div>
 
-        <!-- image-->
-        <div class="p-4 bg-green-200 rounded-xl">
-            <img id="area-image"
-                 class="w-96 h-auto object-contain transition-all duration-300" src=""
-                 alt="afbeelding van waar de digitale dieren leven">
-        </div>
+            <!-- image-->
+            <div class="p-4 bg-green-200 rounded-xl">
+                <img id="area-image"
+                     class="w-96 h-auto object-contain transition-all duration-300" src=""
+                     alt="afbeelding van waar de digitale dieren leven">
+            </div>
 
-        <!-- Arrows -->
-        <div class="flex gap-4 py-4">
-            <button id="prev-area"
-                    class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition transform hover:scale-105 focus-visible:scale-105">
-                ← Vorige
-            </button>
-            <button id="next-area"
-                    class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition transform hover:scale-105 focus-visible:scale-105">
-                Volgende →
-            </button>
+            <!-- Arrows -->
+            <div class="flex gap-4 py-4">
+                <button id="prev-area"
+                        class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition transform hover:scale-105 focus-visible:scale-105">
+                    ← Vorige
+                </button>
+                <button id="next-area"
+                        class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition transform hover:scale-105 focus-visible:scale-105">
+                    Volgende →
+                </button>
+            </div>
         </div>
-
-    </div>
+    </main>
 
 </x-app-layout>
 
