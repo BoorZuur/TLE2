@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="nl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -76,7 +76,7 @@
                                 "Content-Type": "application/json",
                                 "X-CSRF-TOKEN": "{{ csrf_token() }}"
                             },
-                            body: JSON.stringify({hunger: hunger})
+                            body: JSON.stringify({ hunger: hunger })
                         });
                     } catch (error) {
                         console.error('Failed to save hunger:', error);
@@ -119,7 +119,7 @@
                             "Content-Type": "application/json",
                             "X-CSRF-TOKEN": "{{ csrf_token() }}"
                         },
-                        body: JSON.stringify({cleanliness: cleanliness})
+                        body: JSON.stringify({ cleanliness: cleanliness })
                     });
                 } catch (error) {
                     console.error('Failed to save cleanliness:', error);
@@ -138,7 +138,7 @@
                             "Content-Type": "application/json",
                             "X-CSRF-TOKEN": "{{ csrf_token() }}"
                         },
-                        body: JSON.stringify({hunger: hunger})
+                        body: JSON.stringify({ hunger: hunger })
                     });
                 } catch (error) {
                     console.error('Failed to save hunger:', error);
@@ -160,7 +160,7 @@
                             "Content-Type": "application/json",
                             "X-CSRF-TOKEN": "{{ csrf_token() }}"
                         },
-                        body: JSON.stringify({cleanliness: cleanliness})
+                        body: JSON.stringify({ cleanliness: cleanliness })
                     });
                 } catch (error) {
                     console.error('Failed to save cleanliness:', error);
@@ -307,8 +307,7 @@
         <img class="w-10 h-10 cursor-pointer flex-shrink-0" src="/images/food.png" id="feedButton" alt="icon of food">
     </div>
     <div>
-        <img class="w-10 h-10 cursor-pointer flex-shrink-0" src="/images/bath-tub.png" id="cleanButton"
-             alt="icon of bathtub">
+        <img class="w-10 h-10 cursor-pointer flex-shrink-0" src="/images/bath-tub.png" id="cleanButton" alt="icon of bathtub">
     </div>
 </div>
 <div class="walker walk">

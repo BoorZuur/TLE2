@@ -76,7 +76,7 @@
                                         <span
                                             class="absolute top-2 left-2 px-2 py-1 rounded text-xs font-bold {{ $product->isAnimal() ? 'bg-green-500' : 'bg-blue-500' }} text-white">
                                         {{ $product->isAnimal() ? '🐾 Dier' : '⚡ Powerup' }}
-                                    </span>
+                                        </span>
                                         <!-- Currency Badge -->
                                         <span
                                             class="absolute top-2 right-2 px-2 py-1 rounded text-xs font-bold {{ $product->requiresRealMoney() ? 'bg-purple-600' : 'bg-yellow-500' }} text-white">
@@ -101,21 +101,20 @@
                                     <!-- Price and Button -->
                                     <div class="mt-auto">
                                         <div class="flex items-center justify-between">
-                                        <span class="text-xl font-bold">
-                                            @if($product->requiresRealMoney())
-                                                €{{ number_format($product->price, 2) }}
-                                            @elseif($product->requiresQRCode())
-                                                <x-mdi-qrcode-scan class="w-5"/>
-                                            @else
-                                                🪙 {{ number_format($product->price, 0) }}
-                                            @endif
-                                        </span>
+                                            <span class="text-xl font-bold">
+                                                @if($product->requiresRealMoney())
+                                                    €{{ number_format($product->price, 2) }}
+                                                @elseif($product->requiresQRCode())
+                                                    <x-mdi-qrcode-scan class="w-5"/>
+                                                @else
+                                                    🪙 {{ number_format($product->price, 0) }}
+                                                @endif
+                                            </span>
+
                                             @if($user->hasPurchased($product))
-                                                <span
-                                                    class="bg-green-500 text-white px-3 py-2 rounded text-sm font-semibold">✓ Gekocht</span>
+                                                <span class="bg-green-500 text-white px-3 py-2 rounded text-sm font-semibold">✓ Gekocht</span>
                                             @else
-                                                <button
-                                                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 text-sm font-semibold transform transition hover:scale-105 focus-visible:scale-105">
+                                                <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 text-sm font-semibold transform transition hover:scale-105 focus-visible:scale-105">
                                                     Bekijken
                                                 </button>
                                             @endif
