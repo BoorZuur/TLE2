@@ -20,8 +20,8 @@ class AnimalController extends Controller
             $secondsPassed = $animal->last_hunger_update->diffInSeconds($now);
 
             // server side honger decrease, waarde veranderen
-            if ($secondsPassed >= 30) {
-                $decrease = floor($secondsPassed / 20);
+            if ($secondsPassed >= 14) {
+                $decrease = floor($secondsPassed / 14);
                 $animal->hunger = max(0, $animal->hunger - $decrease);
                 $animal->last_hunger_update = $now;
                 $animal->save();
