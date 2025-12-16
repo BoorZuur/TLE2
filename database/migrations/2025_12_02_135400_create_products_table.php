@@ -15,13 +15,12 @@ return new class extends Migration {
             $table->text('image_url')->nullable();
             $table->decimal('price', 8, 2);
             $table->enum('currency_type', ['coins', 'real_money', 'qr'])->default('coins');
-            
+
             $table->foreignId('species_id')
                 ->nullable()
                 ->constrained('species')
                 ->nullOnDelete();
-
-            $table->json('powerup_effects')->nullable();
+            
             $table->string('qr_filename')->nullable();
             $table->timestamps();
         });

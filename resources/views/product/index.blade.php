@@ -12,7 +12,7 @@
                     <div class="flex justify-between items-center">
                         <div>
                             <h3 class="text-2xl font-bold mb-2">Welkom in de winkel!</h3>
-                            <p class="text-black">Koop dieren en powerups om je spel te verbeteren</p>
+                            <p class="text-black">Koop dieren om je spel te verbeteren</p>
                         </div>
                         <div class="text-right">
                             <p class="text-lg font-semibold">Jouw munten:</p>
@@ -32,10 +32,6 @@
                     <button onclick="filterProducts('animal')"
                             class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
                         🐾 Dieren
-                    </button>
-                    <button onclick="filterProducts('powerup')"
-                            class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
-                        ⚡ Powerups
                     </button>
                     <button onclick="filterProducts('coins')"
                             class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
@@ -145,7 +141,7 @@
             cards.forEach(card => {
                 if (filter === 'all') {
                     card.style.display = 'block';
-                } else if (filter === 'animal' || filter === 'powerup') {
+                } else if (filter === 'animal') {
                     card.style.display = card.dataset.type === filter ? 'block' : 'none';
                 } else if (filter === 'coins' || filter === 'real_money' || filter === 'qr') {
                     card.style.display = card.dataset.currency === filter ? 'block' : 'none';

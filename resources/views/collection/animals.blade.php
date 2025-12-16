@@ -4,6 +4,7 @@
             {{ __('Verzameling') }}
         </h2>
     </x-slot>
+
     <main class="container mx-auto p-6">
         <header class="mb-6">
             <h1 class="text-2xl font-bold text-gray-800">Dieren binnen geselecteerde gebieden</h1>
@@ -22,34 +23,40 @@
                     @endforeach
                 </select>
             </form>
-            <div id="progress-bar">
-
-            </div>
+            <div id="progress-bar" class="mt-4"></div>
         </section>
 
         <section>
             <div id="animals-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
         </section>
 
-        <div id="animal-modal"
-             class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-50">
-            <div class="bg-white rounded p-6 w-[600px] relative">
-                <button id="close-modal"
-                        class="absolute top-2 right-2 text-black hover:text-black text-xl">&times;
-                </button>
+        <section>
+            <div id="animal-modal" class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-50 z-50">
+                <div class="bg-white rounded p-6 relative max-w-full w-[90%] sm:w-[600px]"
+                     role="dialog"
+                     aria-modal="true"
+                     aria-labelledby="modal-name"
+                     aria-describedby="modal-info">
 
-                <div class="flex justify-center">
-                    <img id="modal-image" class="w-48 h-48 object-cover rounded mb-4" alt="animal image"/>
+                    <button id="close-modal"
+                            class="absolute top-2 right-2 text-black hover:text-black text-xl"
+                            aria-label="Sluit modal">&times;
+                    </button>
+
+                    <div class="flex justify-center">
+                        <img id="modal-image" class="w-48 h-48 object-cover rounded mb-4" alt="Dier afbeelding"/>
+                    </div>
+
+                    <h2 id="modal-name" class="text-xl font-bold mb-1"></h2>
+                    <p id="modal-scientific" class="italic text-black text-sm mb-3"></p>
+
+                    <p><strong>Gebied:</strong> <span id="modal-location"></span></p>
+                    <p><strong>Beheerder:</strong> <span id="modal-beheerder"></span></p>
+                    <p class="mt-4 text-black" id="modal-info"></p>
                 </div>
-
-                <h2 id="modal-name" class="text-xl font-bold mb-1"></h2>
-                <p id="modal-scientific" class="italic text-black text-sm mb-3"></p>
-
-                <p><strong>Gebied:</strong> <span id="modal-location"></span></p>
-                <p><strong>Beheerder:</strong> <span id="modal-beheerder"></span></p>
-                <p class="mt-4 text-black" id="modal-info"></p>
             </div>
-        </div>
+        </section>
+
     </main>
 
     <script defer src="/js/collection.js"></script>
