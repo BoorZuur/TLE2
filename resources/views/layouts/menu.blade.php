@@ -18,10 +18,14 @@
 
 
         <div class="flex justify-end">
-            <img src="{{ asset('images/natuurmonumenten.png') }}"
-                 alt="Natuurmonumenten logo"
-                 class="h-10 w-auto object-contain">
+            <a href="https://www.natuurmonumenten.nl/"
+               class="transition-transform duration-200 hover:scale-110">
+                <img src="{{ asset('images/natuurmonumenten.png') }}"
+                     alt="Natuurmonumenten logo"
+                     class="h-10 w-auto object-contain">
+            </a>
         </div>
+
 
     </div>
 
