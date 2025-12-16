@@ -12,6 +12,11 @@
             let coins = 0;
             let hunger = 100;
             let energy = 1000;
+            let lastPetTime = 0;
+            let sleepcooldown = false;
+            //hieronder cooldowns front end
+            const petCooldownMS = 300;
+            const sleepCooldownMS = 400;
             const coinsDisplay = document.getElementById('coins');
             const hungerDisplay = document.getElementById('hunger');
             const energyDisplay = document.getElementById('energy');
@@ -108,6 +113,9 @@
 
 
             async function petClick() {
+                const now = performance.now();
+                if (now - lastPetTime < petCooldownMS) return
+                lastPetTime = now;
                 if (energy <= 0 || clickerAnimal.dataset.sleeping === 'true') return;
                 coins++;
                 energy = Math.max(0, energy - 1);
@@ -144,15 +152,19 @@
                 updateWalkerAnimation();
             }
 
+            //idk fix deze
             clickerAnimal.addEventListener('click', petClick);
-            clickerAnimal.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    petClick();
-                }
-            });
+
 
             async function sleepClick() {
+
+                if (sleepcooldown) return;
+                sleepcooldown = true;
+
+                setTimeout(() => {
+                    sleepcooldown = false;
+                }, sleepCooldownMS);
+
                 const isSleeping = clickerAnimal.dataset.sleeping === 'true';
                 const walker = clickerAnimal.parentElement;
                 const overlay = document.getElementById('sleepOverlay');
@@ -205,12 +217,7 @@
             }
 
             sleepButton.addEventListener('click', sleepClick);
-            sleepButton.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    sleepClick();
-                }
-            });
+  
 
             // When pet animation finishes, resume walking
             clickerAnimal.addEventListener('animationend', (ev) => {
