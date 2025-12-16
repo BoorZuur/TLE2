@@ -41,7 +41,7 @@
                         <div class="md:w-1/2">
                             <div class="relative">
                                 <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
-                                     class="w-full h-auto object-cover rounded-lg shadow-lg">
+                                     class="w-full h-auto object-cover rounded-lg shadow-lg bg-white">
 
                                 <!-- Badge: Animal / Powerup -->
                                 <span
