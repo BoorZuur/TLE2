@@ -105,7 +105,7 @@ class AnimalController extends Controller
             'hunger' => $animal->hunger,
             'cleanliness' => $animal->cleanliness,
             'happiness' => $animal->happiness,
-            'last_hunger_update' => $animal->last_hunger_update->toIso8601String()
+            'last_hunger_update' => $animal->last_hunger_update?->toIso8601String()
         ]);
     }
 
