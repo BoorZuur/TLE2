@@ -1,10 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-2xl leading-tight">
+        <h1 class="text-2xl leading-tight">
             {{ __('Winkel') }}
-        </h2>
+        </h1>
     </x-slot>
-    
+
     <main id="main-content">
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -112,9 +112,11 @@
                                             </span>
 
                                             @if($user->hasPurchased($product))
-                                                <span class="bg-green-500 text-white px-3 py-2 rounded text-sm font-semibold">✓ Gekocht</span>
+                                                <span
+                                                    class="bg-green-500 text-white px-3 py-2 rounded text-sm font-semibold">✓ Gekocht</span>
                                             @else
-                                                <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 text-sm font-semibold transform transition hover:scale-105 focus-visible:scale-105">
+                                                <button
+                                                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 text-sm font-semibold transform transition hover:scale-105 focus-visible:scale-105">
                                                     Bekijken
                                                 </button>
                                             @endif
