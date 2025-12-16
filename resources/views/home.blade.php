@@ -363,12 +363,6 @@
 <body class="min-h-screen flex flex-col items-center justify-center bg-fixed"
       style="background-image: url('https://static.vecteezy.com/system/resources/thumbnails/003/467/246/small_2x/nature-landscape-background-cute-simple-cartoon-style-free-vector.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
 
-<a href="#main-content"
-   class="skip-link absolute -top-10 left-0 bg-black text-white px-4 py-2 z-50 focus:top-0 focus:outline-none">
-    Skip to main content
-</a>
-
-
 <div id="sleepOverlay"
      class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-500 z-10"></div>
 
