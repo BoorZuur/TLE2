@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnimalOverviewController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CoinController;
@@ -61,6 +62,11 @@ Route::get('/collectie', function () {
     $species = \App\Models\Specie::with('habitat')->where('status', 1)->get();
     return view('collection.animals', compact('species'));
 })->name('collectie')->middleware('auth');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/animals', [AnimalOverviewController::class, 'index'])
+        ->name('animals.index');
+});
 
 
 // Admin routes
