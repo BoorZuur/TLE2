@@ -13,6 +13,11 @@
             let coins = 0;
             let hunger = 0;
             let energy = 1000;
+            let lastPetTime = 0;
+            let sleepcooldown = false;
+            //hieronder cooldowns front end
+            const petCooldownMS = 300;
+            const sleepCooldownMS = 400;
             const coinsDisplay = document.getElementById('coins');
             const hungerDisplay = document.getElementById('hunger');
             const energyDisplay = document.getElementById('energy');
@@ -52,7 +57,7 @@
             if (walker) walker.classList.add('walk');
 
             //feedbutton logica
-            feedButton.addEventListener('click', async () => {
+            async function feedClick() {
                 const res = await fetch("{{ route('animal.feed', $animal->id) }}", {
                     method: "POST",
                     headers: {
@@ -78,6 +83,14 @@
 
                 lastServerSync = Date.now();
                 await loadHunger();
+            }
+
+            feedButton.addEventListener('click', feedClick);
+            feedButton.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    feedClick();
+                }
             });
 
             let lastServerSync = Date.now();
@@ -110,7 +123,10 @@
             loadHunger();
 
 
-            clickerAnimal.addEventListener('click', async () => {
+            async function petClick() {
+                const now = performance.now();
+                if (now - lastPetTime < petCooldownMS) return
+                lastPetTime = now;
                 if (energy <= 0 || clickerAnimal.dataset.sleeping === 'true') return;
 
                 coins++;
@@ -148,11 +164,24 @@
                     body: JSON.stringify({amount: -1})
                 });
                 updateWalkerAnimation();
+            }
+
+            //idk fix deze
+            clickerAnimal.addEventListener('click', petClick);
+
+
+            async function sleepClick() {
+
+                if (sleepcooldown) return;
+                sleepcooldown = true;
+
+                setTimeout(() => {
+                    sleepcooldown = false;
+                }, sleepCooldownMS);
             }, {passive: false});
 
             let energyInterval = null;
 
-            sleepButton.addEventListener('click', async () => {
                 const isSleeping = clickerAnimal.dataset.sleeping === 'true';
                 const walker = clickerAnimal.parentElement;
                 const overlay = document.getElementById('sleepOverlay');
@@ -162,8 +191,7 @@
                 const errorMsg = document.getElementById('errorMessage');
 
                 if (isSleeping) {
-                    // Wake up
-                    clickerAnimal.src = '/images/fox-standing.png';
+                    clickerAnimal.querySelector('img').src = '/images/fox-standing.png';
                     clickerAnimal.dataset.sleeping = 'false';
                     if (walker) walker.style.animationPlayState = 'running';
                     if (overlay) {
@@ -181,8 +209,7 @@
                         energyInterval = null;
                     }
                 } else {
-                    // Sleep
-                    clickerAnimal.src = '/images/fox-sleeping.png';
+                    clickerAnimal.querySelector('img').src = '/images/fox-sleeping.png';
                     clickerAnimal.dataset.sleeping = 'true';
                     if (walker) walker.style.animationPlayState = 'paused';
                     if (overlay) {
@@ -198,6 +225,11 @@
                     if (energyInterval) {
                         clearInterval(energyInterval);
                     }
+                }, 1000);
+            }
+
+            sleepButton.addEventListener('click', sleepClick);
+
 
                     // Start energy gain
                     const gained = 1;
@@ -333,7 +365,7 @@
         }
 
         /* anchor naar beneden */
-        .walker img#clicker {
+        .walker #clicker {
             position: absolute;
             bottom: 6px;
             left: 50%;
@@ -344,6 +376,25 @@
             will-change: transform;
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
+        }
+
+        .walker #clicker img {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Subtle grow on action icons when hovered */
+        #feedButton,
+        #sleepButton {
+            transition: transform 180ms ease, filter 180ms ease;
+            transform-origin: center;
+        }
+
+        #feedButton:hover,
+        #feedButton:focus-visible,
+        #sleepButton:hover,
+        #sleepButton:focus-visible {
+            transform: scale(1.15);
         }
 
         .sleep-mode-text {
@@ -412,21 +463,25 @@
 
 
 <!-- Coins + animal foto -->
-<div id="statsContainer"
-     class="relative z-20 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-2 sm:mb-4 w-full px-4">
-    <div id="statsText" class="text-center sm:text-left">
-        <h2 class="text-sm sm:text-lg md:text-xl font-semibold m-0">Honger: <span id="hunger">0</span></h2>
-        <h2 class="text-sm sm:text-lg md:text-xl font-semibold m-0">Energie: <span id="energy">0</span></h2>
-        <h2 class="text-sm sm:text-lg md:text-xl font-semibold m-0">Muntjes: <span id="coins">0</span></h2>
-    </div>
-    <div>
-        <img class="w-8 h-8 sm:w-10 sm:h-10 cursor-pointer flex-shrink-0" src="/images/food.png" id="feedButton"
-             alt="icon of food">
-    </div>
-    <div>
-        <img class="w-8 h-8 sm:w-10 sm:h-10 cursor-pointer flex-shrink-0" src="/images/sleep-icon.png"
-             id="sleepButton"
-             alt="icon for sleeping">
+<div id="main-content">
+    <div id="statsContainer" class="relative z-20 flex flex-row items-center justify-center gap-6 mb-4 w-full">
+        <div id="statsText">
+            <h2 class="text-xl font-semibold m-0">Honger: <span id="hunger">0</span></h2>
+            <h2 class="text-xl font-semibold m-0">Energie: <span id="energy">0</span></h2>
+            <h2 class="text-xl font-semibold m-0">Muntjes: <span id="coins">0</span></h2>
+        </div>
+        <div>
+            <button class="w-10 h-10 cursor-pointer flex-shrink-0 bg-transparent border-0 p-0" id="feedButton"
+                    aria-label="Feed button">
+                <img src="/images/food.png" alt="icon of food" class="w-full h-full">
+            </button>
+        </div>
+        <div>
+            <button class="w-10 h-10 cursor-pointer flex-shrink-0 bg-transparent border-0 p-0" id="sleepButton"
+                    aria-label="Sleep button">
+                <img src="/images/sleep-icon.png" alt="icon for sleeping" class="w-full h-full">
+            </button>
+        </div>
     </div>
 </div>
 <div id="errorMessage"
@@ -434,9 +489,9 @@
      style="min-height: 1.5em;"></div>
 
 <div class="walker walk">
-    <img src="/images/fox-standing.png"
-         id="clicker"
-         alt="clickable animal">
+    <button class="bg-transparent border-0 p-0" id="clicker" aria-label="Click animal">
+        <img src="/images/fox-standing.png" alt="clickable animal">
+    </button>
 </div>
 </body>
 </html>
