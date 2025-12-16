@@ -13,8 +13,15 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        html, body {
+            height: 100vh;
+            max-height: 100vh;
+            overflow-y: auto;
+        }
+    </style>
 </head>
-<body class="font-sans text-gray-900 antialiased">
+<body class="font-sans text-gray-900 antialiased h-screen max-h-screen overflow-y-auto">
 <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-[#89B934]">
     <div>
         <a href="/">

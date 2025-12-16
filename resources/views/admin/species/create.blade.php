@@ -9,9 +9,9 @@
 @endif
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="text-2xl leading-tight">
+        <h1 class="text-2xl leading-tight">
             {{ __('Nieuw Dier') }}
-        </h2>
+        </h1>
     </x-slot>
     <div class="flex justify-center items-center ">
         <div class="w-full max-w-3xl bg-white p-8 rounded-lg shadow-lg">

@@ -4,23 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
-    <title>NM Klikker</title>
+    <title>NMKlikker</title>
     @vite(['resources/css/app.css', 'resources/js/app.js']) <!-- Tailwind & JS -->
 
     {{--    dit in een include zetten gaat breken--}}
     <script>
         window.addEventListener('DOMContentLoaded', async () => {
+            const HUNGER_MAX = 100;
+            const ENERGY_MAX = 1000;
+
             let coins = 0;
             let hunger = 0;
-            let energy = 1000;
+            let energy = ENERGY_MAX;
             const coinsDisplay = document.getElementById('coins');
             const hungerDisplay = document.getElementById('hunger');
             const energyDisplay = document.getElementById('energy');
+            const hungerBar = document.getElementById('hungerBar');
+            const energyBar = document.getElementById('energyBar');
             const clickerAnimal = document.getElementById('clicker');
             const feedButton = document.getElementById('feedButton');
             const sleepButton = document.getElementById('sleepButton');
 
             if (!coinsDisplay || !clickerAnimal || !hungerDisplay || !energyDisplay) return;
+
+            function clamp(value, maxValue) {
+                return Math.max(0, Math.min(maxValue, Number.isFinite(value) ? value : 0));
+            }
+
+            function setMeter(fillEl, value, maxValue) {
+                if (!fillEl) return;
+                const percent = maxValue > 0 ? (clamp(value, maxValue) / maxValue) * 100 : 0;
+                fillEl.style.width = `${percent}%`;
+            }
+
+            function refreshMeters() {
+                setMeter(hungerBar, hunger, HUNGER_MAX);
+                setMeter(energyBar, energy, ENERGY_MAX);
+            }
 
             // Function to show temporary message
             function showMessage(text) {
@@ -45,6 +65,7 @@
             coinsDisplay.textContent = coins;
             hungerDisplay.textContent = hunger;
             energyDisplay.textContent = energy;
+            refreshMeters();
 
 
             //walker animation
@@ -70,6 +91,7 @@
 
                 hunger = data.hunger;
                 hungerDisplay.textContent = hunger;
+                refreshMeters();
 
                 if (data.coins !== undefined) {
                     coins = data.coins;
@@ -88,6 +110,7 @@
                 const data = await res.json();
                 hunger = data.hunger;
                 hungerDisplay.textContent = hunger;
+                refreshMeters();
                 lastServerSync = Date.now();
 
                 if (data.coins !== undefined) {
@@ -102,6 +125,7 @@
                 const decrease = Math.floor(secondsSinceSync / 20); // <- local versie, in animalcontroller gebeurt het serverside
                 const currentHunger = Math.max(0, hunger - decrease);
                 hungerDisplay.textContent = currentHunger;
+                setMeter(hungerBar, currentHunger, HUNGER_MAX);
                 updateWalkerAnimation();
             }, 1000);
 
@@ -117,13 +141,11 @@
                 energy = Math.max(0, energy - 1);
                 coinsDisplay.textContent = coins;
                 energyDisplay.textContent = energy;
+                refreshMeters();
 
                 // Pause walking while pet animation runs
                 if (walker) walker.style.animationPlayState = 'paused';
-
-                // Restart pet animation with better control
                 clickerAnimal.classList.remove('pet');
-                // Use requestAnimationFrame for smoother reflow
                 requestAnimationFrame(() => {
                     clickerAnimal.classList.add('pet');
                 });
@@ -149,6 +171,27 @@
                 });
                 updateWalkerAnimation();
             }, {passive: false});
+
+            clickerAnimal.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    clickerAnimal.click();
+                }
+            });
+
+            feedButton.addEventListener('keydown', async (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    feedButton.click();
+                }
+            });
+
+            sleepButton.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    sleepButton.click();
+                }
+            });
 
             let energyInterval = null;
 
@@ -202,15 +245,15 @@
                     // Start energy gain
                     const gained = 1;
                     energyInterval = setInterval(async () => {
-                        // Check if still sleeping
                         if (clickerAnimal.dataset.sleeping !== 'true') {
                             clearInterval(energyInterval);
                             energyInterval = null;
                             return;
                         }
-                        if (energy < 1000) {
-                            energy = Math.min(1000, energy + gained);
+                        if (energy < ENERGY_MAX) {
+                            energy = Math.min(ENERGY_MAX, energy + gained);
                             energyDisplay.textContent = energy;
+                            setMeter(energyBar, energy, ENERGY_MAX);
 
                             await fetch("{{ route('energy.add') }}", {
                                 method: "POST",
@@ -243,7 +286,7 @@
 
                 if (isSleeping || isOutOfEnergy) {
                     if (walker) walker.style.animationPlayState = 'paused';
-                    feedButton.style.opacity = '0.25';
+                    feedButton.style.opacity = '0.35';
                     feedButton.style.pointerEvents = 'none';
 
                     if (errorMessage && isOutOfEnergy) {
@@ -267,7 +310,8 @@
     <style>
         html, body {
             height: 100%;
-            overflow-y: auto;
+            max-height: 100vh;
+            overflow: hidden;
         }
 
         #clicker {
@@ -276,6 +320,31 @@
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
             image-rendering: crisp-edges;
+            user-select: none;
+        }
+
+        .meter {
+            position: relative;
+            height: 10px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.55);
+            overflow: hidden;
+        }
+
+        .meter-fill {
+            position: absolute;
+            inset: 0;
+            width: 0%;
+            border-radius: inherit;
+            transition: width 180ms ease;
+        }
+
+        .meter-hunger {
+            background: #f97316;
+        }
+
+        .meter-energy {
+            background: #22c55e;
         }
 
         #clicker.pet {
@@ -283,7 +352,6 @@
         }
 
         @keyframes pet {
-            /* include the horizontal centering translate so transforms don't jump */
             0% {
                 transform: translateX(-50%) translateY(0) rotate(0) scale(1);
             }
@@ -301,10 +369,9 @@
             }
         }
 
-        /* Flip L/R Animation - Fixed and Responsive */
         .walker {
             position: relative;
-            width: min(90vw, 540px);
+            width: min(90vw, 540px, calc(60vh * 540 / 580));
             height: auto;
             aspect-ratio: 540 / 580;
             margin: 0 auto;
@@ -339,7 +406,7 @@
             left: 50%;
             transform: translateX(-50%);
             transform-origin: center bottom;
-            width: min(70vw, 300px);
+            width: min(80vw, 400px, calc(60vh * 400 / 580));
             height: auto;
             will-change: transform;
             backface-visibility: hidden;
@@ -354,6 +421,32 @@
             filter: invert(100%) brightness(200%);
         }
 
+        /* Button hover scale effects */
+        #feedButton, #sleepButton {
+            transition: transform 200ms ease-in-out;
+        }
+
+        #feedButton:hover, #sleepButton:hover {
+            transform: scale(1.2);
+        }
+
+        /* Keyboard focus styles */
+        #feedButton:focus-visible, #sleepButton:focus-visible {
+            outline: 3px solid #FFD700;
+            outline-offset: 4px;
+            transform: scale(1.2);
+        }
+
+        #clicker:focus-visible {
+            outline: 3px solid #FFD700;
+            outline-offset: 4px;
+            border-radius: 8px;
+        }
+
+        #clicker:hover {
+            transform: translateX(-50%) scale(1.05);
+        }
+
         /* mobile */
         @media (hover: none) and (pointer: coarse) {
             #feedButton, #sleepButton {
@@ -362,6 +455,10 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+            }
+
+            .meter {
+                height: 12px;
             }
 
             @keyframes walk {
@@ -383,22 +480,22 @@
         /* Responsive design breakpoints */
         @media (max-width: 640px) {
             body {
-                overflow-y: auto;
-            }
-        }
-
-        @media (min-height: 800px) and (max-width: 640px) {
-            body {
-                overflow-y: hidden;
+                overflow: hidden;
             }
         }
     </style>
 </head>
 
-<x-app-layout></x-app-layout>
+<x-app-layout>
+    <x-slot name="header">
+        <h1 class="text-2xl leading-tight">
+            {{ __('NM Klikker') }}
+        </h1>
+    </x-slot>
+</x-app-layout>
 <!-- background -->
 
-<body class="min-h-screen flex flex-col items-center justify-center bg-fixed  "
+<body class="h-screen max-h-screen flex flex-col items-center justify-center bg-fixed overflow-hidden"
       style="background-image: url('https://static.vecteezy.com/system/resources/thumbnails/003/467/246/small_2x/nature-landscape-background-cute-simple-cartoon-style-free-vector.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
 
 <div id="sleepOverlay"
@@ -408,19 +505,25 @@
 <!-- Coins + animal foto -->
 <div id="statsContainer"
      class="relative z-20 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-2 sm:mb-4 w-full px-4">
-    <div id="statsText" class="text-center sm:text-left">
-        <h2 class="text-sm sm:text-lg md:text-xl font-semibold m-0">Honger: <span id="hunger">0</span></h2>
-        <h2 class="text-sm sm:text-lg md:text-xl font-semibold m-0">Energie: <span id="energy">0</span></h2>
+    <div id="statsText" class="text-center sm:text-left w-full sm:w-auto max-w-xl space-y-2">
+        <div>
+            <h2 class="text-sm sm:text-lg md:text-xl font-semibold m-0">Honger: <span id="hunger">0</span></h2>
+            <div class="meter"><div id="hungerBar" class="meter-fill meter-hunger"></div></div>
+        </div>
+        <div>
+            <h2 class="text-sm sm:text-lg md:text-xl font-semibold m-0">Energie: <span id="energy">0</span></h2>
+            <div class="meter"><div id="energyBar" class="meter-fill meter-energy"></div></div>
+        </div>
         <h2 class="text-sm sm:text-lg md:text-xl font-semibold m-0">Muntjes: <span id="coins">0</span></h2>
     </div>
     <div>
         <img class="w-8 h-8 sm:w-10 sm:h-10 cursor-pointer flex-shrink-0" src="/images/food.png" id="feedButton"
-             alt="icon of food">
+             alt="icon of food" tabindex="0" role="button" aria-label="Feed your pet">
     </div>
     <div>
         <img class="w-8 h-8 sm:w-10 sm:h-10 cursor-pointer flex-shrink-0" src="/images/sleep-icon.png"
              id="sleepButton"
-             alt="icon for sleeping">
+             alt="icon for sleeping" tabindex="0" role="button" aria-label="Put your pet to sleep">
     </div>
 </div>
 <div id="errorMessage"
@@ -430,7 +533,10 @@
 <div class="walker walk">
     <img src="/images/fox-standing.png"
          id="clicker"
-         alt="clickable animal">
+         alt="clickable animal"
+         tabindex="0"
+         role="button"
+         aria-label="Click to interact with your pet">
 </div>
 </body>
 </html>
