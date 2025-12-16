@@ -105,7 +105,7 @@
                 updateWalkerAnimation();
             }, 1000);
 
-            // Sync with server every 30 seconds -> REAL/SERVER Hunger value
+            // Sync with server every 30 seconds -> REAL/SERVER Hunger value 
             setInterval(loadHunger, 30000);
             loadHunger();
 
