@@ -7,10 +7,11 @@
     <title>NM Klikker</title>
     @vite(['resources/css/app.css', 'resources/js/app.js']) <!-- Tailwind & JS -->
 
+    {{--    dit in een include zetten gaat breken--}}
     <script>
         window.addEventListener('DOMContentLoaded', async () => {
             let coins = 0;
-            let hunger = 100;
+            let hunger = 0;
             let energy = 1000;
             let lastPetTime = 0;
             let sleepcooldown = false;
@@ -67,13 +68,19 @@
                 const data = await res.json();
 
                 if (data.error === 'cooldown') {
-                    showMessage("Wacht even voordat je je dier weer kunt voeden!");
+                    let remaining = Math.floor(data.remaining)
+                    showMessage(`Je kan je dier weer voeren over ${remaining} seconde`);
                     return;
                 }
 
-                // Update local hunger and reload from server
                 hunger = data.hunger;
                 hungerDisplay.textContent = hunger;
+
+                if (data.coins !== undefined) {
+                    coins = data.coins;
+                    coinsDisplay.textContent = coins;
+                }
+
                 lastServerSync = Date.now();
                 await loadHunger();
             }
@@ -86,7 +93,6 @@
                 }
             });
 
-            // let hunger = 0;
             let lastServerSync = Date.now();
 
             //fetch hunger from server and update display
@@ -96,19 +102,24 @@
                 hunger = data.hunger;
                 hungerDisplay.textContent = hunger;
                 lastServerSync = Date.now();
+
+                if (data.coins !== undefined) {
+                    coins = data.coins;
+                    coinsDisplay.textContent = coins
+                }
             }
 
-            // Update hunger display every second for smooth countdown
+            // update hunger variable every second -> LOCAL hunger value
             setInterval(() => {
-                const secondsSinceSync = Math.floor((Date.now() - lastServerSync) / 1000);
-                const decrease = Math.floor(secondsSinceSync / 2);
+                const secondsSinceSync = Math.ceil((Date.now() - lastServerSync) / 1000);
+                const decrease = Math.floor(secondsSinceSync / 20); // <- local versie, in animalcontroller gebeurt het serverside
                 const currentHunger = Math.max(0, hunger - decrease);
                 hungerDisplay.textContent = currentHunger;
                 updateWalkerAnimation();
             }, 1000);
 
-            // Sync with server every 2 seconds
-            setInterval(loadHunger, 2000);
+            // Sync with server every 30 seconds -> REAL/SERVER Hunger value
+            setInterval(loadHunger, 30000);
             loadHunger();
 
 
@@ -117,6 +128,7 @@
                 if (now - lastPetTime < petCooldownMS) return
                 lastPetTime = now;
                 if (energy <= 0 || clickerAnimal.dataset.sleeping === 'true') return;
+
                 coins++;
                 energy = Math.max(0, energy - 1);
                 coinsDisplay.textContent = coins;
@@ -125,10 +137,12 @@
                 // Pause walking while pet animation runs
                 if (walker) walker.style.animationPlayState = 'paused';
 
-                // Restart pet animation
+                // Restart pet animation with better control
                 clickerAnimal.classList.remove('pet');
-                void clickerAnimal.offsetWidth; // force reflow
-                clickerAnimal.classList.add('pet');
+                // Use requestAnimationFrame for smoother reflow
+                requestAnimationFrame(() => {
+                    clickerAnimal.classList.add('pet');
+                });
 
                 // Save coins to server
                 await fetch("{{ route('coins.add') }}", {
@@ -164,6 +178,9 @@
                 setTimeout(() => {
                     sleepcooldown = false;
                 }, sleepCooldownMS);
+            }, {passive: false});
+
+            let energyInterval = null;
 
                 const isSleeping = clickerAnimal.dataset.sleeping === 'true';
                 const walker = clickerAnimal.parentElement;
@@ -177,41 +194,36 @@
                     clickerAnimal.querySelector('img').src = '/images/fox-standing.png';
                     clickerAnimal.dataset.sleeping = 'false';
                     if (walker) walker.style.animationPlayState = 'running';
-                    if (overlay) overlay.style.opacity = '0';
+                    if (overlay) {
+                        overlay.style.opacity = '0';
+                        overlay.style.pointerEvents = 'none';
+                    }
                     statsText.classList.remove('sleep-mode-text');
                     feedBtn.classList.remove('sleep-mode-button');
                     sleepBtn.classList.remove('sleep-mode-button');
                     errorMsg.classList.remove('sleep-mode-text');
+
+                    // Clear energy gain interval
+                    if (energyInterval) {
+                        clearInterval(energyInterval);
+                        energyInterval = null;
+                    }
                 } else {
                     clickerAnimal.querySelector('img').src = '/images/fox-sleeping.png';
                     clickerAnimal.dataset.sleeping = 'true';
                     if (walker) walker.style.animationPlayState = 'paused';
-                    if (overlay) overlay.style.opacity = '1';
+                    if (overlay) {
+                        overlay.style.opacity = '1';
+                        overlay.style.pointerEvents = 'auto';
+                    }
                     statsText.classList.add('sleep-mode-text');
                     feedBtn.classList.add('sleep-mode-button');
                     sleepBtn.classList.add('sleep-mode-button');
                     errorMsg.classList.add('sleep-mode-text');
-                }
 
-                const gained = 1;
-                const energyInterval = setInterval(async () => {
-                    if (clickerAnimal.dataset.sleeping !== 'true') {
+                    // Clear any existing interval before creating a new one
+                    if (energyInterval) {
                         clearInterval(energyInterval);
-                        return;
-                    }
-                    if (energy < 1000) {
-                        energy = Math.min(1000, energy + gained);
-                        energyDisplay.textContent = energy;
-
-                        await fetch("{{ route('energy.add') }}", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                            },
-                            body: JSON.stringify({amount: gained})
-                        });
-                        updateWalkerAnimation();
                     }
                 }, 1000);
             }
@@ -219,26 +231,58 @@
             sleepButton.addEventListener('click', sleepClick);
 
 
+                    // Start energy gain
+                    const gained = 1;
+                    energyInterval = setInterval(async () => {
+                        // Check if still sleeping
+                        if (clickerAnimal.dataset.sleeping !== 'true') {
+                            clearInterval(energyInterval);
+                            energyInterval = null;
+                            return;
+                        }
+                        if (energy < 1000) {
+                            energy = Math.min(1000, energy + gained);
+                            energyDisplay.textContent = energy;
+
+                            await fetch("{{ route('energy.add') }}", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                                },
+                                body: JSON.stringify({amount: gained})
+                            });
+                            updateWalkerAnimation();
+                        }
+                    }, 1000);
+                }
+            }, {passive: false});
+
             // When pet animation finishes, resume walking
             clickerAnimal.addEventListener('animationend', (ev) => {
                 if (ev.animationName === 'pet') {
                     clickerAnimal.classList.remove('pet');
-                    if (walker) walker.style.animationPlayState = 'running';
+                    if (walker && clickerAnimal.dataset.sleeping !== 'true' && energy > 0) {
+                        walker.style.animationPlayState = 'running';
+                    }
                 }
-            });
+            }, {passive: true});
 
             function updateWalkerAnimation() {
                 const errorMessage = document.getElementById('errorMessage');
-                if (clickerAnimal.dataset.sleeping === 'true' || energy <= 0) {
-                    walker.style.animationPlayState = 'paused';
+                const isSleeping = clickerAnimal.dataset.sleeping === 'true';
+                const isOutOfEnergy = energy <= 0;
+
+                if (isSleeping || isOutOfEnergy) {
+                    if (walker) walker.style.animationPlayState = 'paused';
                     feedButton.style.opacity = '0.25';
                     feedButton.style.pointerEvents = 'none';
 
-                    if (errorMessage && energy <= 0) {
+                    if (errorMessage && isOutOfEnergy) {
                         errorMessage.textContent = "Je hebt geen energie meer, laat je dier slapen!";
                     }
                 } else {
-                    walker.style.animationPlayState = 'running';
+                    if (walker) walker.style.animationPlayState = 'running';
                     feedButton.style.opacity = '1';
                     feedButton.style.pointerEvents = 'auto';
 
@@ -255,7 +299,7 @@
     <style>
         html, body {
             height: 100%;
-            overflow-y: hidden;
+            overflow-y: auto;
         }
 
         #clicker {
@@ -263,10 +307,11 @@
             will-change: transform;
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
+            image-rendering: crisp-edges;
         }
 
         #clicker.pet {
-            animation: pet 640ms cubic-bezier(.2, .9, .3, 1);
+            animation: pet 640ms cubic-bezier(.2, .9, .3, 1) forwards;
         }
 
         @keyframes pet {
@@ -288,13 +333,16 @@
             }
         }
 
-        /* Flip L/R Animation*/
+        /* Flip L/R Animation - Fixed and Responsive */
         .walker {
             position: relative;
-            width: 540px;
-            height: 580px;
+            width: min(90vw, 540px);
+            height: auto;
+            aspect-ratio: 540 / 580;
             margin: 0 auto;
             overflow: visible;
+            will-change: transform;
+            transform: translateZ(0);
         }
 
         .walker.walk {
@@ -303,16 +351,16 @@
 
         @keyframes walk {
             0% {
-                transform: translateX(-450px) scaleX(1);
+                transform: translateX(-30vw) scaleX(1);
             }
             49% {
-                transform: translateX(450px) scaleX(1);
+                transform: translateX(30vw) scaleX(1);
             }
             50% {
-                transform: translateX(450px) scaleX(-1);
+                transform: translateX(30vw) scaleX(-1);
             }
             100% {
-                transform: translateX(-450px) scaleX(-1);
+                transform: translateX(-30vw) scaleX(-1);
             }
         }
 
@@ -323,8 +371,11 @@
             left: 50%;
             transform: translateX(-50%);
             transform-origin: center bottom;
-            width: 300px;
+            width: min(70vw, 300px);
             height: auto;
+            will-change: transform;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
         }
 
         .walker #clicker img {
@@ -353,17 +404,62 @@
         .sleep-mode-button {
             filter: invert(100%) brightness(200%);
         }
+
+        /* mobile */
+        @media (hover: none) and (pointer: coarse) {
+            #feedButton, #sleepButton {
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            @keyframes walk {
+                0% {
+                    transform: translateX(-30vw) scaleX(1);
+                }
+                49% {
+                    transform: translateX(30vw) scaleX(1);
+                }
+                50% {
+                    transform: translateX(30vw) scaleX(-1);
+                }
+                100% {
+                    transform: translateX(-30vw) scaleX(-1);
+                }
+            }
+        }
+
+        /* Responsive design breakpoints */
+        @media (max-width: 640px) {
+            body {
+                overflow-y: auto;
+            }
+        }
+
+        @media (min-height: 800px) and (max-width: 640px) {
+            body {
+                overflow-y: hidden;
+            }
+        }
     </style>
 </head>
 
-<x-app-layout></x-app-layout>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="text-2xl leading-tight">
+            {{ __('NM Klikker') }}
+        </h2>
+    </x-slot>
+</x-app-layout>
 <!-- background -->
 
 <body class="min-h-screen flex flex-col items-center justify-center bg-fixed"
       style="background-image: url('https://static.vecteezy.com/system/resources/thumbnails/003/467/246/small_2x/nature-landscape-background-cute-simple-cartoon-style-free-vector.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
 
 <div id="sleepOverlay"
-     class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-500 z-10"></div>
+     class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 z-5"></div>
 
 
 <!-- Coins + animal foto -->
@@ -388,7 +484,8 @@
         </div>
     </div>
 </div>
-<div id="errorMessage" class="relative z-20 text-red-600 font-semibold text-lg text-center m-0"
+<div id="errorMessage"
+     class="relative z-20 text-red-600 font-semibold text-sm sm:text-base md:text-lg text-center m-0 px-4"
      style="min-height: 1.5em;"></div>
 
 <div class="walker walk">
