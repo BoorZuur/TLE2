@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="nl">
+{{--head--}}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
