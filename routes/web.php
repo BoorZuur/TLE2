@@ -1,6 +1,9 @@
 <?php
 
+
+use App\Http\Controllers\AreaController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnimalOverviewController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CoinController;
@@ -15,9 +18,12 @@ use Illuminate\Support\Facades\Route;
 // home screen -> linked to homecontroller for getting animal
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// areas/gebieden
 Route::middleware('auth')->get('/areas', function () {
     return view('areas');
 })->name('areas');
+Route::middleware('auth')->get('/api/collected', [AreaController::class, 'getArea']);
+Route::middleware('auth')->get('/api/areas', [AreaController::class, 'getAreas']);
 
 // feeding get/post
 Route::get('/animal/{animal}/hunger', [AnimalController::class, 'getHunger'])
@@ -61,6 +67,11 @@ Route::get('/collectie', function () {
     $species = \App\Models\Specie::with('habitat')->where('status', 1)->get();
     return view('collection.animals', compact('species'));
 })->name('collectie')->middleware('auth');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/animals', [AnimalOverviewController::class, 'index'])
+        ->name('animals.index');
+});
 
 
 // Admin routes
