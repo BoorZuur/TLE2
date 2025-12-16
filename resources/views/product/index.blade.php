@@ -148,7 +148,7 @@
             cards.forEach(card => {
                 if (filter === 'all') {
                     card.style.display = 'block';
-                } else if (filter === 'animal' || filter === 'powerup') {
+                } else if (filter === 'animal') {
                     card.style.display = card.dataset.type === filter ? 'block' : 'none';
                 } else if (filter === 'coins' || filter === 'real_money' || filter === 'qr') {
                     card.style.display = card.dataset.currency === filter ? 'block' : 'none';

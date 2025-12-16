@@ -69,7 +69,7 @@ class ProductSeeder extends Seeder
                 'species_name' => 'Otter',
             ],
 
-            // Tiengemeenten
+            // Tiengemeten
             [
                 'name' => 'Bever',
                 'description' => 'Bouwt dammen in rivieren.',
@@ -78,7 +78,7 @@ class ProductSeeder extends Seeder
                 'product_type' => 'animal',
                 'currency_type' => 'qr',
                 'species_name' => 'Bever',
-                'qr_filename' => 'tiengemeenten.png',
+                'qr_filename' => 'tiengemeten.png',
             ],
             [
                 'name' => 'Bunzing',
@@ -108,7 +108,7 @@ class ProductSeeder extends Seeder
                 'product_type' => 'animal',
                 'currency_type' => 'qr',
                 'species_name' => 'Oehoe',
-                'qr_filename' => 'tiengemeenten.png',
+                'qr_filename' => 'tiengemeten.png',
             ],
 
             // Waddeneilanden
@@ -167,53 +167,6 @@ class ProductSeeder extends Seeder
                 'product_type' => 'animal',
                 'currency_type' => 'real_money',
                 'species_name' => 'Bij',
-            ],
-
-            // ----- Powerups -----
-            [
-                'name' => 'Dubbele Munten',
-                'description' => 'Verdien 2x zoveel munten voor 1 uur!',
-                'image_url' => '/images/food.png',
-                'price' => 50,
-                'product_type' => 'powerup',
-                'currency_type' => 'coins',
-                'powerup_effects' => json_encode(['effect' => 'Dubbele munten voor 1 uur', 'stackable' => true]),
-            ],
-            [
-                'name' => 'Auto-Voeding',
-                'description' => 'Je dieren worden automatisch gevoerd voor 24 uur!',
-                'image_url' => '/images/food.png',
-                'price' => 75,
-                'product_type' => 'powerup',
-                'currency_type' => 'coins',
-                'powerup_effects' => json_encode(['effect' => 'Automatisch voeden voor 24 uur']),
-            ],
-            [
-                'name' => 'Geluk Booster',
-                'description' => 'Verhoog je geluk en vind zeldzame items!',
-                'image_url' => '/images/food.png',
-                'price' => 100,
-                'product_type' => 'powerup',
-                'currency_type' => 'coins',
-                'powerup_effects' => json_encode(['effect' => '10% meer kans op zeldzame items']),
-            ],
-            [
-                'name' => 'VIP Pakket',
-                'description' => 'Krijg toegang tot exclusive features en extra munten!',
-                'image_url' => '/images/food.png',
-                'price' => 1.99,
-                'product_type' => 'powerup',
-                'currency_type' => 'real_money',
-                'powerup_effects' => json_encode(['500 bonus munten', 'VIP toegang', '5x snellere groei']),
-            ],
-            [
-                'name' => 'Mega Booster',
-                'description' => 'De ultieme powerup voor serieuze spelers!',
-                'image_url' => '/images/food.png',
-                'price' => 2.99,
-                'product_type' => 'powerup',
-                'currency_type' => 'real_money',
-                'powerup_effects' => json_encode(['1000 bonus munten', '3x sneller munten verdienen', 'Dieren altijd gelukkig']),
             ],
         ];
 
