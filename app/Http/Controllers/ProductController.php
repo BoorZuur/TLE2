@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Animal;
 use App\Models\Product;
 use App\Models\UserPurchase;
 use App\Models\UserSpeciesUnlock;
@@ -42,7 +43,7 @@ class ProductController extends Controller
         DB::beginTransaction();
 
         try {
-            
+
             if ($product->canBuyWithCoins()) {
                 if ($user->coins < $product->price) {
                     return back()->with('error', 'Je hebt niet genoeg munten!');
@@ -58,7 +59,7 @@ class ProductController extends Controller
                     'amount_paid' => $product->price,
                 ]);
             } else {
-                // Real money or QR (mocked)
+                // Real money or QR
                 UserPurchase::create([
                     'user_id' => $user->id,
                     'product_id' => $product->id,
@@ -68,9 +69,26 @@ class ProductController extends Controller
             }
 
             if ($product->isAnimal()) {
+
+                if (!$product->species_id) {
+                    throw new \Exception('Animal product heeft geen species_id');
+                }
+
+                // Species unlocken
                 UserSpeciesUnlock::firstOrCreate([
                     'user_id' => $user->id,
                     'species_id' => $product->species_id,
+                ]);
+
+                // 🐾 ANIMAL AANMAKEN
+                Animal::create([
+                    'user_id' => $user->id,
+                    'name' => $product->species->name,
+                    'species_id' => $product->species_id,
+                    'hunger' => 100,
+                    'happiness' => 100,
+                    'cleanliness' => 100,
+                    'adopted_at' => now(),
                 ]);
             }
 
