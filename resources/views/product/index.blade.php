@@ -56,7 +56,7 @@
             <!-- Products Grid -->
             <div class="mt-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 @if($products->isEmpty())
-                    <p class="text-gray-700 col-span-full text-center py-8">Er zijn geen producten beschikbaar.</p>
+                    <p class="text-black col-span-full text-center py-8">Er zijn geen producten beschikbaar.</p>
                 @else
                     @foreach($products as $product)
                         <div
@@ -73,7 +73,7 @@
                                          class="mb-4 h-48 w-full object-cover rounded">
                                     <!-- Product Type Badge -->
                                     <span
-                                        class="absolute top-2 left-2 px-2 py-1 rounded text-xs font-bold {{ $product->isAnimal() ? 'bg-green-500' : 'bg-blue-500' }} text-white">
+                                        class="absolute top-2 left-2 px-2 py-1 rounded text-xs font-bold {{ $product->isAnimal() ? 'bg-[#89B934]' : 'bg-[#319E88]' }} text-white">
                                         {{ $product->isAnimal() ? '🐾 Dier' : '⚡ Powerup' }}
                                     </span>
                                     <!-- Currency Badge -->
@@ -95,7 +95,7 @@
 
                                 <!-- Product Info -->
                                 <h3 class="text-lg font-semibold mb-2">{{ $product->name }}</h3>
-                                <p class="text-gray-700 mb-4 flex-grow text-sm">{{ Str::limit($product->description, 80) }}</p>
+                                <p class="text-black mb-4 flex-grow text-sm">{{ Str::limit($product->description, 80) }}</p>
 
                                 <!-- Price and Button -->
                                 <div class="mt-auto">
@@ -114,7 +114,7 @@
                                                 class="bg-green-500 text-white px-3 py-2 rounded text-sm font-semibold">✓ Gekocht</span>
                                         @else
                                             <button
-                                                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 text-sm font-semibold">
+                                                class="bg-[#319E88] text-white px-4 py-2 rounded hover:bg-[#007866] text-sm font-semibold">
                                                 Bekijken
                                             </button>
                                         @endif

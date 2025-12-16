@@ -81,8 +81,8 @@
                             <button class="text-red-500 hover:underline">Uitloggen</button>
                         </form>
                     @else
-                        <a href="{{ route('login') }}" class="text-black hover:text-gray-700">Login</a>
-                        <a href="{{ route('register') }}" class="text-black hover:text-gray-700">Register</a>
+                        <a href="{{ route('login') }}" class="text-black hover:text-[#36298B]">Login</a>
+                        <a href="{{ route('register') }}" class="text-black hover:text-[#36298B]">Register</a>
                     @endauth
                 </div>
             </nav>

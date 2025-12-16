@@ -30,7 +30,7 @@
                         {{ !$product->requiresRealMoney() && !$product->requiresQRCode() ? 'bg-lime-400' : '' }}">
 
                     <!-- Back Button -->
-                    <a href="{{ route('product.index') }}" class="inline-block mb-4 text-gray-700 hover:text-gray-900">
+                    <a href="{{ route('product.index') }}" class="inline-block mb-4 text-black hover:text-[#36298B]">
                         ← Terug naar winkel
                     </a>
 
@@ -44,7 +44,7 @@
 
                                 <!-- Badge: Animal / Powerup -->
                                 <span
-                                    class="absolute top-4 left-4 px-3 py-1 rounded text-sm font-bold {{ $product->isAnimal() ? 'bg-green-500' : 'bg-blue-500' }} text-white">
+                                    class="absolute top-4 left-4 px-3 py-1 rounded text-sm font-bold {{ $product->isAnimal() ? 'bg-[#89B934]' : 'bg-[#319E88]' }} text-white">
                                     {{ $product->isAnimal() ? '🐾 Dier' : '⚡ Powerup' }}
                                 </span>
                             </div>
@@ -55,7 +55,7 @@
 
                             <div>
                                 <h1 class="text-3xl font-bold mb-4">{{ $product->name }}</h1>
-                                <p class="text-gray-800 mb-6 text-lg">{{ $product->description }}</p>
+                                <p class="text-black mb-6 text-lg">{{ $product->description }}</p>
 
                                 <!-- Dier / Powerup Info -->
                                 @if($product->isAnimal())
