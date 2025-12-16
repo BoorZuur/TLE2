@@ -34,10 +34,10 @@
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                 <div>
                     <p class="text-sm mt-2 text-white">
-                        {{ __('Je email adres is niet bevestigd.') }}
+                        {{ __('Your email address is unverified.') }}
 
                         <button form="send-verification"
-                                class="underline text-sm text-white hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
+                                class="underline text-sm text-white hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
                             {{ __('Klik hier om de verificatie email opnieuw te sturen.') }}
                         </button>
                     </p>

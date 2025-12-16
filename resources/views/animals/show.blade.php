@@ -27,7 +27,6 @@
 
             if (!coinsDisplay || !clickerAnimal || !hungerDisplay) return;
 
-
             try {
                 // Fetch saved data from server
                 const coinsRes = await fetch("{{ route('coins.get') }}");
@@ -49,7 +48,6 @@
                 hungerDisplay.textContent = hunger;
                 cleanlinessDisplay.textContent = cleanliness;
                 hungerDisplay.textContent = hunger;
-                updateDirtiness(cleanliness);
 
                 console.log('Loaded animal:', animalData);
             } catch (error) {
@@ -90,8 +88,6 @@
 
                 cleanliness = Math.max(0, cleanliness - 10);
                 cleanlinessDisplay.textContent = cleanliness;
-
-                updateDirtiness(cleanliness);
 
                 if (walker) walker.style.animationPlayState = 'paused';
 
@@ -151,8 +147,6 @@
                 cleanliness = Math.min(100, cleanliness + 10);
                 cleanlinessDisplay.textContent = cleanliness;
 
-                updateDirtiness(cleanliness);
-
                 try {
                     await fetch("{{ route('animal.update', ['id' => $animal->id]) }}", {
                         method: "POST",
@@ -173,15 +167,6 @@
                     if (walker) walker.style.animationPlayState = 'running';
                 }
             });
-
-            function updateDirtiness(cleanliness) {
-                const dirtOverlay = clickerAnimal.querySelector('.dirt-overlay');
-                if (!dirtOverlay) return;
-
-                // Opacity increases as cleanliness decreases
-                const opacity = 1 - (cleanliness / 100);
-                dirtOverlay.style.opacity = opacity;
-            }
         });
     </script>
 
@@ -224,7 +209,7 @@
 
         /* Flip L/R Animation*/
         .walker {
-            /*position: relative;*/
+            position: relative;
             width: 540px;
             height: 580px;
             margin: 0 auto;
@@ -251,7 +236,7 @@
         }
 
         /* anchor naar beneden */
-        .walker #clicker {
+        .walker img#clicker {
             position: absolute;
             bottom: 6px;
             left: 50%;
@@ -259,31 +244,6 @@
             transform-origin: center bottom;
             width: 300px;
             height: auto;
-        }
-
-        .animal-container {
-            position: relative;
-            display: inline-block;
-            width: 200px;
-            height: 200px;
-        }
-
-        .animal-image {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            z-index: 1;
-        }
-
-        .dirt-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 2;
         }
     </style>
 </head>
@@ -311,14 +271,9 @@
     </div>
 </div>
 <div class="walker walk">
-    <div id="clicker" class="animal-container">
-        <img src="/images/cheerful-fox.png"
-             class="animal-image"
-             alt="clickable animal">
-        <img src="/images/mud-splatter.png"
-             class="dirt-overlay"
-             alt="dirt splatter">
-    </div>
+    <img src="/images/cheerful-fox.png"
+         id="clicker"
+         alt="clickable animal">
 </div>
 </body>
 </html>

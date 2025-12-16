@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Product extends Model
 {
@@ -14,10 +13,9 @@ class Product extends Model
         'price',
         'product_type',
         'currency_type',
-        'species_id',
+        'species_tag',
         'powerup_effects',
         'image_url',
-        'qr_filename',
     ];
 
     protected $casts = [
@@ -29,14 +27,9 @@ class Product extends Model
         return $this->hasMany(UserPurchase::class);
     }
 
-    public function species(): BelongsTo
-    {
-        return $this->belongsTo(Specie::class);
-    }
-
     public function isAnimal(): bool
     {
-        return $this->product_type === 'animal' && $this->species_id !== null;
+        return $this->product_type === 'animal';
     }
 
     public function isPowerup(): bool
@@ -44,18 +37,13 @@ class Product extends Model
         return $this->product_type === 'powerup';
     }
 
-    public function canBuyWithCoins(): bool
-    {
-        return $this->currency_type === 'coins';
-    }
-
     public function requiresRealMoney(): bool
     {
         return $this->currency_type === 'real_money';
     }
 
-    public function requiresQRCode(): bool
+    public function canBuyWithCoins(): bool
     {
-        return $this->currency_type === 'qr';
+        return $this->currency_type === 'coins';
     }
 }

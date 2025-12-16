@@ -6,12 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Models\Animal;
-use App\Models\UserSpeciesUnlock;
 
-/**
- * @property mixed $is_admin
- */
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -77,19 +72,10 @@ class User extends Authenticatable
             'happiness' => 100,
             'hunger' => 50,
             'cleanliness' => 75,
-            'species_tag' => 2,
+            'species_tag' => 1,
             'adopted_at' => now(),
             'updated_at' => now(),
         ]);
-            UserSpeciesUnlock::create([
-                'user_id' => $user->id,
-                'species_id' => 2,
-            ]);
         });
-    }
-
-    public function isAdmin(): bool
-    {
-        return $this->is_admin === 1;
     }
 }

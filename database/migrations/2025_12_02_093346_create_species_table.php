@@ -5,21 +5,32 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('species', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('scientific_name')->default('-')->nullable();
-            $table->string('image')->default('/images/placeholder.png')->nullable();
-            $table->string('beheerder')->default('-')->nullable();
-            $table->text('info')->default('-')->nullable();
+            $table->bigInteger('habitat_tag');
+            $table->string('scientific_name')->default('-');
+            $table->string('image')->default('/images/placeholder.png');
+            $table->string('beheerder')->default('-');
+            $table->text('info')->default('-');
             $table->boolean('locked')->default(true);
-            $table->smallInteger('status')->default(1);
-            $table->foreignId('habitat_id')->constrained('habitats')->cascadeOnDelete();
+
+            $table->foreign('habitat_tag')->references('id')->on('habitats');
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
         Schema::dropIfExists('species');

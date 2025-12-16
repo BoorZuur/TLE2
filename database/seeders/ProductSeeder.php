@@ -2,174 +2,66 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Product;
-use App\Models\Specie;
 
 class ProductSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
-        $species = Specie::all()->keyBy('name'); // species keyed op name
-
+        // seed products - animals and powerups
         $products = [
-            // ----- Animals (Veluwe) -----
+            // Animals with coins
             [
-                'name' => 'Haas',
-                'description' => 'Een schattige haas die graag huppelt.',
-                'image_url' => '/images/store_animals/hare-standing.png',
+                'name' => 'Konijn',
+                'description' => 'Een schattig konijn dat graag huppelt. Perfect voor beginners!',
+                'image_url' => '/images/cheerful-fox.png',
                 'price' => 100,
                 'product_type' => 'animal',
                 'currency_type' => 'coins',
-                'species_name' => 'Haas',
+                'species_tag' => 1,
             ],
             [
-                'name' => 'Wild zwijn',
-                'description' => 'Sterk zwijn dat in de bossen leeft.',
-                'image_url' => '/images/store_animals/boar.png',
+                'name' => 'Eend',
+                'description' => 'Een vrolijke eend die graag zwemt. Makkelijk te verzorgen.',
+                'image_url' => '/images/eend.jpg',
                 'price' => 150,
                 'product_type' => 'animal',
                 'currency_type' => 'coins',
-                'species_name' => 'Wild zwijn',
-            ],
-            [
-                'name' => 'Edelhert',
-                'description' => 'Majestueus hert in de Veluwe.',
-                'image_url' => '/images/store_animals/deer-standing.png',
-                'price' => 700,
-                'product_type' => 'animal',
-                'currency_type' => 'coins',
-                'species_name' => 'Edelhert',
-            ],
-            [
-                'name' => 'Wolf',
-                'description' => 'Sporadisch roofdier.',
-                'image_url' => '/images/store_animals/wolf-sitting.png',
-                'price' => 1.99,
-                'product_type' => 'animal',
-                'currency_type' => 'real_money',
-                'species_name' => 'Wolf',
+                'species_tag' => 2,
             ],
             [
                 'name' => 'Vos',
-                'description' => 'Sluw en mysterieus, sluipt door bossen.',
-                'image_url' => '/images/store_animals/fox-standing.png',
-                'price' => 300,
+                'description' => 'Een slimme en speelse vos. Vereist wat meer aandacht.',
+                'image_url' => '/images/cheerful-fox.png',
+                'price' => 250,
                 'product_type' => 'animal',
                 'currency_type' => 'coins',
-                'species_name' => 'Vos',
+                'species_tag' => 3,
             ],
+            // Premium animals with real money
             [
-                'name' => 'Otter',
-                'description' => 'Kenmerkend voor waterrijke gebieden, zwemt en jaagt in water.',
-                'image_url' => '/images/store_animals/otter-standing.png',
-                'price' => 400,
-                'product_type' => 'animal',
-                'currency_type' => 'coins',
-                'species_name' => 'Otter',
-            ],
-
-            // Tiengemeenten
-            [
-                'name' => 'Bever',
-                'description' => 'Bouwt dammen in rivieren.',
-                'image_url' => '/images/store_animals/beaver.png',
-                'price' => 0,
-                'product_type' => 'animal',
-                'currency_type' => 'qr',
-                'species_name' => 'Bever',
-                'qr_filename' => 'tiengemeenten.png',
-            ],
-            [
-                'name' => 'Bunzing',
-                'description' => 'Zeldzaam dier langs oevers en bosranden.',
-                'image_url' => '/images/store_animals/polecat.png',
-                'price' => 0.99,
+                'name' => 'Edelhert',
+                'description' => 'Een majestueus edelhert. Exclusief en zeldzaam!',
+                'image_url' => '/images/edelhert.avif',
+                'price' => 4.99,
                 'product_type' => 'animal',
                 'currency_type' => 'real_money',
-                'species_name' => 'Bunzing',
+                'species_tag' => 4,
             ],
             [
-                'name' => 'Kikker',
-                'description' => 'Vertrouwd en veelzijdig, springt en jaagt op insecten.',
-                'image_url' => '/images/store_animals/frog-standing.png',
-                'price' => 100,
-                'product_type' => 'animal',
-                'currency_type' => 'coins',
-                'species_name' => 'Kikker',
-            ],
-
-            // ENCI-Groeve
-            [
-                'name' => 'Oehoe',
-                'description' => 'Broedt in steile kalkwanden.',
-                'image_url' => '/images/store_animals/owl-sitting.png',
-                'price' => 0,
-                'product_type' => 'animal',
-                'currency_type' => 'qr',
-                'species_name' => 'Oehoe',
-                'qr_filename' => 'tiengemeenten.png',
-            ],
-
-            // Waddeneilanden
-            [
-                'name' => 'Zeehond',
-                'description' => 'Rust op zandplaten en duinen.',
-                'image_url' => '/images/store_animals/seal.png',
-                'price' => 0.99,
+                'name' => 'Boomkikker',
+                'description' => 'Een zeldzame boomkikker met prachtige kleuren. Limited edition!',
+                'image_url' => '/images/boomkikker.avif',
+                'price' => 3.99,
                 'product_type' => 'animal',
                 'currency_type' => 'real_money',
-                'species_name' => 'Zeehond',
+                'species_tag' => 5,
             ],
-            [
-                'name' => 'Ijsvogel',
-                'description' => 'Langs sloten en waterkanten.',
-                'image_url' => '/images/store_animals/kingfisher.png',
-                'price' => 0.99,
-                'product_type' => 'animal',
-                'currency_type' => 'real_money',
-                'species_name' => 'Ijsvogel',
-            ],
-
-            // Groene Hart
-            [
-                'name' => 'Grutto',
-                'description' => 'Broedt in natte weilanden.',
-                'image_url' => '/images/store_animals/godwit.png',
-                'price' => 0.99,
-                'product_type' => 'animal',
-                'currency_type' => 'real_money',
-                'species_name' => 'Grutto',
-            ],
-            [
-                'name' => 'Egel',
-                'description' => 'Bos- en graslandbewoner.',
-                'image_url' => '/images/store_animals/hedgehog.png',
-                'price' => 100,
-                'product_type' => 'animal',
-                'currency_type' => 'coins',
-                'species_name' => 'Egel',
-            ],
-            [
-                'name' => 'Mol',
-                'description' => 'Graaft gangen in grasland.',
-                'image_url' => '/images/store_animals/mol.png',
-                'price' => 100,
-                'product_type' => 'animal',
-                'currency_type' => 'coins',
-                'species_name' => 'Mol',
-            ],
-            [
-                'name' => 'Bij',
-                'description' => 'Zoemt rond bloemrijke velden.',
-                'image_url' => '/images/store_animals/bee.png',
-                'price' => 0.99,
-                'product_type' => 'animal',
-                'currency_type' => 'real_money',
-                'species_name' => 'Bij',
-            ],
-
-            // ----- Powerups -----
+            // Powerups with coins
             [
                 'name' => 'Dubbele Munten',
                 'description' => 'Verdien 2x zoveel munten voor 1 uur!',
@@ -177,7 +69,7 @@ class ProductSeeder extends Seeder
                 'price' => 50,
                 'product_type' => 'powerup',
                 'currency_type' => 'coins',
-                'powerup_effects' => json_encode(['effect' => 'Dubbele munten voor 1 uur', 'stackable' => true]),
+                'powerup_effects' => ['Dubbele munten voor 1 uur', 'Stapelbaar met andere bonussen'],
             ],
             [
                 'name' => 'Auto-Voeding',
@@ -186,7 +78,7 @@ class ProductSeeder extends Seeder
                 'price' => 75,
                 'product_type' => 'powerup',
                 'currency_type' => 'coins',
-                'powerup_effects' => json_encode(['effect' => 'Automatisch voeden voor 24 uur']),
+                'powerup_effects' => ['Automatisch voeden voor 24 uur', 'Werkt voor alle dieren'],
             ],
             [
                 'name' => 'Geluk Booster',
@@ -195,36 +87,31 @@ class ProductSeeder extends Seeder
                 'price' => 100,
                 'product_type' => 'powerup',
                 'currency_type' => 'coins',
-                'powerup_effects' => json_encode(['effect' => '10% meer kans op zeldzame items']),
+                'powerup_effects' => ['10% meer kans op zeldzame items', 'Duurt 12 uur'],
             ],
+            // Premium powerups with real money
             [
                 'name' => 'VIP Pakket',
                 'description' => 'Krijg toegang tot exclusive features en extra munten!',
                 'image_url' => '/images/food.png',
-                'price' => 1.99,
+                'price' => 9.99,
                 'product_type' => 'powerup',
                 'currency_type' => 'real_money',
-                'powerup_effects' => json_encode(['500 bonus munten', 'VIP toegang', '5x snellere groei']),
+                'powerup_effects' => ['500 bonus munten', 'Toegang tot VIP gebied', '5x snellere groei', 'Permanent actief'],
             ],
             [
                 'name' => 'Mega Booster',
                 'description' => 'De ultieme powerup voor serieuze spelers!',
                 'image_url' => '/images/food.png',
-                'price' => 2.99,
+                'price' => 14.99,
                 'product_type' => 'powerup',
                 'currency_type' => 'real_money',
-                'powerup_effects' => json_encode(['1000 bonus munten', '3x sneller munten verdienen', 'Dieren altijd gelukkig']),
+                'powerup_effects' => ['1000 bonus munten', '3x sneller munten verdienen', 'Alle dieren altijd gelukkig', '30 dagen actief'],
             ],
         ];
 
         foreach ($products as $product) {
-            if (isset($product['species_name'])) {
-                $speciesId = $species[$product['species_name']]->id ?? null;
-                unset($product['species_name']);
-                $product['species_id'] = $speciesId;
-            }
-
-            Product::updateOrCreate(['name' => $product['name']], $product);
+            \App\Models\Product::create($product);
         }
     }
 }

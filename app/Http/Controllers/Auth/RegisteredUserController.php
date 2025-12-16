@@ -34,18 +34,9 @@ class RegisteredUserController extends Controller
 
         $request->validate([
             'username' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
 
-        ], [
-            'name.required' => 'Naam is verplicht.',
-            'name.max' => 'Naam mag maximaal 255 tekens bevatten.',
-            'email.required' => 'Het e-mailadres is verplicht.',
-            'email.email' => 'Voer een geldig e-mailadres in.',
-            'email.unique' => 'Dit e-mailadres is al geregistreerd.',
-            'password.required' => 'Het wachtwoord is verplicht.',
-            'password.confirmed' => 'De wachtwoorden komen niet overeen.',
-            'password.min' => 'Het wachtwoord moet minstens 8 tekens bevatten.',
         ]);
 
         $user = User::create([

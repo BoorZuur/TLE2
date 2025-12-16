@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Specie extends Model
 {
@@ -14,26 +12,20 @@ class Specie extends Model
 
     protected $fillable = [
         'name',
-        'scientific_name',
-        'habitat_id',
+        'habitat_tag',
+        'scientific-name',
         'info',
         'image',
-        'beheerder',
-        'status',
+        'beheerder'
     ];
 
-    public function habitat(): BelongsTo
+    public function habitat(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Habitat::class);
+        return $this->belongsTo(Habitat::class, 'habitat_tag', 'id');
     }
 
-    public function unlocks(): HasMany
+    public function unlocks()
     {
         return $this->hasMany(UserSpeciesUnlock::class, 'species_id');
-    }
-
-    public function products(): HasMany
-    {
-        return $this->hasMany(Product::class);
     }
 }
