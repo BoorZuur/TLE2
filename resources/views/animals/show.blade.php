@@ -9,6 +9,10 @@
 
     <script>
         window.addEventListener('DOMContentLoaded', async () => {
+            const HUNGER_MAX = 100;
+            const ENERGY_MAX = 1000;
+            const CLEANLINESS_MAX = 100;
+
             let coins = 0;
             let hunger = 100;
             let cleanliness = 100;
@@ -23,12 +27,31 @@
             const cleanlinessDisplay = document.getElementById('cleanliness');
             const happinessDisplay = document.getElementById('happiness');
             const energyDisplay = document.getElementById('energy');
+            const hungerBar = document.getElementById('hungerBar');
+            const energyBar = document.getElementById('energyBar');
+            const cleanlinessBar = document.getElementById('cleanlinessBar');
             const clickerAnimal = document.getElementById('clicker');
             const feedButton = document.getElementById('feedButton');
             const cleanButton = document.getElementById('cleanButton');
             const sleepButton = document.getElementById('sleepButton');
 
             if (!coinsDisplay || !clickerAnimal || !hungerDisplay) return;
+
+            function clamp(value, maxValue) {
+                return Math.max(0, Math.min(maxValue, Number.isFinite(value) ? value : 0));
+            }
+
+            function setMeter(fillEl, value, maxValue) {
+                if (!fillEl) return;
+                const percent = maxValue > 0 ? (clamp(value, maxValue) / maxValue) * 100 : 0;
+                fillEl.style.width = `${percent}%`;
+            }
+
+            function refreshMeters() {
+                setMeter(hungerBar, hunger, HUNGER_MAX);
+                setMeter(energyBar, energy, ENERGY_MAX);
+                setMeter(cleanlinessBar, cleanliness, CLEANLINESS_MAX);
+            }
 
 
             try {
@@ -60,12 +83,15 @@
                 energyDisplay.textContent = energy;
                 updateDirtiness(cleanliness);
 
+                refreshMeters();
+
                 console.log('Loaded animal:', animalData);
             } catch (error) {
                 console.error('Failed to load data:', error);
                 hungerDisplay.textContent = hunger;
                 cleanlinessDisplay.textContent = cleanliness;
                 energyDisplay.textContent = energy;
+                refreshMeters();
             }
 
             const walker = clickerAnimal.parentElement;
@@ -75,6 +101,7 @@
             setInterval(async () => {
                 hunger = Math.max(0, hunger - 1);
                 hungerDisplay.textContent = hunger;
+                setMeter(hungerBar, hunger, HUNGER_MAX);
 
                 // Save hunger to database every 10 points or when it reaches 0
                 if (hunger % 10 === 0 || hunger === 0) {
@@ -107,6 +134,7 @@
                 cleanlinessDisplay.textContent = cleanliness;
 
                 updateDirtiness(cleanliness);
+                refreshMeters();
                 updateWalkerAnimation();
 
                 if (walker) walker.style.animationPlayState = 'paused';
@@ -158,6 +186,7 @@
             feedButton.addEventListener('click', async () => {
                 hunger = Math.min(100, hunger + 20);
                 hungerDisplay.textContent = hunger;
+                setMeter(hungerBar, hunger, HUNGER_MAX);
 
                 try {
                     await fetch("{{ route('animal.update', ['id' => $animal->id]) }}", {
@@ -176,6 +205,7 @@
             cleanButton.addEventListener('click', async () => {
                 cleanliness = Math.min(100, cleanliness + 10);
                 cleanlinessDisplay.textContent = cleanliness;
+                setMeter(cleanlinessBar, cleanliness, CLEANLINESS_MAX);
 
                 updateDirtiness(cleanliness);
 
@@ -259,6 +289,7 @@
                         if (energy < 1000) {
                             energy = Math.min(1000, energy + gained);
                             energyDisplay.textContent = energy;
+                            setMeter(energyBar, energy, ENERGY_MAX);
 
                             await fetch("{{ route('energy.add') }}", {
                                 method: "POST",
@@ -434,6 +465,34 @@
         .sleep-mode-button {
             filter: invert(100%) brightness(200%);
         }
+
+        .meter {
+            position: relative;
+            height: 10px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.55);
+            overflow: hidden;
+        }
+
+        .meter-fill {
+            position: absolute;
+            inset: 0;
+            width: 0%;
+            border-radius: inherit;
+            transition: width 180ms ease;
+        }
+
+        .meter-hunger {
+            background: #f97316;
+        }
+
+        .meter-energy {
+            background: #22c55e;
+        }
+
+        .meter-cleanliness {
+            background: #3b82f6;
+        }
     </style>
 </head>
 
@@ -453,22 +512,32 @@
      class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 z-5"></div>
 
 <!-- Coins + vos foto -->
-<div class="flex flex-row items-center justify-center gap-6 mb-4 w-full">
-    <div id="statsText" class="text-center sm:text-left">
-        <h2 class="text-xl font-semibold text-gray-800 m-0">Honger: <span id="hunger">0</span></h2>
-        <h2 class="text-xl font-semibold text-gray-800 m-0">Schoonheid: <span id="cleanliness">0</span></h2>
-        <h2 class="text-xl font-semibold text-gray-800 m-0">Energie: <span id="energy">0</span></h2>
-        <h2 class="text-xl font-semibold text-gray-800 m-0">Muntjes: <span id="coins">0</span></h2>
+<div id="statsContainer"
+     class="relative z-20 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-2 sm:mb-4 w-full px-4">
+    <div id="statsText" class="text-center sm:text-left w-full sm:w-auto max-w-xl space-y-2">
+        <div>
+            <h2 class="text-sm sm:text-lg md:text-xl font-semibold text-gray-800 m-0">Honger: <span id="hunger">0</span></h2>
+            <div class="meter"><div id="hungerBar" class="meter-fill meter-hunger"></div></div>
+        </div>
+        <div>
+            <h2 class="text-sm sm:text-lg md:text-xl font-semibold text-gray-800 m-0">Schoonheid: <span id="cleanliness">0</span></h2>
+            <div class="meter"><div id="cleanlinessBar" class="meter-fill meter-cleanliness"></div></div>
+        </div>
+        <div>
+            <h2 class="text-sm sm:text-lg md:text-xl font-semibold text-gray-800 m-0">Energie: <span id="energy">0</span></h2>
+            <div class="meter"><div id="energyBar" class="meter-fill meter-energy"></div></div>
+        </div>
+        <h2 class="text-sm sm:text-lg md:text-xl font-semibold text-gray-800 m-0">Muntjes: <span id="coins">0</span></h2>
     </div>
     <div>
-        <img class="w-10 h-10 cursor-pointer flex-shrink-0" src="/images/food.png" id="feedButton" alt="icon of food">
+        <img class="w-8 h-8 sm:w-10 sm:h-10 cursor-pointer flex-shrink-0" src="/images/food.png" id="feedButton" alt="icon of food">
     </div>
     <div>
-        <img class="w-10 h-10 cursor-pointer flex-shrink-0" src="/images/bath-tub.png" id="cleanButton"
+        <img class="w-8 h-8 sm:w-10 sm:h-10 cursor-pointer flex-shrink-0" src="/images/bath-tub.png" id="cleanButton"
              alt="icon of bathtub">
     </div>
     <div>
-        <img class="w-10 h-10 cursor-pointer flex-shrink-0" src="/images/sleep-icon.png" id="sleepButton" alt="icon for sleeping">
+        <img class="w-8 h-8 sm:w-10 sm:h-10 cursor-pointer flex-shrink-0" src="/images/sleep-icon.png" id="sleepButton" alt="icon for sleeping">
     </div>
 </div>
 <div id="errorMessage"
