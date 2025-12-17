@@ -85,6 +85,12 @@ class User extends Authenticatable
                 'user_id' => $user->id,
                 'species_id' => 5,
             ]);
+            UserPurchase::create([
+                'user_id' => $user->id,
+                'product_id' => 5,
+                'purchase_type' => 'coins',
+                'amount_paid' => 0,
+            ]);
         });
     }
 
