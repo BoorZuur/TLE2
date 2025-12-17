@@ -1,4 +1,9 @@
 <x-app-layout>
+    <x-slot name="header">
+        <h1 class="text-2xl leading-tight">
+            {{ __('Kies een dier') }}
+        </h1>
+    </x-slot>
     <!doctype html>
     <html lang="nl">
     <head>

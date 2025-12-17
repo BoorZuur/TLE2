@@ -259,7 +259,7 @@
                     updateWalkerAnimation();
                 } else {
                     // Sleep
-                    clickerAnimal.querySelector('.animal-image').src = '{{ $animal->species->image }}';
+                    clickerAnimal.querySelector('.animal-image').src = '{{ $animal->species->image ?? '/images/fox-sleeping.png' }}'.replace('-standing.png', '-sleeping.png');
                     clickerAnimal.dataset.sleeping = 'true';
                     if (walker) walker.style.animationPlayState = 'paused';
                     if (overlay) {
@@ -357,6 +357,8 @@
     <style>
         html, body {
             height: 100%;
+            max-height: 100vh;
+            overflow: hidden;
         }
 
         #clicker {
@@ -364,14 +366,15 @@
             will-change: transform;
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
+            image-rendering: crisp-edges;
+            user-select: none;
         }
 
         #clicker.pet {
-            animation: pet 640ms cubic-bezier(.2, .9, .3, 1);
+            animation: pet 640ms cubic-bezier(.2, .9, .3, 1) forwards;
         }
 
         @keyframes pet {
-            /* include the horizontal centering translate so transforms don't jump */
             0% {
                 transform: translateX(-50%) translateY(0) rotate(0) scale(1);
             }
@@ -391,11 +394,14 @@
 
         /* Flip L/R Animation*/
         .walker {
-            /*position: relative;*/
-            width: 540px;
-            height: 580px;
+            position: relative;
+            width: min(90vw, 540px, calc(60vh * 540 / 580));
+            height: auto;
+            aspect-ratio: 540 / 580;
             margin: 0 auto;
             overflow: visible;
+            will-change: transform;
+            transform: translateZ(0);
         }
 
         .walker.walk {
@@ -404,16 +410,16 @@
 
         @keyframes walk {
             0% {
-                transform: translateX(-450px) scaleX(1);
+                transform: translateX(-30vw) scaleX(1);
             }
             49% {
-                transform: translateX(450px) scaleX(1);
+                transform: translateX(30vw) scaleX(1);
             }
             50% {
-                transform: translateX(450px) scaleX(-1);
+                transform: translateX(30vw) scaleX(-1);
             }
             100% {
-                transform: translateX(-450px) scaleX(-1);
+                transform: translateX(-30vw) scaleX(-1);
             }
         }
 
