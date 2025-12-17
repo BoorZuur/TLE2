@@ -153,7 +153,7 @@ class ProductSeeder extends Seeder
             [
                 'name' => 'Mol',
                 'description' => 'Graaft gangen in grasland.',
-                'image_url' => '/images/store_animals/mol.png',
+                'image_url' => '/images/store_animals/mole-standing.png',
                 'price' => 100,
                 'product_type' => 'animal',
                 'currency_type' => 'coins',

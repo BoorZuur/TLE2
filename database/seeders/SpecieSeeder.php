@@ -34,7 +34,7 @@ class SpecieSeeder extends Seeder
             // Groene Hart
             ['name' => 'Grutto', 'scientific_name' => 'Limosa limosa', 'habitat_name' => 'Groene Hart', 'info' => 'Broedt in natte weilanden.', 'image' => '/images/store_animals/godwit.png', 'beheerder' => 'Natuurmonumenten'],
             ['name' => 'Egel', 'scientific_name' => 'Erinaceus europaeus', 'habitat_name' => 'Groene Hart', 'info' => 'Bos- en graslandbewoner.', 'image' => '/images/store_animals/hedgehog.png', 'beheerder' => 'Natuurmonumenten'],
-            ['name' => 'Mol', 'scientific_name' => 'Talpa europaea', 'habitat_name' => 'Groene Hart', 'info' => 'Graaft gangen in grasland.', 'image' => '/images/store_animals/mol.png', 'beheerder' => 'Natuurmonumenten'],
+            ['name' => 'Mol', 'scientific_name' => 'Talpa europaea', 'habitat_name' => 'Groene Hart', 'info' => 'Graaft gangen in grasland.', 'image' => '/images/store_animals/mol-standing.png', 'beheerder' => 'Natuurmonumenten'],
             ['name' => 'Bij', 'scientific_name' => 'Apis mellifera', 'habitat_name' => 'Groene Hart', 'info' => 'Zoemt rond bloemrijke velden.', 'image' => '/images/store_animals/bee.png', 'beheerder' => 'Natuurmonumenten'],
         ];
 
