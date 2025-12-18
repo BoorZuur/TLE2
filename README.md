@@ -1,4 +1,4 @@
-# NMklikker
+# NM-klikker
 NMklikker is a web clicker game that allows users to play with animals from Natuurmonumenten.
 User can view animals, habitats, and products to buy animals for the game.
 
@@ -140,3 +140,7 @@ The host is a VPS Provided by the Rotterdam University of Applied Sciences runni
 
 - [Laravel Breeze](https://github.com/laravel/breeze)
 - [Blade MDI Icons](https://github.com/postare/blade-mdi)
+
+## Edge cases
+- When a user is created, that user automatically gets assigned a starter animal. For that to work there have to be species and habitats in the database. Seeders have been created to make that easier. Make sure to add `--seed` when migrating the database.
+- Having too much coins could lead to an Integer overflow
